@@ -1,0 +1,17 @@
+## Ignore Visual Studio teporary files
+
+##User-specific files
+*.user
+*.env
+*.userprefs
+[Dd]ebug/
+[Rr]elease/
+
+##Build
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+
+##Visual Studio files
+.vs/
