@@ -2,4 +2,10 @@
   <Folder Name="/src/">
     <Project Path="src/GameReserve.WebApi/GameReserve.WebApi.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/Identity.Application/Identity.Application.csproj" />
+    <Project Path="src/Modules/Identity/Identity.Domain/Identity.Domain.csproj" />
+    <Project Path="src/Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj" />
+  </Folder>
 </Solution>
