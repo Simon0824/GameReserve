@@ -10,5 +10,6 @@
   </Folder>
   <Folder Name="/src/Modules/Reservations/">
     <Project Path="src/Modules/Reservations/Reservations.Application/Reservations.Application.csproj" />
+    <Project Path="src/Modules/Reservations/Reservations.Domain/Reservations.Domain.csproj" />
   </Folder>
 </Solution>
