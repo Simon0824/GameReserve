@@ -36,6 +36,114 @@
             "related": ".pdb;.xml"
           }
         }
+      },
+      "Games.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Games.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Games.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Games.Application.dll": {}
+        }
+      },
+      "Games.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Games.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Games.Domain.dll": {}
+        }
+      },
+      "Games.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Games.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Games.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Games.Infrastructure.dll": {}
+        }
+      },
+      "Identity.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Identity.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Identity.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Identity.Application.dll": {}
+        }
+      },
+      "Identity.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Identity.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Identity.Domain.dll": {}
+        }
+      },
+      "Identity.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Identity.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Identity.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Identity.Infrastructure.dll": {}
+        }
+      },
+      "Reservations.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Reservations.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Reservations.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Reservations.Application.dll": {}
+        }
+      },
+      "Reservations.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Reservations.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Reservations.Domain.dll": {}
+        }
+      },
+      "Reservations.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Reservations.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Reservations.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Reservations.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -75,11 +183,59 @@
         "microsoft.openapi.2.0.0.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
+    },
+    "Games.Application/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Games/Games.Application/Games.Application.csproj",
+      "msbuildProject": "../Modules/Games/Games.Application/Games.Application.csproj"
+    },
+    "Games.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Games/Games.Domain/Games.Domain.csproj",
+      "msbuildProject": "../Modules/Games/Games.Domain/Games.Domain.csproj"
+    },
+    "Games.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Games/Games.Infrastructure/Games.Infrastructure.csproj",
+      "msbuildProject": "../Modules/Games/Games.Infrastructure/Games.Infrastructure.csproj"
+    },
+    "Identity.Application/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Identity/Identity.Application/Identity.Application.csproj",
+      "msbuildProject": "../Modules/Identity/Identity.Application/Identity.Application.csproj"
+    },
+    "Identity.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Identity/Identity.Domain/Identity.Domain.csproj",
+      "msbuildProject": "../Modules/Identity/Identity.Domain/Identity.Domain.csproj"
+    },
+    "Identity.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj",
+      "msbuildProject": "../Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj"
+    },
+    "Reservations.Application/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Reservations/Reservations.Application/Reservations.Application.csproj",
+      "msbuildProject": "../Modules/Reservations/Reservations.Application/Reservations.Application.csproj"
+    },
+    "Reservations.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Reservations/Reservations.Domain/Reservations.Domain.csproj",
+      "msbuildProject": "../Modules/Reservations/Reservations.Domain/Reservations.Domain.csproj"
+    },
+    "Reservations.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Modules/Reservations/Reservations.Infrastructure/Reservations.Infrastructure.csproj",
+      "msbuildProject": "../Modules/Reservations/Reservations.Infrastructure/Reservations.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Microsoft.AspNetCore.OpenApi >= 10.0.10"
+      "Games.Infrastructure >= 1.0.0",
+      "Identity.Infrastructure >= 1.0.0",
+      "Microsoft.AspNetCore.OpenApi >= 10.0.10",
+      "Reservations.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -107,7 +263,17 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
+              "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj"
+            },
+            "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
+              "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj"
+            },
+            "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
+              "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

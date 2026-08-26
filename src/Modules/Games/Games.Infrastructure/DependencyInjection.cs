@@ -1,6 +1,11 @@
-﻿namespace Games.Infrastructure;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class DependencyInjection
+namespace Games.Infrastructure;
+
+public static class DependencyInjection
 {
-
+    public static IServiceCollection AddGamesInfrastructureDI(this IServiceCollection services)
+    {
+        return services;
+    }
 }

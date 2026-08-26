@@ -1,6 +1,11 @@
-﻿namespace Identity.Application;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class DependencyInjection
+namespace Identity.Application;
+
+public static class DependencyInjection
 {
-
+    public static IServiceCollection AddIdentityApplicationDI(this IServiceCollection services)
+    {
+        return services;
+    }
 }
