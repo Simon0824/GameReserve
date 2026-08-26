@@ -5,6 +5,7 @@
   <Folder Name="/src/Modules/" />
   <Folder Name="/src/Modules/Games/">
     <Project Path="src/Modules/Games/Games.Application/Games.Application.csproj" />
+    <Project Path="src/Modules/Games/Games.Domain/Games.Domain.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Identity/">
     <Project Path="src/Modules/Identity/Identity.Application/Identity.Application.csproj" />
