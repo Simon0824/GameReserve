@@ -16,3 +16,7 @@ obj/
 ##Visual Studio files
 .vs/
 .vscode/
+
+##Configuration files
+appsettings.*.json
+!appsettings.json
