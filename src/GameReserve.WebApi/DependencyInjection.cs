@@ -14,7 +14,7 @@ public static class DependencyInjection
                 .AddIdentityInfrastructureDI(cfg);
         
         services.AddReservationsApplicationDI()
-                .AddReservationsIfrastructureDI();
+                .AddReservationsInfrastructureDI(cfg);
         
         services.AddGamesApplicationDI()
                 .AddGamesInfrastructureDI();
