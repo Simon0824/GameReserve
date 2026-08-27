@@ -6,4 +6,5 @@ namespace GameReserve.WebApi.Controllers;
 [Route("api/[controller]")]
 public class IdentityController : ControllerBase
 {
+
 }
