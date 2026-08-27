@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Identity;
+using Identity.Domain.Abstractions;
 
 namespace Identity.Domain;
-public class User : IdentityUser
+public class User : Entity
 {
     public string FullName {get; private set;} = string.Empty;
 
