@@ -1,19 +1,17 @@
-namespace Identity.Domain;
-public class User
-{
-    public Guid Id {get; private set;} = Guid.Empty;
-    public string FullName {get; private set;} = string.Empty;
-    public string Email {get; private set;} = string.Empty;
-    public string Password {get; private set;} = string.Empty;
+using Microsoft.AspNetCore.Identity;
 
-    public static User Create(Guid id, string fullname, string email, string password)
+namespace Identity.Domain;
+public class User : IdentityUser
+{
+    public string FullName {get; private set;} = string.Empty;
+
+    public static User Create(Guid id, string fullname, string email)
     {
         var user = new User()
         {
-            Id = id,
+            Id = id.ToString(),
             FullName = fullname,
-            Email = email,
-            Password = password
+            Email = email
         };
 
         return user;
