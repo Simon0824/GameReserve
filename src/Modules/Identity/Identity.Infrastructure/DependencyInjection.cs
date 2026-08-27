@@ -1,4 +1,5 @@
-﻿using Identity.Infrastructure.Data;
+﻿using Identity.Domain;
+using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,17 @@ public static class DependencyInjection
         {
             opt.UseNpgsql(configuration.GetConnectionString("Default"));
         });
+
+        services.AddIdentity<User, IdentityRole>(options =>
+        {
+           options.Password.RequireUppercase = true;
+           options.Password.RequiredLength = 6;
+           options.Password.RequireDigit = true;
+
+           options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<IdentityContext>();
+        
         return services;
     }
 }
