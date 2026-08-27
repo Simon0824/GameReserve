@@ -6,7 +6,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApiDI();
+builder.Services.AddApiDI(builder.Configuration);
 
 var app = builder.Build();
 

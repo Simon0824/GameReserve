@@ -8,10 +8,10 @@ using Reservations.Infrastructure;
 namespace GameReserve.WebApi.DependencyInjection;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApiDI(this IServiceCollection services)
+    public static IServiceCollection AddApiDI(this IServiceCollection services, IConfiguration cfg)
     {
         services.AddIdentityApplicationDI()
-                .AddIdentityIfrastructureDI();
+                .AddIdentityIfrastructureDI(cfg);
         
         services.AddReservationsApplicationDI()
                 .AddReservationsIfrastructureDI();
