@@ -5,12 +5,11 @@ public class User : IdentityUser
 {
     public string FullName {get; private set;} = string.Empty;
 
-    public static User Create(Guid id, string fullname, string email)
+    public static User Create(string fullName, string email)
     {
         var user = new User()
         {
-            Id = id.ToString(),
-            FullName = fullname,
+            FullName = fullName,
             Email = email
         };
 

@@ -11,7 +11,7 @@ public class IdentityController : ControllerBase
     [HttpPost("CreateUser")]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto)
     {
-         var user = Identity.Domain.User.Create(Guid.NewGuid(), dto.FullName, dto.Email, dto.Password);
+         var user = Identity.Domain.User.Create(dto.FullName, dto.Email);
          return Ok(user);
     }
 }
