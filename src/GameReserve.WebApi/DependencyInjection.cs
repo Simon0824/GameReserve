@@ -11,7 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApiDI(this IServiceCollection services, IConfiguration cfg)
     {
         services.AddIdentityApplicationDI()
-                .AddIdentityIfrastructureDI(cfg);
+                .AddIdentityInfrastructureDI(cfg);
         
         services.AddReservationsApplicationDI()
                 .AddReservationsIfrastructureDI();
