@@ -24,12 +24,12 @@ Architecture, modules, infrastructure, and features will be introduced increment
 
 - [x] Modular Monolith
 - [x] Clean Architecture
-- [ ] Domain-Driven Design
+- [x] Domain-Driven Design
 - [ ] CQRS
 - [ ] MediatR
 - [ ] Result Pattern
 - [ ] Specification Pattern
-- [ ] Domain Events
+- [x] Domain Events
 - [ ] Module Public APIs
 - [ ] Shared Contracts
 
