@@ -6,4 +6,9 @@ public abstract class Entity : IdentityUser
 {
     private List<DomainEvent> _domainEvents = new();
     public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
+
+    public void Raise(DomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
+    }
 }
