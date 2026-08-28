@@ -1,6 +1,6 @@
 using Identity.Domain.Abstractions;
 
-namespace Identity.Domain;
+namespace Identity.Domain.UserAggregate;
 public class User : Entity
 {
     public string FullName {get; private set;} = string.Empty;
