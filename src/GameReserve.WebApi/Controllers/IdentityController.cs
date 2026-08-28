@@ -1,5 +1,4 @@
 using Identity.Application.DTOs;
-using Identity.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameReserve.WebApi.Controllers;
@@ -11,7 +10,7 @@ public class IdentityController : ControllerBase
     [HttpPost("CreateUser")]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto)
     {
-         var user = Identity.Domain.User.Create(dto.FullName, dto.Email);
+         var user = Identity.Domain.UserAggregate.User.Create(dto.FullName, dto.Email);
          return Ok(user);
     }
 }

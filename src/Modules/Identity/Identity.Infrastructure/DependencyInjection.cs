@@ -1,4 +1,4 @@
-﻿using Identity.Domain;
+﻿using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
