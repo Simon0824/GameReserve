@@ -16,6 +16,8 @@ public class User : Entity
             Email = email
         };
 
+        user.Raise(new UserCreatedDomainEvent(Guid.NewGuid(), Guid.Parse(user.Id)));
+
         return user;
     }
 }
