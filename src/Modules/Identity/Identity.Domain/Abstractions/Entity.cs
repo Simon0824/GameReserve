@@ -11,4 +11,6 @@ public abstract class Entity : IdentityUser
     {
         _domainEvents.Add(domainEvent);
     }
+
+    public void ClearDomainEvents() => _domainEvents.Clear();
 }
