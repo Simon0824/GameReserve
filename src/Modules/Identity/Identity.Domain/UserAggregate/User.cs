@@ -7,6 +7,9 @@ public class User : Entity
     public string FullName {get; private set;} = string.Empty;
     public UserStatus Status {get; private set;}
 
+    private User()
+    {}
+
     public static User Create(string fullName, string email)
     {
         var user = new User()
