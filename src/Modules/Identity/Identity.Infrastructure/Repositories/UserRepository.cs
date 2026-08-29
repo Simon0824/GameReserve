@@ -1,5 +1,7 @@
+using Identity.Domain.Interfaces;
+
 namespace Identity.Infrastructure.Repositories;
-public class UserRepository
+public class UserRepository() : IUserRepository
 {
     
 }
