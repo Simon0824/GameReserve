@@ -13,7 +13,8 @@ public class User : Entity
         {
             FullName = fullName,
             Status = UserStatus.Active,
-            Email = email
+            Email = email,
+            UserName = email
         };
 
         user.Raise(new UserCreatedDomainEvent(Guid.NewGuid(), Guid.Parse(user.Id)));
