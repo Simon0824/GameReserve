@@ -1,5 +1,7 @@
-﻿using Identity.Domain.UserAggregate;
+﻿using Identity.Domain.Interfaces;
+using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
+using Identity.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +18,8 @@ public static class DependencyInjection
             opt.UseNpgsql(configuration.GetConnectionString("Default"));
         });
 
+        services.AddScoped<IUserRepository, UserRepository>();
+
         services.AddIdentity<User, IdentityRole>(options =>
         {
            options.Password.RequireUppercase = true;
@@ -25,6 +29,8 @@ public static class DependencyInjection
            options.User.RequireUniqueEmail = true;
         })
         .AddEntityFrameworkStores<IdentityContext>();
+
+
         
         return services;
     }
