@@ -18,6 +18,7 @@ public class IdentityController(UserRepository userRepository) : ControllerBase
             throw new Exception("Cannot create a user");
          }
 
-         return Ok(user);
+         var resultDTO = new UserCreateResultDTO(user.Id, user.FullName, user.Email!);
+         return Ok(resultDTO);
     }
 }
