@@ -10,7 +10,7 @@ namespace GameReserve.WebApi.Controllers;
 public class IdentityController(ISender sender) : ControllerBase
 {
     [HttpPost("CreateUser")]
-    public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO dto)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO dto)
     {
          var resultDTO = await sender.Send(new CreateUserCommand(dto.FullName, dto.Email, dto.Password));
          return Ok(resultDTO);
