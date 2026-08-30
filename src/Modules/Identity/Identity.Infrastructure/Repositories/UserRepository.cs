@@ -1,5 +1,6 @@
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
+using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Infrastructure.Repositories;
