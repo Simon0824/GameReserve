@@ -1306,7 +1306,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Identity.Domain": "1.0.0"
+          "Identity.Domain": "1.0.0",
+          "MediatR": "14.2.0"
         },
         "compile": {
           "bin/placeholder/Identity.Application.dll": {}

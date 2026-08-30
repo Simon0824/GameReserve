@@ -1,6 +1,5 @@
 using Identity.Application.Commands;
 using Identity.Application.DTOs;
-using Identity.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
