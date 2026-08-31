@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/GameReserve.WebApi/GameReserve.WebApi.csproj" />
+    <Project Path="src/SharedKernel/SharedKernel.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
   <Folder Name="/src/Modules/Games/">
