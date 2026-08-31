@@ -31,14 +31,14 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [ ] Specification Pattern
 - [x] Domain Events
 - [ ] Module Public APIs
-- [ ] Shared Contracts
+- [x] Shared Kernel
 
 ## Planned Infrastructure
 
 - [x] PostgreSQL
 - [ ] Redis
 - [ ] RabbitMQ
-- [ ] MassTransit
+- [x] MassTransit
 - [ ] Docker
 - [ ] Transactional Outbox
 - [ ] Inbox Pattern
