@@ -1366,6 +1366,7 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "Identity.Domain": "1.0.0",
+          "MassTransit.RabbitMQ": "8.5.0",
           "MediatR": "14.2.0"
         },
         "compile": {

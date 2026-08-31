@@ -1605,6 +1605,10 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "MassTransit.RabbitMQ": {
+              "target": "Package",
+              "version": "[8.5.0, )"
+            },
             "MediatR": {
               "target": "Package",
               "version": "[14.2.0, )"
