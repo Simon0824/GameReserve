@@ -6,7 +6,7 @@ using MediatR;
 namespace Identity.Application.Commands;
 public record CreateUserCommand(string FullName, string Email, string Password) : IRequest<CreateUserResultDTO>;
 
-public class CreateUserCommandHandler(IUserRepository userRepository) : IRequestHandler<CreateUserCommand, CreateUserResultDTO>
+public class CreateUserCommandHandler(IUserRepository userRepository, IPublisher publisher) : IRequestHandler<CreateUserCommand, CreateUserResultDTO>
 {
     public async Task<CreateUserResultDTO> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
@@ -15,6 +15,11 @@ public class CreateUserCommandHandler(IUserRepository userRepository) : IRequest
         if(!result.Succeeded)
         {
             throw new Exception("Cannot create a user");
+        }
+
+        foreach(var domainEvent in user.DomainEvents)
+        {
+            await publisher.Publish(domainEvent);
         }
 
         return new CreateUserResultDTO(
