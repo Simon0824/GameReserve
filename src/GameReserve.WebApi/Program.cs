@@ -1,11 +1,12 @@
 using GameReserve.WebApi.DependencyInjection;
+using GameReserve.WebApi.Extensions;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerExtension();
 
 builder.Services.AddApiDI(builder.Configuration);
 
