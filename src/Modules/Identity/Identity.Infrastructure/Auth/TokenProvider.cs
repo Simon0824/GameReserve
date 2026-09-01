@@ -16,11 +16,14 @@ public class TokenProvider
     private readonly string _issuer;
     public TokenProvider(IConfiguration configuration)
     {
-        var secretKey = configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Secret key is missing in configuratior");
+        var secretKey = configuration["Jwt:SecretKey"] 
+                                ?? throw new InvalidOperationException("Secret key is missing in configuratior");
 
-        _audience = configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Audience is missing in configuratior");
+        _audience = configuration["Jwt:Audience"] 
+                                ?? throw new InvalidOperationException("Audience is missing in configuratior");
 
-        _issuer = configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Issuer is missing in configuratior");
+        _issuer = configuration["Jwt:Issuer"] 
+                                ?? throw new InvalidOperationException("Issuer is missing in configuratior");
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
