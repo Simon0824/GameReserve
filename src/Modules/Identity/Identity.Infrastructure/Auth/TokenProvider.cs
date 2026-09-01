@@ -8,14 +8,28 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.Infrastructure.Auth;
 
-public class TokenProvider(IConfiguration configuration)
+public class TokenProvider
 {
+    private readonly SigningCredentials _credentials;
+    private readonly JsonWebTokenHandler _handler;
+    private readonly string _audience;
+    private readonly string _issuer;
+    public TokenProvider(IConfiguration configuration)
+    {
+        var secretKey = configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Secret key is missing in configuratior");
+
+        _audience = configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Audience is missing in configuratior");
+
+        _issuer = configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Issuer is missing in configuratior");
+
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+        _credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        _handler = new JsonWebTokenHandler();
+    }
     public string CreateToken(User user)
     {
-        var secretKey = configuration["Jwt:SecretKey"];
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
-
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var descriptor = new SecurityTokenDescriptor()
         {
@@ -23,14 +37,12 @@ public class TokenProvider(IConfiguration configuration)
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!)
             ]),
-            SigningCredentials = credentials,
+            SigningCredentials = _credentials,
             Expires = DateTime.UtcNow.AddMinutes(5),
-            Issuer = configuration["Jwt:Issuer"],
-            Audience = configuration["Jwt:Audience"]
+            Issuer = _issuer,
+            Audience = _audience
         };
-
-        var handler = new JsonWebTokenHandler();
-        var token = handler.CreateToken(descriptor);
+        var token = _handler.CreateToken(descriptor);
 
         return token;
     }
