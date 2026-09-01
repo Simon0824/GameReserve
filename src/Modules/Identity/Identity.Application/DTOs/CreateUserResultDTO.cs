@@ -1,2 +1,7 @@
 namespace Identity.Application.DTOs;
-public record CreateUserResultDTO(string Id, string FullName, string Email);
+public record CreateUserResultDTO(
+    string Id, 
+    string FullName, 
+    string Email, 
+    string Token
+    );
