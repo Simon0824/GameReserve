@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -8,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.Infrastructure.Auth;
 
-public class TokenProvider
+public class TokenProvider : ITokenProvider
 {
     private readonly SigningCredentials _credentials;
     private readonly JsonWebTokenHandler _handler;

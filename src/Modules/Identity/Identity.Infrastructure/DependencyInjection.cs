@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
+using Identity.Infrastructure.Auth;
 using Identity.Infrastructure.Data;
 using Identity.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,6 +23,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITokenProvider, TokenProvider>();        
 
         services.AddIdentity<User, IdentityRole>(options =>
         {
