@@ -6,7 +6,7 @@ using MediatR;
 namespace Identity.Application.Commands;
 public record LoginUserCommand(string Email, string Password) : IRequest<LoginUserResultDTO>;
 
-public class LoginUserCommandHandler() :IRequestHandler<LoginUserCommand, LoginUserResultDTO>
+public class LoginUserCommandHandler(IUserRepository userRepository) :IRequestHandler<LoginUserCommand, LoginUserResultDTO>
 {
     public async Task<LoginUserResultDTO> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
