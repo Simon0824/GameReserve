@@ -17,6 +17,13 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IPublisher
             throw new Exception("Cannot create a user");
         }
 
+        var roleResult = await userRepository.AddUserRole(user);
+
+        if(!roleResult.Succeeded)
+        {
+            throw new Exception("Cannot add role to user");
+        }
+
         foreach(var domainEvent in user.DomainEvents)
         {
             await publisher.Publish(domainEvent);
