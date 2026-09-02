@@ -1,14 +1,34 @@
 using Identity.Application.DTOs;
 using Identity.Domain.Interfaces;
-using Identity.Domain.UserAggregate;
 using MediatR;
 
 namespace Identity.Application.Commands;
 public record LoginUserCommand(string Email, string Password) : IRequest<LoginUserResultDTO>;
 
-public class LoginUserCommandHandler(IUserRepository userRepository) :IRequestHandler<LoginUserCommand, LoginUserResultDTO>
+public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvider tokenProvider) :IRequestHandler<LoginUserCommand, LoginUserResultDTO>
 {
     public async Task<LoginUserResultDTO> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
+        var user = await userRepository.FindUser(request.Email);
+
+        if(user is null)
+        {
+            throw new Exception("User is not found");
+        }
+
+        var isPasswordValid = await userRepository.CheckPassword(user, request.Password);
+
+        if(!isPasswordValid)
+        {
+            throw new Exception("You've entered a wrong password");
+        }
+
+        var token = tokenProvider.CreateToken(user);
+
+        return new LoginUserResultDTO(
+            user.FullName,
+            user.Email!,
+            token
+        );
     }
 }
