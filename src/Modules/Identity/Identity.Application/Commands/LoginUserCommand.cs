@@ -10,6 +10,5 @@ public class LoginUserCommandHandler() :IRequestHandler<LoginUserCommand, LoginU
 {
     public async Task<LoginUserResultDTO> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        
     }
 }
