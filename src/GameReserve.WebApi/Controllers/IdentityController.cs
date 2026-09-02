@@ -1,15 +1,18 @@
 using Identity.Application.Commands;
 using Identity.Application.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameReserve.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class IdentityController(ISender sender) : ControllerBase
 {
     [HttpPost("users")]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO dto)
     {
          var resultDTO = await sender.Send(new CreateUserCommand(dto.FullName, dto.Email, dto.Password));
@@ -17,6 +20,7 @@ public class IdentityController(ISender sender) : ControllerBase
     }
 
     [HttpPost("auth/login")]
+    [AllowAnonymous]
     public async Task<IActionResult> LoginUser([FromBody] LoginUserDTO dto)
     {
          var resultDTO = await sender.Send(new LoginUserCommand(dto.Email, dto.Password));
