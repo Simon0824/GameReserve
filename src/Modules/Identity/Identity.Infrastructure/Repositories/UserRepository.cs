@@ -1,3 +1,4 @@
+using Identity.Domain.Constants;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Microsoft.AspNetCore.Identity;
@@ -18,5 +19,10 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     public async Task<bool> CheckPassword(User user, string password)
     {
         return await userManager.CheckPasswordAsync(user, password);
+    }
+
+    public async Task<IdentityResult> AddUserRole(User user)
+    {
+        return await userManager.AddToRoleAsync(user, UserRoles.User);
     }
 }
