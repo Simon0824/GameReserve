@@ -21,6 +21,7 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IPublisher
 
         if(!roleResult.Succeeded)
         {
+            await userRepository.DeleteUser(user);
             throw new Exception("Cannot add role to user");
         }
 
