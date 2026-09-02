@@ -25,4 +25,8 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     {
         return await userManager.AddToRoleAsync(user, UserRoles.User);
     }
+    public async Task<IdentityResult> DeleteUser(User user)
+    {
+        return await userManager.DeleteAsync(user);
+    }
 }
