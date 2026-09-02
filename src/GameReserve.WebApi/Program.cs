@@ -1,6 +1,8 @@
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Extensions;
+using Identity.Infrastructure.Data;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,10 @@ if(app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    var scope = app.Services.CreateScope();
+    var IdentityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
+    IdentityContext.Database.Migrate();
 }
 else
 {
