@@ -4,4 +4,5 @@ namespace Identity.Domain.Interfaces;
 public interface ITokenProvider
 {
     string CreateToken(User user);
+    string GenerateRefreshToken();
 }
