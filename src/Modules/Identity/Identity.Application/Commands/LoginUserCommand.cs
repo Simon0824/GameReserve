@@ -1,4 +1,5 @@
 using Identity.Application.DTOs;
+using Identity.Domain.Entites;
 using Identity.Domain.Interfaces;
 using MediatR;
 
@@ -25,12 +26,22 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
 
         var token = tokenProvider.CreateToken(user);
 
-        var refreshToken = tokenProvider.GenerateRefreshToken();
+        var refreshToken = new RefreshToken()
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Token = tokenProvider.GenerateRefreshToken(),
+            ExpiresOnUtc = DateTime.UtcNow.AddDays(6),
+            User = user
+        };
+
+        await userRepository.AddRefreshToken(refreshToken);
 
         return new LoginUserResultDTO(
             user.FullName,
             user.Email!,
-            token
+            token,
+            refreshToken.Token
         );
     }
 }
