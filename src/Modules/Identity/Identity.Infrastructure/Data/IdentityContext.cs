@@ -1,3 +1,4 @@
+using Identity.Domain.Entites;
 using Identity.Domain.UserAggregate;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ public class IdentityContext : IdentityDbContext<User>
     public IdentityContext(DbContextOptions<IdentityContext> options) : base(options){}
 
     public DbSet<User> users {get; set;}
+    public DbSet<RefreshToken> refreshTokens {get; set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
