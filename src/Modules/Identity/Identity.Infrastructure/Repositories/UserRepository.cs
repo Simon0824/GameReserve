@@ -1,10 +1,12 @@
 using Identity.Domain.Constants;
+using Identity.Domain.Entites;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
+using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Infrastructure.Repositories;
-public class UserRepository(UserManager<User> userManager) : IUserRepository
+public class UserRepository(UserManager<User> userManager, IdentityContext context) : IUserRepository
 {
     public async Task<IdentityResult> CreateUser(User user, string password)
     {
@@ -28,5 +30,10 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
     public async Task<IdentityResult> DeleteUser(User user)
     {
         return await userManager.DeleteAsync(user);
+    }
+
+    public async Task AddRefreshToken(RefreshToken refreshToken)
+    {
+        await context.refreshTokens.AddAsync(refreshToken);
     }
 }
