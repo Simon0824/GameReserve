@@ -1,7 +1,9 @@
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Extensions;
+using Identity.Domain.Constants;
 using Identity.Infrastructure.Data;
 using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +34,18 @@ if(app.Environment.IsDevelopment())
     var scope = app.Services.CreateScope();
     var IdentityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
     IdentityContext.Database.Migrate();
+
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    if(!await roleManager.RoleExistsAsync(UserRoles.Admin))
+    {
+        await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+    }
+
+    if(!await roleManager.RoleExistsAsync(UserRoles.User))
+    {
+        await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+    }
 }
 else
 {
