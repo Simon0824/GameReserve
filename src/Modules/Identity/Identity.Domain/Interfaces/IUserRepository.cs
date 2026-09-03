@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<IdentityResult> AddUserRole(User user);
     Task<IdentityResult> DeleteUser(User user);
     Task AddRefreshToken(RefreshToken refreshToken);
+    Task SaveChangesAsync();
 }

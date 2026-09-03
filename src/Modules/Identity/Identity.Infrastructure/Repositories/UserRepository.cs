@@ -36,4 +36,9 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
     {
         await context.refreshTokens.AddAsync(refreshToken);
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await context.SaveChangesAsync();
+    }
 }
