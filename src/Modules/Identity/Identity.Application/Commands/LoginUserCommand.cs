@@ -1,5 +1,5 @@
 using Identity.Application.DTOs;
-using Identity.Domain.Entites;
+using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
 using MediatR;
 

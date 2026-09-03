@@ -1,5 +1,5 @@
 using Identity.Domain.Constants;
-using Identity.Domain.Entites;
+using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
