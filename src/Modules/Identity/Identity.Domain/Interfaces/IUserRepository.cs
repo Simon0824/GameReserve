@@ -1,3 +1,4 @@
+using Identity.Domain.Entites;
 using Identity.Domain.UserAggregate;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,4 +10,5 @@ public interface IUserRepository
     Task<bool> CheckPassword(User user, string password);
     Task<IdentityResult> AddUserRole(User user);
     Task<IdentityResult> DeleteUser(User user);
+    Task AddRefreshToken(RefreshToken refreshToken);
 }
