@@ -1,3 +1,5 @@
+using Identity.Domain.UserAggregate;
+
 namespace Identity.Domain.Entites;
 public class RefreshToken
 {
@@ -5,4 +7,5 @@ public class RefreshToken
     public required string UserId {get; set;}
     public required string Token {get; set;}
     public DateTime ExpiresOnUtc {get; set;}
+    public required User User {get; set;}
 }
