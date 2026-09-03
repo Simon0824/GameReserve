@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
@@ -49,5 +50,10 @@ public class TokenProvider : ITokenProvider
         var token = _handler.CreateToken(descriptor);
 
         return token;
+    }
+
+    public string GenerateRefreshToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
 }
