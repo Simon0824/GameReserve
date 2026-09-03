@@ -1,6 +1,6 @@
 using Identity.Domain.UserAggregate;
 
-namespace Identity.Domain.Entites;
+namespace Identity.Domain.Entities;
 public class RefreshToken
 {
     public Guid Id {get; set;}
