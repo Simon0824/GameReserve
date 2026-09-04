@@ -9,6 +9,7 @@ public interface IUserRepository
     Task<User?> FindUser(string email);
     Task<bool> CheckPassword(User user, string password);
     Task<IdentityResult> AddUserRole(User user);
+    Task<IList<string>> GetUserRole(User user);
     Task<IdentityResult> DeleteUser(User user);
     Task AddRefreshToken(RefreshToken refreshToken);
     Task SaveChangesAsync();

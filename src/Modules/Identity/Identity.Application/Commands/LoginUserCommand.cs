@@ -24,7 +24,7 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
             throw new Exception("You've entered a wrong password");
         }
 
-        var token = tokenProvider.CreateToken(user);
+        var token = await tokenProvider.CreateToken(user);
 
         var refreshToken = new RefreshToken()
         {
