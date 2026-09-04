@@ -26,4 +26,12 @@ public class IdentityController(ISender sender) : ControllerBase
          var resultDTO = await sender.Send(new LoginUserCommand(dto.Email, dto.Password));
          return Ok(resultDTO);
     }
+
+    [HttpPost("auth/login-with-refresh-token")]
+    [AllowAnonymous]
+    public async Task<IActionResult> LoginWithRefreshToken([FromBody] LoginWithRefreshTokenDTO dto)
+    {
+         var resultDTO = await sender.Send(new LoginWithRefreshTokenCommand(dto.RefreshToken));
+         return Ok(resultDTO);
+    }
 }

@@ -1,5 +1,5 @@
 namespace Identity.Application.DTOs;
 public record LoginWithRefreshTokenDTO
 {
-    public required string RefreshToken;
+    public required string RefreshToken {get; init;}
 }
