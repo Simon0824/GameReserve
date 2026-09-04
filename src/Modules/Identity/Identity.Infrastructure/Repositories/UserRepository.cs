@@ -4,6 +4,7 @@ using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Repositories;
 public class UserRepository(UserManager<User> userManager, IdentityContext context) : IUserRepository
@@ -40,6 +41,13 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
     public async Task AddRefreshToken(RefreshToken refreshToken)
     {
         await context.refreshTokens.AddAsync(refreshToken);
+    }
+
+    public async Task<RefreshToken?> FindRefreshToken(string refreshToken)
+    {
+        return await context.refreshTokens
+                     .Include(u => u.User)
+                     .FirstOrDefaultAsync(t => t.Token == refreshToken);
     }
 
     public async Task SaveChangesAsync()

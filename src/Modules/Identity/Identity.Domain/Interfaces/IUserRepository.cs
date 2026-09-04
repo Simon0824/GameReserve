@@ -12,5 +12,6 @@ public interface IUserRepository
     Task<IList<string>> GetUserRole(User user);
     Task<IdentityResult> DeleteUser(User user);
     Task AddRefreshToken(RefreshToken refreshToken);
+    Task<RefreshToken?> FindRefreshToken(string refreshToken);
     Task SaveChangesAsync();
 }
