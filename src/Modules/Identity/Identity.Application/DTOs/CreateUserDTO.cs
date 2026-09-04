@@ -1,7 +1,7 @@
 namespace Identity.Application.DTOs;
-public class CreateUserDTO
+public record CreateUserDTO
 {
-    public required string FullName {get; set;}
-    public required string Email {get; set;}
-    public required string Password {get; set;}
+    public required string FullName {get; init;}
+    public required string Email {get; init;}
+    public required string Password {get; init;}
 }
