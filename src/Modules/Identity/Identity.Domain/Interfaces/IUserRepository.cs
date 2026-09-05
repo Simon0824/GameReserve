@@ -10,6 +10,7 @@ public interface IUserRepository
     Task<bool> CheckPassword(User user, string password);
     Task<IdentityResult> AddUserRole(User user);
     Task<IList<string>> GetUserRole(User user);
+    Task<IEnumerable<User>> GetUsers();
     Task<IdentityResult> DeleteUser(User user);
     Task AddRefreshToken(RefreshToken refreshToken);
     Task<RefreshToken?> FindRefreshToken(string refreshToken);

@@ -35,6 +35,7 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IPublisher
         {
             await publisher.Publish(domainEvent);
         }
+        user.ClearDomainEvents();
 
         return new CreateUserResultDTO(
                 user.Id,
