@@ -891,7 +891,11 @@
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
+                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
