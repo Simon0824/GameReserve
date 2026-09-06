@@ -1,10 +1,11 @@
 using Games.Domain.GameAggregate;
+using Games.Domain.Interfaces;
 using Games.Domain.Primitives;
 using Games.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Games.Infrastructure.Repositories;
-public class GameRepository(GamesContext context)
+public class GameRepository(GamesContext context) : IGameRepository
 {
     public async Task AddGame(Game game)
     {

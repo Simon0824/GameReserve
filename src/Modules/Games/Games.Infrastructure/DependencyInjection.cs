@@ -1,4 +1,6 @@
-﻿using Games.Infrastructure.Data;
+﻿using Games.Domain.Interfaces;
+using Games.Infrastructure.Data;
+using Games.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,8 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Default"));
         });
+
+        services.AddScoped<IGameRepository, GameRepository>();
         return services;
     }
 }
