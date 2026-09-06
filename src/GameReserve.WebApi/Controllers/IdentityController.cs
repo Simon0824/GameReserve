@@ -1,5 +1,7 @@
 using Identity.Application.Commands;
 using Identity.Application.DTOs;
+using Identity.Application.Queries;
+using Identity.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +34,14 @@ public class IdentityController(ISender sender) : ControllerBase
     public async Task<IActionResult> LoginWithRefreshToken([FromBody] LoginWithRefreshTokenDTO dto)
     {
          var resultDTO = await sender.Send(new LoginWithRefreshTokenCommand(dto.RefreshToken));
+         return Ok(resultDTO);
+    }
+
+    [HttpGet("get-users")]
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IActionResult> GetUsers()
+    {
+         var resultDTO = await sender.Send(new GetUsersQuery());
          return Ok(resultDTO);
     }
 }

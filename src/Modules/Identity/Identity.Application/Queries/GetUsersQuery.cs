@@ -1,6 +1,7 @@
 using Identity.Application.DTOs;
 using Identity.Domain.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Application.Queries;
 public record GetUsersQuery : IRequest<List<GetUsersResultDTO>>;
@@ -10,9 +11,9 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
     {
         var users = await userRepository.GetUsers();
         var result = new List<GetUsersResultDTO>();
-        if(users is null)
+        if(users is null || !users.Any())
         {
-            throw new Exception("There is no users in database");
+            return result;
         }
 
         foreach(var user in users)
@@ -20,7 +21,8 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
             result.Add(new GetUsersResultDTO(
                 user.Id,
                 user.FullName,
-                user.Email!
+                user.Email!,
+                user.Status.ToString()
             ));
         }
 
