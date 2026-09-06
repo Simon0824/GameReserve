@@ -1326,7 +1326,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Games.Domain": "1.0.0"
+          "Games.Domain": "1.0.0",
+          "MassTransit.RabbitMQ": "8.5.0",
+          "MediatR": "14.2.0"
         },
         "compile": {
           "bin/placeholder/Games.Application.dll": {}
@@ -1338,6 +1340,9 @@
       "Games.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "MediatR": "14.2.0"
+        },
         "compile": {
           "bin/placeholder/Games.Domain.dll": {}
         },
