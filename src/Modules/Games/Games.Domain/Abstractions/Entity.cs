@@ -11,8 +11,5 @@ public abstract class Entity
         GameId = gameId;
     }
 
-    protected Entity()
-    {
-        GameId = null!;
-    }
+    protected Entity() => GameId = null!;
 }
