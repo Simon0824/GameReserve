@@ -1,5 +1,6 @@
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Extensions;
+using Games.Infrastructure.Data;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using MassTransit;
@@ -35,6 +36,9 @@ if(app.Environment.IsDevelopment())
     var scope = app.Services.CreateScope();
     var IdentityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
     IdentityContext.Database.Migrate();
+
+    var GamesContext = scope.ServiceProvider.GetRequiredService<GamesContext>();
+    GamesContext.Database.Migrate();
 
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
