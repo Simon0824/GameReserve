@@ -1,6 +1,5 @@
 using Games.Domain.GameAggregate;
 using Games.Domain.Interfaces;
-using Games.Domain.Primitives;
 using Games.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +11,10 @@ public class GameRepository(GamesContext context) : IGameRepository
         await context.games.AddAsync(game);
     }
 
-    public async Task<Game?> FindGame(GameId gameId)
+    public async Task<Game?> FindGame(string Title)
     {
         return await context.games
-            .FirstOrDefaultAsync(g => g.GameId == gameId);
+            .FirstOrDefaultAsync(g => g.Title == Title);
     }
 
     public async Task SaveChanges(CancellationToken cancellationToken)

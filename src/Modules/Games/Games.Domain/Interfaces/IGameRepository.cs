@@ -5,6 +5,6 @@ namespace Games.Domain.Interfaces;
 public interface IGameRepository
 {
     Task AddGame(Game game);
-    Task<Game?> FindGame(GameId gameId);
+    Task<Game?> FindGame(string Title);
     Task SaveChanges(CancellationToken cancellationToken);
 }
