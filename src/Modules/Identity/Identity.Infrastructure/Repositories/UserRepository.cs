@@ -1,10 +1,10 @@
-using Identity.Domain.Constants;
 using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Constants;
 
 namespace Identity.Infrastructure.Repositories;
 public class UserRepository(UserManager<User> userManager, IdentityContext context) : IUserRepository

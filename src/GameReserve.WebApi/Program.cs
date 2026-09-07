@@ -1,11 +1,11 @@
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Extensions;
-using Identity.Domain.Constants;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 

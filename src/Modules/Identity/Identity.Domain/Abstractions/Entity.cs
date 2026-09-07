@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SharedKernel.Domain.DomainEvent;
+using SharedKernel.Domain.Primivites.DomainEvent;
 
 namespace Identity.Domain.Abstractions;
 public abstract class Entity : IdentityUser

@@ -1,10 +1,10 @@
 using Identity.Application.Commands;
 using Identity.Application.DTOs;
 using Identity.Application.Queries;
-using Identity.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.Domain.Constants;
 
 namespace GameReserve.WebApi.Controllers;
 
