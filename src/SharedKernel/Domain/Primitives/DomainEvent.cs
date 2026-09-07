@@ -1,4 +1,4 @@
 using MediatR;
 
-namespace SharedKernel.Domain.DomainEvent;
+namespace SharedKernel.Domain.Primivites.DomainEvent;
 public record DomainEvent(Guid Id) : INotification;

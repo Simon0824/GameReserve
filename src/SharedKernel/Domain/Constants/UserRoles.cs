@@ -1,4 +1,4 @@
-namespace Identity.Domain.Constants;
+namespace SharedKernel.Domain.Constants;
 public class UserRoles
 {
     public const string Admin = "Admin";
