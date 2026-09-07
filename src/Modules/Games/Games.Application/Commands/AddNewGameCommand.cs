@@ -11,17 +11,17 @@ public class AddNewGameCommandHandler(IGameRepository gameRepository) : IRequest
     {
         var game = Game.Create(request.Title, request.Description);
 
-        var isAlreadyInDb = await gameRepository.FindGame(request.Title);
-        if(isAlreadyInDb is not null)
+        var gameExist = await gameRepository.FindGame(request.Title, cancellationToken);
+        if(gameExist is not null)
         {
             throw new Exception("Game is already in database");
         }
 
-        await gameRepository.AddGame(game);
+        await gameRepository.AddGame(game, cancellationToken);
         await gameRepository.SaveChanges(cancellationToken);
 
         return new AddNewGameResultDTO(
-              game.GameId.ToString(),
+              game.GameId,
               game.Title,
               game.Description
         );

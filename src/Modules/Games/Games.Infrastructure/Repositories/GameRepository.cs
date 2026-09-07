@@ -6,15 +6,17 @@ using Microsoft.EntityFrameworkCore;
 namespace Games.Infrastructure.Repositories;
 public class GameRepository(GamesContext context) : IGameRepository
 {
-    public async Task AddGame(Game game)
+    public async Task AddGame(Game game, CancellationToken cancellationToken)
     {
-        await context.games.AddAsync(game);
+        await context.games.AddAsync(game, cancellationToken);
     }
 
-    public async Task<Game?> FindGame(string Title)
+    public async Task<Game?> FindGame(string Title, CancellationToken cancellationToken)
     {
         return await context.games
-            .FirstOrDefaultAsync(g => g.Title == Title);
+            .FirstOrDefaultAsync(
+                g => g.Title == Title,
+                cancellationToken);
     }
 
     public async Task SaveChanges(CancellationToken cancellationToken)

@@ -1,2 +1,8 @@
 namespace Games.Domain.Primitives;
-public record GameId(Guid Id);
+public readonly record struct GameId(Guid Id)
+{
+    public override string ToString()
+    {
+        return Id.ToString();
+    }
+};
