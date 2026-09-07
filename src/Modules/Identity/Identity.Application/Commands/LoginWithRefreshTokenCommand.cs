@@ -19,6 +19,8 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
 
         refreshToken.Token = tokenProvider.GenerateRefreshToken();
 
+        await userRepository.SaveChangesAsync();
+
         return new LoginWithRefreshTokenResultDTO(
             accessToken,
             refreshToken.Token

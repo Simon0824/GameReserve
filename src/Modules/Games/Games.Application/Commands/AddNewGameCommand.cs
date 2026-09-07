@@ -21,7 +21,7 @@ public class AddNewGameCommandHandler(IGameRepository gameRepository) : IRequest
         await gameRepository.SaveChanges(cancellationToken);
 
         return new AddNewGameResultDTO(
-              game.GameId,
+              game.GameId.Id,
               game.Title,
               game.Description
         );
