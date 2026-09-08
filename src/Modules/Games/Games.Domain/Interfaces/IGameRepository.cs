@@ -1,5 +1,4 @@
 using Games.Domain.GameAggregate;
-using Games.Domain.Primitives;
 
 namespace Games.Domain.Interfaces;
 public interface IGameRepository
