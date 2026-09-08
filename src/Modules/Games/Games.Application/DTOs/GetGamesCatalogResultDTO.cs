@@ -1,2 +1,2 @@
 namespace Games.Application.DTOs;
-public record GetGamesCatalogResultDTO(string Id, string Title, string Description);
+public record GetGamesCatalogResultDTO(Guid Id, string Title, string Description);

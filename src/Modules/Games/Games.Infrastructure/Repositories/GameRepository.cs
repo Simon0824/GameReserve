@@ -19,6 +19,12 @@ public class GameRepository(GamesContext context) : IGameRepository
                 cancellationToken);
     }
 
+    public async Task<List<Game>> GetGames()
+    {
+        return await context.games.AsNoTracking().ToListAsync();
+    }
+
+
     public async Task SaveChanges(CancellationToken cancellationToken)
     {
         await context.SaveChangesAsync(cancellationToken);
