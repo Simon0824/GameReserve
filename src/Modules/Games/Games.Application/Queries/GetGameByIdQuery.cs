@@ -8,6 +8,17 @@ public class GetGameByIdQueryHandler(IGameRepository gameRepository) : IRequestH
 {
     public async Task<GetGamesCatalogResultDTO> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
     {
-        
+        var game = await gameRepository.FindGameById(request.Id, cancellationToken);
+
+        if(game is null)
+        {
+            throw new Exception($"Game not found, id: {request.Id}");
+        }
+
+        return new GetGamesCatalogResultDTO(
+            game.GameId.Id,
+            game.Title,
+            game.Description
+        );
     }
 }
