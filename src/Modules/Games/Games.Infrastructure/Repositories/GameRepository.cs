@@ -1,5 +1,6 @@
 using Games.Domain.GameAggregate;
 using Games.Domain.Interfaces;
+using Games.Domain.Primitives;
 using Games.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +20,11 @@ public class GameRepository(GamesContext context) : IGameRepository
                 cancellationToken);
     }
 
-    public async Task<Game?> FindGameById(Guid Id, CancellationToken cancellationToken)
+    public async Task<Game?> FindGameById(GameId gameId, CancellationToken cancellationToken)
     {
         return await context.games
             .FirstOrDefaultAsync(
-                g => g.GameId.Id == Id,
+                g => g.GameId == gameId,
                 cancellationToken);
     }
 

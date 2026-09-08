@@ -26,4 +26,11 @@ public class GamesController(ISender sender) : ControllerBase
         var resultDTO = await sender.Send(new GetGamesCatalogQuery());
         return Ok(resultDTO);
     }
+
+    [HttpGet("get-game-by-id")]
+    public async Task<IActionResult> GetGameById(Guid id)
+    {
+        var resultDTO = await sender.Send(new GetGameByIdQuery(id));
+        return Ok(resultDTO);
+    }
 }

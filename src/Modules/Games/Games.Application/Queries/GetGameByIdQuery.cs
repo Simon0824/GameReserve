@@ -1,5 +1,6 @@
 using Games.Application.DTOs;
 using Games.Domain.Interfaces;
+using Games.Domain.Primitives;
 using MediatR;
 
 namespace Games.Application.Queries;
@@ -8,7 +9,8 @@ public class GetGameByIdQueryHandler(IGameRepository gameRepository) : IRequestH
 {
     public async Task<GetGamesCatalogResultDTO> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
     {
-        var game = await gameRepository.FindGameById(request.Id, cancellationToken);
+        var gameId = new GameId(request.Id);
+        var game = await gameRepository.FindGameById(gameId, cancellationToken);
 
         if(game is null)
         {
