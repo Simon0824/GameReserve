@@ -19,6 +19,14 @@ public class GameRepository(GamesContext context) : IGameRepository
                 cancellationToken);
     }
 
+    public async Task<Game?> FindGameById(Guid Id, CancellationToken cancellationToken)
+    {
+        return await context.games
+            .FirstOrDefaultAsync(
+                g => g.GameId.Id == Id,
+                cancellationToken);
+    }
+
     public async Task<List<Game>> GetGames()
     {
         return await context.games.AsNoTracking().ToListAsync();
