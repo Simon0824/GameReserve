@@ -26,6 +26,14 @@ builder.Services.AddMassTransit(busConfiguration =>
     });
 });
 
+builder.Services.AddProblemDetails(configuration =>
+{   
+    configuration.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Extensions.Add("reqId", context.HttpContext.TraceIdentifier);
+    };
+});
+
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment())
@@ -88,6 +96,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
