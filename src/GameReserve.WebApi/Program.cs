@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
@@ -10,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddControllers();
 
