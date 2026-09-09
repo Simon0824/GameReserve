@@ -1,11 +1,16 @@
 using FluentValidation;
 using Identity.Application.DTOs;
 
-namespace GameReserve.WebApi.Validators;
-public class LoginUserValidator : AbstractValidator<LoginUserDTO>
+namespace GameReserve.WebApi.Validators.Identity;
+public class CreateUserValidator : AbstractValidator<CreateUserDTO>
 {
-    public LoginUserValidator()
+    public CreateUserValidator()
     {
+        RuleFor(user => user.FullName)
+               .NotEmpty()
+               .WithMessage("Name is empty")
+               .MaximumLength(100)
+               .WithMessage("Name can not be longer than 100 characters");
 
         RuleFor(user => user.Email)
                .NotEmpty()
