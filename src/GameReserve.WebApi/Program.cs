@@ -1,4 +1,5 @@
 using GameReserve.WebApi.DependencyInjection;
+using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
 using Games.Infrastructure.Data;
 using Identity.Domain.UserAggregate;
@@ -33,6 +34,8 @@ builder.Services.AddProblemDetails(configuration =>
         context.ProblemDetails.Extensions.Add("reqId", context.HttpContext.TraceIdentifier);
     };
 });
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
@@ -88,6 +91,8 @@ else
 {
     app.UseHttpsRedirection();
 }
+
+app.UseExceptionHandler();
 
 app.UseRouting();
 
