@@ -1612,8 +1612,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "d:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
-                "projectPath": "d:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj"
+              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
+                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj"
               }
             }
           }
@@ -1942,14 +1942,14 @@
         }
       }
     },
-    "d:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
+    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
+        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
         "projectName": "Identity.Domain",
-        "projectPath": "d:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
+        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "d:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\obj\\",
+        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -39,7 +39,7 @@ builder.Services.AddProblemDetails(configuration =>
         context.ProblemDetails.Extensions.Add("reqId", context.HttpContext.TraceIdentifier);
     };
 });
-
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
