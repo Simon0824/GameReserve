@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj": {}
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
         "projectName": "GameReserve.WebApi",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -27,14 +27,14 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj"
               },
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj"
               },
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj"
               }
             }
           }
@@ -524,14 +524,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj",
         "projectName": "Games.Application",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -547,8 +547,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj"
               }
             }
           }
@@ -877,14 +877,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj",
         "projectName": "Games.Domain",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\Games.Domain.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -900,8 +900,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
               }
             }
           }
@@ -1226,14 +1226,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj",
         "projectName": "Games.Infrastructure",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1249,8 +1249,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Application\\Games.Application.csproj"
               }
             }
           }
@@ -1589,14 +1589,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj",
         "projectName": "Identity.Application",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1612,8 +1612,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj"
               }
             }
           }
@@ -1635,6 +1635,10 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            },
             "MassTransit.RabbitMQ": {
               "target": "Package",
               "version": "[8.5.0, )"
@@ -1942,14 +1946,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
         "projectName": "Identity.Domain",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\Identity.Domain.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1965,8 +1969,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
               }
             }
           }
@@ -2295,14 +2299,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj",
         "projectName": "Identity.Infrastructure",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2318,8 +2322,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Application\\Identity.Application.csproj"
               }
             }
           }
@@ -2666,14 +2670,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj",
         "projectName": "Reservations.Application",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2689,8 +2693,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj"
               }
             }
           }
@@ -3011,14 +3015,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj",
         "projectName": "Reservations.Domain",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3352,14 +3356,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj",
         "projectName": "Reservations.Infrastructure",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3375,8 +3379,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Application\\Reservations.Application.csproj"
               }
             }
           }
@@ -3715,14 +3719,14 @@
         }
       }
     },
-    "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj",
         "projectName": "SharedKernel",
-        "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3738,8 +3742,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
-                "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj"
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj"
               }
             }
           }

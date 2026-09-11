@@ -1420,6 +1420,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "FluentValidation": "12.1.1",
           "Identity.Domain": "1.0.0",
           "MassTransit.RabbitMQ": "8.5.0",
           "MediatR": "14.2.0"
@@ -4002,11 +4003,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+      "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
       "projectName": "GameReserve.WebApi",
-      "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+      "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
       "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\obj\\",
+      "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4022,14 +4023,14 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
-              "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj"
+            "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
+              "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj"
             },
-            "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
-              "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj"
+            "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
+              "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj"
             },
-            "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
-              "projectPath": "D:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj"
+            "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
+              "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj"
             }
           }
         }

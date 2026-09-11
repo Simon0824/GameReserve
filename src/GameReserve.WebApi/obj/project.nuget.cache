@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wnZiOYxMwtk=",
+  "dgSpecHash": "oikPIKOu8b0=",
   "success": true,
-  "projectFilePath": "D:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+  "projectFilePath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Simon\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\Simon\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",
