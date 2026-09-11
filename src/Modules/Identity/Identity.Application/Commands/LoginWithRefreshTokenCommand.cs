@@ -1,9 +1,10 @@
+using Identity.Application.Abstractions.Messaging;
 using Identity.Application.DTOs;
 using Identity.Domain.Interfaces;
 using MediatR;
 
 namespace Identity.Application.Commands;
-public record LoginWithRefreshTokenCommand(string RefreshToken) : IRequest<LoginWithRefreshTokenResultDTO>;
+public record LoginWithRefreshTokenCommand(string RefreshToken) : ICommand<LoginWithRefreshTokenResultDTO>;
 
 public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository, ITokenProvider tokenProvider) : IRequestHandler<LoginWithRefreshTokenCommand, LoginWithRefreshTokenResultDTO>
 {

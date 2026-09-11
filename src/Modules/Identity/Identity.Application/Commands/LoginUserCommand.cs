@@ -1,10 +1,11 @@
+using Identity.Application.Abstractions.Messaging;
 using Identity.Application.DTOs;
 using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
 using MediatR;
 
 namespace Identity.Application.Commands;
-public record LoginUserCommand(string Email, string Password) : IRequest<LoginUserResultDTO>;
+public record LoginUserCommand(string Email, string Password) : ICommand<LoginUserResultDTO>;
 
 public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvider tokenProvider) :IRequestHandler<LoginUserCommand, LoginUserResultDTO>
 {
