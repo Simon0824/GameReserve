@@ -32,12 +32,6 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IPublisher
             throw new Exception("Cannot add role to user");
         }
 
-        foreach(var domainEvent in user.DomainEvents)
-        {
-            await publisher.Publish(domainEvent);
-        }
-        user.ClearDomainEvents();
-
         return new CreateUserResultDTO(
                 user.Id,
                 user.FullName,
