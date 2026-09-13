@@ -19,7 +19,7 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
         foreach(var game in games)
         {
             result.Add(new GetGamesCatalogResultDTO(
-                game.Id.Id,
+                game.Id.Value,
                 game.Title,
                 game.Description
             ));

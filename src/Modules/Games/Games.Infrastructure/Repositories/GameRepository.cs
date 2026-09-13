@@ -24,7 +24,7 @@ public class GameRepository(GamesContext context) : IGameRepository
     {
         return await context.games
             .FirstOrDefaultAsync(
-                g => g.GameId == gameId,
+                g => g.Id == gameId,
                 cancellationToken);
     }
 

@@ -8,11 +8,11 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 {
     public void Configure(EntityTypeBuilder<Game> builder)
     {
-        builder.HasKey(k => k.GameId);
+        builder.HasKey(k => k.Id);
 
-        builder.Property(g => g.GameId)
+        builder.Property(g => g.Id)
                .HasConversion(
-                 id => id.Id,
+                 id => id.Value,
                  value => new GameId(value)
                );
 
