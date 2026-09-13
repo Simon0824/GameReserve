@@ -7,7 +7,7 @@ using MediatR;
 namespace Identity.Application.Commands;
 public record CreateUserCommand(string FullName, string Email, string Password) : ICommand<CreateUserResultDTO>;
 
-public class CreateUserCommandHandler(IUserRepository userRepository, IPublisher publisher) : IRequestHandler<CreateUserCommand, CreateUserResultDTO>
+public class CreateUserCommandHandler(IUserRepository userRepository) : IRequestHandler<CreateUserCommand, CreateUserResultDTO>
 {
     public async Task<CreateUserResultDTO> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {

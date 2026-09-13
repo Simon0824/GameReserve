@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.Infrastructure.Data;
 public class IdentityContext : IdentityDbContext<User>
