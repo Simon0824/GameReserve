@@ -1,8 +1,8 @@
-using Games.Domain.Abstractions;
+using SharedKernel.Domain.Abstractions;
 using Games.Domain.Primitives;
 
 namespace Games.Domain.GameAggregate;
-public class Game : Entity
+public class Game : Entity<GameId>
 {
     public string Title {get; private set;} = string.Empty;
     public string Description {get; private set;} = string.Empty;

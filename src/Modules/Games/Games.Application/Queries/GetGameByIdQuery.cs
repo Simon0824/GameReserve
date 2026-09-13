@@ -18,7 +18,7 @@ public class GetGameByIdQueryHandler(IGameRepository gameRepository) : IRequestH
         }
 
         return new GetGamesCatalogResultDTO(
-            game.GameId.Id,
+            game.Id.Id,
             game.Title,
             game.Description
         );
