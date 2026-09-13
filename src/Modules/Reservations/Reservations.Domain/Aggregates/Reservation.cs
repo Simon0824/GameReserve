@@ -1,12 +1,12 @@
 namespace Reservations.Domain.Aggregates;
 public class Reservation
 {
-    public Guid Id {get; private set;}
+    public ReservationId Id {get; private set;} = new ReservationId(Guid.Empty);
     public Guid GameId {get; private set;}
     public DateTime StartDate {get; private set;}
     public DateTime EndDate {get; private set;}
 
-    public Reservation(Guid id, Guid gameId, DateTime startDate, DateTime endDate)
+    public Reservation(ReservationId id, Guid gameId, DateTime startDate, DateTime endDate)
     {
         if(startDate >= endDate)
         {
@@ -21,3 +21,5 @@ public class Reservation
     private Reservation()
     {}
 }
+
+public record ReservationId(Guid Id);
