@@ -71,13 +71,13 @@ if(app.Environment.IsDevelopment())
 
     var adminEmail = app.Configuration["Admin:Email"];
     var adminFullName = app.Configuration["Admin:FullName"];
-    var adminPassowrd = app.Configuration["Admin:Password"];
+    var adminPassword = app.Configuration["Admin:Password"];
 
     if(await userManager.FindByEmailAsync(adminEmail!) is null)
     {
     var admin = User.Create(adminFullName!, adminEmail!);
 
-    var createResult = await userManager.CreateAsync(admin, adminPassowrd!);
+    var createResult = await userManager.CreateAsync(admin, adminPassword!);
 
     if(!createResult.Succeeded)
     {

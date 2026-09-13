@@ -2,9 +2,10 @@ using Games.Application.DTOs;
 using Games.Domain.GameAggregate;
 using Games.Domain.Interfaces;
 using MediatR;
+using SharedKernel.Application.Abstractions.Messaging;
 
 namespace Games.Application.Commands;
-public record AddNewGameCommand(string Title, string Description) : IRequest<AddNewGameResultDTO>;
+public record AddNewGameCommand(string Title, string Description) : ICommand<AddNewGameResultDTO>;
 public class AddNewGameCommandHandler(IGameRepository gameRepository) : IRequestHandler<AddNewGameCommand, AddNewGameResultDTO>
 {
     public async Task<AddNewGameResultDTO> Handle(AddNewGameCommand request, CancellationToken cancellationToken)
