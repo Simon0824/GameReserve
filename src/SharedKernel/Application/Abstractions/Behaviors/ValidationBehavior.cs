@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace Identity.Application.Abstractions.Behaviors;
+namespace SharedKernel.Application.Abstractions.Behaviors;
 public class ValidationBehavior<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators
 ) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

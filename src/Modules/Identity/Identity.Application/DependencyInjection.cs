@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Identity.Application.Abstractions.Behaviors;
+using SharedKernel.Application.Abstractions.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Identity.Application;

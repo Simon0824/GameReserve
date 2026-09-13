@@ -1,4 +1,4 @@
-using Identity.Application.Abstractions.Messaging;
+using SharedKernel.Application.Abstractions.Messaging;
 using Identity.Application.DTOs;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
