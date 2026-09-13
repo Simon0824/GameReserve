@@ -572,7 +572,7 @@
             },
             "MediatR": {
               "target": "Package",
-              "version": "[14.2.0, )"
+              "version": "[12.5.0, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
@@ -921,7 +921,7 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[14.2.0, )"
+              "version": "[12.5.0, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
@@ -1641,7 +1641,7 @@
             },
             "MediatR": {
               "target": "Package",
-              "version": "[14.2.0, )"
+              "version": "[12.5.0, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
@@ -1990,7 +1990,7 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[14.2.0, )"
+              "version": "[12.5.0, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
@@ -3767,7 +3767,7 @@
             },
             "MediatR": {
               "target": "Package",
-              "version": "[14.2.0, )"
+              "version": "[12.5.0, )"
             }
           },
           "imports": [

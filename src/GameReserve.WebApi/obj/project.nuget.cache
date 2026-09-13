@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Ugw6QutcXw8=",
+  "dgSpecHash": "U5poYgWuFtw=",
   "success": true,
   "projectFilePath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
   "expectedPackageFiles": [
@@ -13,7 +13,7 @@
     "C:\\Users\\Simon\\.nuget\\packages\\masstransit\\8.5.0\\masstransit.8.5.0.nupkg.sha512",
     "C:\\Users\\Simon\\.nuget\\packages\\masstransit.abstractions\\8.5.0\\masstransit.abstractions.8.5.0.nupkg.sha512",
     "C:\\Users\\Simon\\.nuget\\packages\\masstransit.rabbitmq\\8.5.0\\masstransit.rabbitmq.8.5.0.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\mediatr\\14.2.0\\mediatr.14.2.0.nupkg.sha512",
+    "C:\\Users\\Simon\\.nuget\\packages\\mediatr\\12.5.0\\mediatr.12.5.0.nupkg.sha512",
     "C:\\Users\\Simon\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Simon\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.11\\microsoft.aspnetcore.authentication.jwtbearer.10.0.11.nupkg.sha512",
     "C:\\Users\\Simon\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\10.0.11\\microsoft.aspnetcore.identity.entityframeworkcore.10.0.11.nupkg.sha512",
