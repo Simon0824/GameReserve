@@ -4,7 +4,7 @@ using Games.Domain.Primitives;
 namespace Games.Domain.Interfaces;
 public interface IGameRepository
 {
-    Task AddGame(Game game, CancellationToken cancellationToken);
+    Task AddGame(Game game);
     Task<Game?> FindGame(string Title, CancellationToken cancellationToken);
     Task<Game?> FindGameById(GameId gameId, CancellationToken cancellationToken);
     Task<List<Game>> GetGames();

@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Games.Infrastructure.Repositories;
 public class GameRepository(GamesContext context) : IGameRepository
 {
-    public async Task AddGame(Game game, CancellationToken cancellationToken)
+    public async Task AddGame(Game game)
     {
-        await context.games.AddAsync(game, cancellationToken);
+        context.games.Add(game);
     }
 
     public async Task<Game?> FindGame(string Title, CancellationToken cancellationToken)

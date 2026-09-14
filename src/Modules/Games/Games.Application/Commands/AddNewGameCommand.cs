@@ -18,7 +18,7 @@ public class AddNewGameCommandHandler(IGameRepository gameRepository) : IRequest
             throw new Exception("Game is already in database");
         }
 
-        await gameRepository.AddGame(game, cancellationToken);
+        await gameRepository.AddGame(game);
         await gameRepository.SaveChanges(cancellationToken);
 
         return new AddNewGameResultDTO(
