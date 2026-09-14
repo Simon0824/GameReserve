@@ -15,7 +15,7 @@ public class CreateUserCommandHandler(IUserRepository userRepository) : IRequest
         var result = await userRepository.CreateUser(user, request.Password);
         if(!result.Succeeded)
         {
-            throw new Exception("Cannot create a user");
+            throw new Exception($"Cannot create a user");
         }
 
         var roleResult = await userRepository.AddUserRole(user);
