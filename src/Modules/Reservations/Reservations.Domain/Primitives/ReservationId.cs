@@ -1,2 +1,2 @@
 namespace Reservations.Domain.Primitives;
-public record ReservationId(Guid Value);
+public readonly record struct ReservationId(Guid Value);
