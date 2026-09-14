@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Reservations.Domain.Interfaces;
 using Reservations.Infrastructure.Data;
+using Reservations.Infrastructure.Repositories;
 
 namespace Reservations.Infrastructure;
 
@@ -13,6 +15,8 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Default"));
         });
+
+        services.AddScoped<IReservationsRepository, ReservationsRepository>();
         return services;
     }
 }
