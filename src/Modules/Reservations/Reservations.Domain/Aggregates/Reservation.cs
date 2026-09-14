@@ -1,3 +1,5 @@
+using Reservations.Domain.Primitives;
+
 namespace Reservations.Domain.Aggregates;
 public class Reservation
 {
@@ -21,5 +23,3 @@ public class Reservation
     private Reservation()
     {}
 }
-
-public record ReservationId(Guid Id);

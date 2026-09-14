@@ -3033,7 +3033,11 @@
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -3737,11 +3741,7 @@
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
-            "projectReferences": {
-              "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
-                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {

@@ -1457,6 +1457,9 @@
       "Reservations.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "SharedKernel": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Reservations.Domain.dll": {}
         },
@@ -1485,8 +1488,7 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "FluentValidation": "12.1.1",
-          "MediatR": "12.5.0",
-          "Reservations.Domain": "1.0.0"
+          "MediatR": "12.5.0"
         },
         "compile": {
           "bin/placeholder/SharedKernel.dll": {}
