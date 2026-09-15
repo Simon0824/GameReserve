@@ -9,7 +9,10 @@ using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Reservations.Application.Events;
+using Reservations.Infrastructure.Data;
 using SharedKernel.Domain.Constants;
+using SharedKernel.IntegrationEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,8 @@ builder.Services.AddApiDI(builder.Configuration);
 builder.Services.AddMassTransit(busConfiguration =>
 {
     busConfiguration.SetKebabCaseEndpointNameFormatter();
+
+    busConfiguration.AddConsumer<UserCreatedEventHandler>();
 
     busConfiguration.UsingInMemory((context, configurator) =>
     {
@@ -55,6 +60,9 @@ if(app.Environment.IsDevelopment())
 
     var GamesContext = scope.ServiceProvider.GetRequiredService<GamesContext>();
     GamesContext.Database.Migrate();
+
+    var ReservationsContext = scope.ServiceProvider.GetRequiredService<ReservationsContext>();
+    ReservationsContext.Database.Migrate();
 
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();

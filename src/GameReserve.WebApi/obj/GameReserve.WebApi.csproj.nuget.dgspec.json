@@ -2691,6 +2691,9 @@
             "projectReferences": {
               "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj": {
                 "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Domain\\Reservations.Domain.csproj"
+              },
+              "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj": {
+                "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\SharedKernel\\SharedKernel.csproj"
               }
             }
           }
@@ -2714,7 +2717,7 @@
           "dependencies": {
             "MassTransit.RabbitMQ": {
               "target": "Package",
-              "version": "[9.2.2, )"
+              "version": "[8.5.0, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",

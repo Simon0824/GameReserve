@@ -17,9 +17,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddIdentityInfrastructureDI(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<IdentityContext>(opt =>
+        services.AddScoped<PublishDomainEventsInterceptor>();
+        services.AddDbContext<IdentityContext>((sp, options) =>
         {
-            opt.UseNpgsql(configuration.GetConnectionString("Default"));
+            options.UseNpgsql(configuration.GetConnectionString("Default"));
+            options.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>());
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
