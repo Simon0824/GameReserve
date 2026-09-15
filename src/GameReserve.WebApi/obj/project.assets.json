@@ -1445,6 +1445,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "MassTransit.RabbitMQ": "9.2.2",
           "Reservations.Domain": "1.0.0"
         },
         "compile": {
@@ -4469,5 +4470,16 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Warning As Error: Detected package downgrade: MassTransit.RabbitMQ from 9.2.2 to 8.5.0. Reference the package directly from the project to select a different version. \r\n GameReserve.WebApi -> Reservations.Infrastructure -> Reservations.Application -> MassTransit.RabbitMQ (>= 9.2.2) \r\n GameReserve.WebApi -> MassTransit.RabbitMQ (>= 8.5.0)",
+      "libraryId": "MassTransit.RabbitMQ",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }
