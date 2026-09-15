@@ -12,11 +12,11 @@ public class GameRepository(GamesContext context) : IGameRepository
         context.games.Add(game);
     }
 
-    public async Task<Game?> FindGame(string Title, CancellationToken cancellationToken)
+    public async Task<Game?> FindGame(string title, CancellationToken cancellationToken)
     {
         return await context.games
             .FirstOrDefaultAsync(
-                g => g.Title == Title,
+                g => g.Title == title,
                 cancellationToken);
     }
 

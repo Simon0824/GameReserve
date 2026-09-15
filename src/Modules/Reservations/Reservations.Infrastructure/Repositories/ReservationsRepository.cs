@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
+using Reservations.Domain.Primitives;
 using Reservations.Infrastructure.Data;
 
 namespace Reservations.Infrastructure.Repositories;
@@ -9,5 +11,13 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
         ReservationProfile reservationProfile)
     {
         context.ReservationProfiles.Add(reservationProfile);
+    }
+
+    public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId profileId)
+    {
+        return await context.ReservationProfiles
+                            .AsNoTracking()
+                            .Include(p => p.reservations)
+                            .FirstOrDefaultAsync(p => p.Id == profileId);
     }
 }
