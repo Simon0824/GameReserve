@@ -5,7 +5,7 @@ namespace Reservations.Domain.Aggregates;
 public class ReservationProfile : Entity<ReservationProfileId>
 {
     public UserId UserId {get; private set;}
-    private List<Reservation> _reservations {get; set;} = new ();
+    private List<Reservation> _reservations = new ();
     public IReadOnlyList<Reservation> reservations => _reservations;
 
     private ReservationProfile(ReservationProfileId id, UserId userId) : base(id)
