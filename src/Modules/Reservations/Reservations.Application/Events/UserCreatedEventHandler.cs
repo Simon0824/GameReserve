@@ -15,12 +15,12 @@ IUnitOfWork unitOfWork) : IConsumer<UserCreatedIntegrationEvent>
     {
         logger.LogInformation("Consuming UserCreated event");
 
-        var userId = new UserId(context.Message.Id);
+        var userId = new UserId(context.Message.UserId);
         var profile = ReservationProfile.CreateProfile(userId);
 
         reservationsRepository.AddReservationProfile(profile);
         await unitOfWork.SaveChangesAsync(context.CancellationToken);
 
-        logger.LogInformation($"UserCreated event consumed succesfully! {profile.Id}");
+        logger.LogInformation($"UserCreated {userId} event consumed succesfully! {profile.Id}");
     }
 }

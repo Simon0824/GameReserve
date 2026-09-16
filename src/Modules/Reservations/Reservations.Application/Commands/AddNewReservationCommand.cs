@@ -23,7 +23,7 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
 
         if(profile is null)
         {
-            throw new Exception("You don't have a reservation profile");
+            throw new Exception($"You don't have a reservation profile");
         }
 
         var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate);
