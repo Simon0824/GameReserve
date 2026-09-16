@@ -21,6 +21,6 @@ IUnitOfWork unitOfWork) : IConsumer<UserCreatedIntegrationEvent>
         reservationsRepository.AddReservationProfile(profile);
         await unitOfWork.SaveChangesAsync(context.CancellationToken);
 
-        logger.LogInformation("UserCreated event consumed succesfully!");
+        logger.LogInformation($"UserCreated event consumed succesfully! {profile.Id}");
     }
 }

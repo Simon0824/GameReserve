@@ -6,7 +6,7 @@ using Reservations.Domain.Primitives;
 namespace Reservations.Application.Queries;
 public record GetReservationProfileByIdQuery(Guid Id) : IRequest<GetReservationProfileByIdResultDTO>;
 public class GetReservationProfileByIdQueryHandler(IReservationsRepository reservationsRepository) : IRequestHandler<GetReservationProfileByIdQuery, 
-                                                                       GetReservationProfileByIdResultDTO>
+                                                                                                                     GetReservationProfileByIdResultDTO>
 {
     public async Task<GetReservationProfileByIdResultDTO> Handle(GetReservationProfileByIdQuery request, CancellationToken cancellationToken)
     {
@@ -19,7 +19,7 @@ public class GetReservationProfileByIdQueryHandler(IReservationsRepository reser
         return new GetReservationProfileByIdResultDTO(
             profile.Id.Value,
             profile.UserId.Value,
-            profile.reservations
+            profile.Reservations
         );
     }
 }

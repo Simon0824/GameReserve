@@ -7,6 +7,7 @@ public class ReservationsContext : DbContext
     public ReservationsContext(DbContextOptions<ReservationsContext> options) : base(options) {}
 
     public DbSet<ReservationProfile> ReservationProfiles {get; set;}
+    public DbSet<Reservation> Reservations {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

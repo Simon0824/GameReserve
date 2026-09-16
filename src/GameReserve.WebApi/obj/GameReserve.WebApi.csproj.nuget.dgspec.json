@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj": {}
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebAPi\\GameReserve.WebApi.csproj": {}
   },
   "projects": {
-    "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj": {
+    "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebAPi\\GameReserve.WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+        "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebAPi\\GameReserve.WebApi.csproj",
         "projectName": "GameReserve.WebApi",
-        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+        "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebAPi\\GameReserve.WebApi.csproj",
         "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\obj\\",
+        "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebAPi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"

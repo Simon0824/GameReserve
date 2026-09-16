@@ -25,12 +25,13 @@ public class ReservationProfileConfigurations : IEntityTypeConfiguration<Reserva
         builder.HasIndex(x => x.UserId)
                .IsUnique();
 
-        builder.HasMany(p => p.reservations)
+
+        builder.HasMany(p => p.Reservations)
                .WithOne()
-               .HasForeignKey("ReservaiotnProfileId");
-        
-        builder.Navigation(p => p.reservations)
-               .HasField("_reservations")
+               .HasForeignKey(r => r.ReservationProfileId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(p => p.Reservations)
                .UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

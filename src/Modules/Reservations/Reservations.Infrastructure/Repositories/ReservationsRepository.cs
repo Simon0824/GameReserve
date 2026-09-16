@@ -16,8 +16,8 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
     public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId profileId)
     {
         return await context.ReservationProfiles
+                            .Include(p => p.Reservations)
                             .AsNoTracking()
-                            .Include(p => p.reservations)
                             .FirstOrDefaultAsync(p => p.Id == profileId);
     }
 }
