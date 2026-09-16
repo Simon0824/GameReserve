@@ -5,12 +5,12 @@ using SharedKernel.PublicApi.Games;
 internal class GamePublicApi(GamesContext context) : IGamePublicApi
 {
 
-    public async Task<GameDto?> GetGameById(Guid gameId, CancellationToken cancellationToken = default)
+    public async Task<GameResultDTO?> GetGameById(Guid gameId, CancellationToken cancellationToken = default)
     {
         return await context.games
             .AsNoTracking()
             .Where(g => g.Id.Value == gameId)
-            .Select(g => new GameDto(g.Id.Value, g.Title))
+            .Select(g => new GameResultDTO(g.Id.Value, g.Title))
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

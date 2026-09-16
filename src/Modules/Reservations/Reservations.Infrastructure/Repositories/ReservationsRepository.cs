@@ -13,12 +13,12 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
         context.ReservationProfiles.Add(reservationProfile);
     }
 
-    public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId profileId)
+    public async Task<ReservationProfile?> GetReservationProfileById(UserId userId)
     {
         return await context.ReservationProfiles
                             .Include(p => p.Reservations)
                             .AsNoTracking()
-                            .FirstOrDefaultAsync(p => p.Id == profileId);
+                            .FirstOrDefaultAsync(p => p.UserId == userId);
     }
 
     public async Task CreateReservation(Reservation reservation)

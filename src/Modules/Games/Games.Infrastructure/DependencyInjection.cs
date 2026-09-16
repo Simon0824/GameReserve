@@ -4,6 +4,7 @@ using Games.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.PublicApi.Games;
 
 namespace Games.Infrastructure;
 

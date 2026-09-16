@@ -5,6 +5,6 @@ namespace Reservations.Domain.Interfaces;
 public interface IReservationsRepository
 {
     void AddReservationProfile(ReservationProfile reservationProfile);
-    Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId profileId);
+    Task<ReservationProfile?> GetReservationProfileById(UserId userId);
     Task CreateReservation(Reservation reservation);
 }
