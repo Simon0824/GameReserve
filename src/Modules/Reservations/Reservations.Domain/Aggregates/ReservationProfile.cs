@@ -17,7 +17,7 @@ public class ReservationProfile : Entity<ReservationProfileId>
     public static ReservationProfile CreateProfile(UserId userId) =>
             new ReservationProfile(new ReservationProfileId(Guid.NewGuid()), userId);
 
-    public static Reservation AddReservation(Guid gameId, DateTime startDate, DateTime endDate)
+    public Reservation AddReservation(Guid gameId, DateTime startDate, DateTime endDate)
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
         _reservations.Add(reservation);

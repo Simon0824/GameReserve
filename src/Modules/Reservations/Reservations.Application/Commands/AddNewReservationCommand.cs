@@ -19,7 +19,7 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
             throw new Exception($"Game with ID: {request.GameId} does not exist");
         }
 
-        var profile = await reservationsRepository.GetReservationProfileById(request.UserId);
+        var profile = await reservationsRepository.GetReservationProfileByUserId(request.UserId);
 
         if(profile is null)
         {
