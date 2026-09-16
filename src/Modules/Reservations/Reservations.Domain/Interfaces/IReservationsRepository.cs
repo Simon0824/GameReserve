@@ -6,4 +6,5 @@ public interface IReservationsRepository
 {
     void AddReservationProfile(ReservationProfile reservationProfile);
     Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId profileId);
+    Task CreateReservation(Reservation reservation);
 }
