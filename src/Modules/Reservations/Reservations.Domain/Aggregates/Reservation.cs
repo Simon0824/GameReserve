@@ -33,6 +33,11 @@ public class Reservation
         Guid gameId, 
         DateTime startDate, DateTime endDate)
     {
+        if(startDate > endDate)
+        {
+            throw new Exception("Start date cannot be after ending date");
+        }
+        
          var reservation = new Reservation(
          new ReservationId(Guid.NewGuid()),
           reservationProfileId,

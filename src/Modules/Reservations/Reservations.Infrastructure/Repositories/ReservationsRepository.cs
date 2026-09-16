@@ -20,4 +20,9 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
                             .AsNoTracking()
                             .FirstOrDefaultAsync(p => p.Id == profileId);
     }
+
+    public async Task CreateReservation(Reservation reservation)
+    {
+        context.Reservations.Add(reservation);
+    }
 }
