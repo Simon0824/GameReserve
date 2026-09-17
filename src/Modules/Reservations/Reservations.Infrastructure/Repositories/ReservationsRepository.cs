@@ -13,6 +13,11 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
         context.ReservationProfiles.Add(reservationProfile);
     }
 
+    public async Task<IEnumerable<ReservationProfile?>> GetReservationProfiles()
+    {
+        return await context.ReservationProfiles.AsNoTracking().ToListAsync();
+    }
+
     public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId)
     {
         return await context.ReservationProfiles
@@ -34,9 +39,8 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
         startDate = DateTime.SpecifyKind(startDate, DateTimeKind.Utc);
         endDate = DateTime.SpecifyKind(endDate, DateTimeKind.Utc);
 
-        var invalidDates = await context.Reservations
-                                                    .AsNoTracking()
-                                                    .AnyAsync(r => r.GameId == gameId &&
+        var invalidDates = await context.Reservations.AsNoTracking()
+                                                     .AnyAsync(r => r.GameId == gameId &&
                                                                r.StartDate <= endDate && 
                                                                r.EndDate >= startDate
                                                               );
