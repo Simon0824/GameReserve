@@ -13,9 +13,9 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
         context.ReservationProfiles.Add(reservationProfile);
     }
 
-    public async Task<IEnumerable<ReservationProfile?>> GetReservationProfiles()
+    public async Task<IReadOnlyList<ReservationProfile?>> GetReservationProfiles(CancellationToken cancellationToken)
     {
-        return await context.ReservationProfiles.AsNoTracking().ToListAsync();
+        return await context.ReservationProfiles.AsNoTracking().ToListAsync(cancellationToken);
     }
 
     public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId)
