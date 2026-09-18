@@ -39,4 +39,12 @@ public class ReservationsController(ISender sender) : ControllerBase
         var resultDTO = await sender.Send(new GetReservationProfileByIdQuery(id));
         return Ok(resultDTO);
     }
+
+    [HttpGet("get-reservation-profiles")]
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IActionResult> GetReservationProfiles()
+    {
+        var resultDTO = await sender.Send(new GetReservationProfilesQuery());
+        return Ok(resultDTO);
+    }
 }

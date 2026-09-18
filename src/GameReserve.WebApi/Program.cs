@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using GameReserve.WebApi.BackgroundServices;
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
@@ -12,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Reservations.Application.Events;
 using Reservations.Infrastructure.Data;
 using SharedKernel.Domain.Constants;
-using SharedKernel.IntegrationEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +47,8 @@ builder.Services.AddProblemDetails(configuration =>
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+builder.Services.AddHostedService<AdminSeedingService>();
+
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment())
@@ -63,52 +65,17 @@ if(app.Environment.IsDevelopment())
 
     var ReservationsContext = scope.ServiceProvider.GetRequiredService<ReservationsContext>();
     ReservationsContext.Database.Migrate();
-
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
-    if(!await roleManager.RoleExistsAsync(UserRoles.Admin))
-    {
-        await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-    }
-
-    if(!await roleManager.RoleExistsAsync(UserRoles.User))
-    {
-        await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-    }
-
-    var adminEmail = app.Configuration["Admin:Email"];
-    var adminFullName = app.Configuration["Admin:FullName"];
-    var adminPassword = app.Configuration["Admin:Password"];
-
-    if(await userManager.FindByEmailAsync(adminEmail!) is null)
-    {
-    var admin = User.Create(adminFullName!, adminEmail!);
-
-    var createResult = await userManager.CreateAsync(admin, adminPassword!);
-
-    if(!createResult.Succeeded)
-    {
-        Console.WriteLine(string.Join(", ", createResult.Errors.Select(e => e.Description)));
-    }
-
-    var roleResult = await userManager.AddToRoleAsync(admin, UserRoles.Admin);
-
-    if(!roleResult.Succeeded)
-    {
-        Console.WriteLine(string.Join(", ", createResult.Errors.Select(e => e.Description)));
-    }
-    }
 }
 else
 {
     app.UseHttpsRedirection();
 }
 
+app.UseHostFiltering();
+
 app.UseExceptionHandler();
 
 app.UseRouting();
-
 
 app.UseAuthentication();
 app.UseAuthorization();

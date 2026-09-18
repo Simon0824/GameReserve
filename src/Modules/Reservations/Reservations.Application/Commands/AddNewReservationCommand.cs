@@ -1,6 +1,5 @@
 using MediatR;
 using Reservations.Application.DTOs;
-using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using SharedKernel.Application.Abstractions.Messaging;

@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net10.0": {
       "Azure.Core/1.50.0": {
@@ -3954,19 +3954,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Simon\\.nuget\\packages\\": {}
+    "/home/simon/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
+      "projectUniqueName": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/GameReserve.WebApi/GameReserve.WebApi.csproj",
       "projectName": "GameReserve.WebApi",
-      "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\GameReserve.WebApi.csproj",
-      "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-      "outputPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\GameReserve.WebApi\\obj\\",
+      "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/GameReserve.WebApi/GameReserve.WebApi.csproj",
+      "packagesPath": "/home/simon/.nuget/packages/",
+      "outputPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/GameReserve.WebApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/simon/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -3976,17 +3976,16 @@
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj": {
-              "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Games\\Games.Infrastructure\\Games.Infrastructure.csproj"
+            "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Games/Games.Infrastructure/Games.Infrastructure.csproj": {
+              "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Games/Games.Infrastructure/Games.Infrastructure.csproj"
             },
-            "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj": {
-              "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Identity\\Identity.Infrastructure\\Identity.Infrastructure.csproj"
+            "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj": {
+              "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj"
             },
-            "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj": {
-              "projectPath": "E:\\Projects\\GameReserve\\GameReserve\\src\\Modules\\Reservations\\Reservations.Infrastructure\\Reservations.Infrastructure.csproj"
+            "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Reservations/Reservations.Infrastructure/Reservations.Infrastructure.csproj": {
+              "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Reservations/Reservations.Infrastructure/Reservations.Infrastructure.csproj"
             }
           }
         }
@@ -4001,11 +4000,10 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "FluentValidation.AspNetCore": {
@@ -4054,7 +4052,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.112/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
