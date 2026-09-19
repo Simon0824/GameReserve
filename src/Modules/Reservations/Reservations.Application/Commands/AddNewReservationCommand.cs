@@ -11,8 +11,6 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
 {
     public async Task<AddNewReservationResultDTO> Handle(AddNewReservationCommand request, CancellationToken cancellationToken)
     {
-            Console.WriteLine($"StartDate Kind: {request.StartDate.Kind}");
-            Console.WriteLine($"EndDate Kind: {request.EndDate.Kind}");
         var game = await gamePublicApi.GetGameById(request.GameId, cancellationToken);
 
         if(game is null)
