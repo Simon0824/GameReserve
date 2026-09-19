@@ -3,7 +3,6 @@ using Reservations.Application.DTOs;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
 
-namespace Reservations.Application.Queries;
 public record GetReservationProfilesQuery() : IRequest<GetReservationProfilesResultDTO>;
 public class GetReservationProfilesQueryHandler(IReservationsRepository reservationsRepository) : IRequestHandler<GetReservationProfilesQuery,
                                                                                                                   GetReservationProfilesResultDTO>
@@ -16,7 +15,7 @@ public class GetReservationProfilesQueryHandler(IReservationsRepository reservat
         {
             var reservations = profile!.Reservations
             .Select(
-                r => new GetReservationsDTO(r.Id.Value, r.GameId, r.StartDate, r.EndDate))
+                r => new GetReservationDTO(r.Id.Value, r.GameId, r.StartDate, r.EndDate))
             .ToList();
 
             return new GetReservationProfilesListResultDTO(profile.Id.Value, profile.UserId.Value, reservations);

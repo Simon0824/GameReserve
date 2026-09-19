@@ -21,6 +21,13 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
                             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Reservation?> GetReservationById(ReservationId reservationId, CancellationToken cancellationToken)
+    {
+        return await context.Reservations
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(r => r.Id == reservationId, cancellationToken);
+    }
+
     public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId)
     {
         return await context.ReservationProfiles

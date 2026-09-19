@@ -1,2 +1,2 @@
 namespace Reservations.Application.DTOs;
-public record GetReservationProfilesListResultDTO(Guid ProfileId, Guid UserId, List<GetReservationsDTO> Reservations);
+public record GetReservationProfilesListResultDTO(Guid ProfileId, Guid UserId, List<GetReservationDTO> Reservations);
