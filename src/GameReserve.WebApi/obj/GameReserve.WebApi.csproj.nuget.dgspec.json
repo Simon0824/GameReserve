@@ -3026,7 +3026,11 @@
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/SharedKernel/SharedKernel.csproj": {
+                "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/SharedKernel/SharedKernel.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
