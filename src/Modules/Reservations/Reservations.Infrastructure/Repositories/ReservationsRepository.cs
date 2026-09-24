@@ -43,10 +43,8 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
                             .FirstOrDefaultAsync(p => p.UserId == userId);
     }
 
-    public async Task<bool> CheckReservationDates(Guid gameId, DateTime startDate, DateTime endDate)
+    public async Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate)
     {
-        startDate = DateTime.SpecifyKind(startDate, DateTimeKind.Utc);
-        endDate = DateTime.SpecifyKind(endDate, DateTimeKind.Utc);
 
         var invalidDates = await context.Reservations.AsNoTracking()
                                                      .AnyAsync(r => r.GameId == gameId &&

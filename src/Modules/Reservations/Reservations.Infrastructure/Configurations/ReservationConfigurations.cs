@@ -17,16 +17,10 @@ public class ReservationConfigurations : IEntityTypeConfiguration<Reservation>
                );
         
         builder.Property(r => r.StartDate)
-               .HasConversion(
-                d => d.Kind == DateTimeKind.Utc ? d : d.ToUniversalTime(),
-                d => DateTime.SpecifyKind(d, DateTimeKind.Utc)
-               );
+              .HasColumnType("timestamp with time zone");
         
         builder.Property(r => r.EndDate)
-               .HasConversion(
-                d => d.Kind == DateTimeKind.Utc ? d : d.ToUniversalTime(),
-                d => DateTime.SpecifyKind(d, DateTimeKind.Utc)
-               );
+               .HasColumnType("timestamp with time zone");
 
         builder.Property(r => r.Status)
                         .HasConversion<string>();

@@ -6,7 +6,7 @@ using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.PublicApi.Games;
 
 namespace Reservations.Application.Commands;
-public record AddNewReservationCommand(UserId UserId, Guid GameId, DateTime StartDate, DateTime EndDate) : ICommand<AddNewReservationResultDTO>;
+public record AddNewReservationCommand(UserId UserId, Guid GameId, DateTimeOffset StartDate, DateTimeOffset EndDate) : ICommand<AddNewReservationResultDTO>;
 public class AddNewReservationCommandHandler(IReservationsRepository reservationsRepository, IGamePublicApi gamePublicApi, IUnitOfWork unitOfWork) : IRequestHandler<AddNewReservationCommand, AddNewReservationResultDTO>
 {
     public async Task<AddNewReservationResultDTO> Handle(AddNewReservationCommand request, CancellationToken cancellationToken)

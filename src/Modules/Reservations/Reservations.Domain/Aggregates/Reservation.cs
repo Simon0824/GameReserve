@@ -9,15 +9,15 @@ public class Reservation
 
     public ReservationProfileId ReservationProfileId {get; private set;}
     public Guid GameId {get; private set;}
-    public DateTime StartDate {get; private set;}
-    public DateTime EndDate {get; private set;}
+    public DateTimeOffset StartDate {get; private set;}
+    public DateTimeOffset EndDate {get; private set;}
     public ReservationStatus Status {get; private set;}
 
     private Reservation(
         ReservationId id, 
         ReservationProfileId reservationProfileId, 
         Guid gameId, 
-        DateTime startDate, DateTime endDate)
+        DateTimeOffset startDate, DateTimeOffset endDate)
     {
         if(startDate >= endDate)
         {
@@ -34,7 +34,7 @@ public class Reservation
     public static Reservation CreateReservation(
         ReservationProfileId reservationProfileId, 
         Guid gameId, 
-        DateTime startDate, DateTime endDate)
+        DateTimeOffset startDate, DateTimeOffset endDate)
     {
         if(startDate > endDate)
         {
