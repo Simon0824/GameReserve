@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Reservations.Application\Reservations.Application.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

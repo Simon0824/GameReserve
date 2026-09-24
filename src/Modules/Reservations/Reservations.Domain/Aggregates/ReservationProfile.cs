@@ -21,6 +21,7 @@ public class ReservationProfile : Entity<ReservationProfileId>
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
         _reservations.Add(reservation);
+        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Id));
         return reservation;
     }
     private ReservationProfile() {}

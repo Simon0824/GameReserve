@@ -1476,7 +1476,8 @@
           "Microsoft.EntityFrameworkCore": "10.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.11",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.3",
-          "Reservations.Application": "1.0.0"
+          "Reservations.Application": "1.0.0",
+          "SharedKernel": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Reservations.Infrastructure.dll": {}
