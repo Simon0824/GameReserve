@@ -23,5 +23,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.Property(g => g.Description)
             .IsRequired()
             .HasMaxLength(1000);
+
+        builder.Ignore(g => g.DomainEvents);
     }
 }

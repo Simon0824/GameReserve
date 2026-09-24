@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Reservations.Domain.Enums;
 using Reservations.Domain.Primitives;
 
 namespace Reservations.Domain.Aggregates;
@@ -10,6 +11,7 @@ public class Reservation
     public Guid GameId {get; private set;}
     public DateTime StartDate {get; private set;}
     public DateTime EndDate {get; private set;}
+    public ReservationStatus Status {get; private set;}
 
     private Reservation(
         ReservationId id, 
@@ -26,6 +28,7 @@ public class Reservation
         GameId = gameId;
         StartDate = startDate;
         EndDate = endDate;
+        Status = ReservationStatus.Pending;
     }
 
     public static Reservation CreateReservation(
@@ -47,6 +50,23 @@ public class Reservation
         return reservation;
     }
 
+    public void Completed()
+    {
+        if(Status == ReservationStatus.Completed)
+        {
+            return;
+        }
+        else if(Status == ReservationStatus.Failed)
+        {
+            throw new Exception("Reservation payment has already failed");
+        }
+        Status = ReservationStatus.Completed;
+    }
+
+    public void Failed()
+    {
+        Status = ReservationStatus.Failed;
+    }
     private Reservation()
     {}
 }

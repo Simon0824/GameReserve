@@ -27,5 +27,8 @@ public class ReservationConfigurations : IEntityTypeConfiguration<Reservation>
                 d => d.Kind == DateTimeKind.Utc ? d : d.ToUniversalTime(),
                 d => DateTime.SpecifyKind(d, DateTimeKind.Utc)
                );
+
+        builder.Property(r => r.Status)
+                        .HasConversion<string>();
     }
 }
