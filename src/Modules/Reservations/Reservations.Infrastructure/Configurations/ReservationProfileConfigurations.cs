@@ -33,5 +33,7 @@ public class ReservationProfileConfigurations : IEntityTypeConfiguration<Reserva
 
         builder.Navigation(p => p.Reservations)
                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Ignore(p => p.DomainEvents);
     }
 }

@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Reservations.Domain.Aggregates;
+using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
 
 namespace Reservations.Infrastructure.Data;
@@ -33,7 +34,7 @@ public class PublishDomainEventsInterceptor(IPublisher publisher) : SaveChangesI
     public async Task PublishDomainEvents(DbContext context)
     {
         var entities = context.ChangeTracker
-                              .Entries<Entity<Guid>>()
+                              .Entries<Entity<ReservationProfileId>>()
                               .Select(entries => entries.Entity)
                               .Where(entity => entity.DomainEvents.Count > 0)
                               .ToList();

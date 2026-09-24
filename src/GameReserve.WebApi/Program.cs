@@ -58,10 +58,10 @@ if(app.Environment.IsDevelopment())
     IdentityContext.Database.Migrate();
 
     var GamesContext = scope.ServiceProvider.GetRequiredService<GamesContext>();
-    GamesContext.Database.Migrate();
+    //GamesContext.Database.Migrate();
 
     var ReservationsContext = scope.ServiceProvider.GetRequiredService<ReservationsContext>();
-    ReservationsContext.Database.Migrate();
+    //ReservationsContext.Database.Migrate();
 }
 else
 {

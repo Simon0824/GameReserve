@@ -40,7 +40,6 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
     {
         return await context.ReservationProfiles
                             .Include(p => p.Reservations)
-                            .AsNoTracking()
                             .FirstOrDefaultAsync(p => p.UserId == userId);
     }
 

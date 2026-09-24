@@ -11,9 +11,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddReservationsInfrastructureDI(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ReservationsContext>(options =>
+        services.AddScoped<PublishDomainEventsInterceptor>();
+        services.AddDbContext<ReservationsContext>((scope, options) =>
         {
             options.UseNpgsql(configuration.GetConnectionString("Default"));
+            options.AddInterceptors(scope.GetRequiredService<PublishDomainEventsInterceptor>());
         });
 
         services.AddScoped<IReservationsRepository, ReservationsRepository>();
