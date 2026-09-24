@@ -14,6 +14,11 @@
     <Project Path="src/Modules/Identity/Identity.Domain/Identity.Domain.csproj" />
     <Project Path="src/Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/Payments/">
+    <Project Path="src/Modules/Payments/Payments.Application/Payments.Application.csproj" />
+    <Project Path="src/Modules/Payments/Payments.Domain/Payments.Domain.csproj" />
+    <Project Path="src/Modules/Payments/Payments.Infrastructure/Payments.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Reservations/">
     <Project Path="src/Modules/Reservations/Reservations.Application/Reservations.Application.csproj" />
     <Project Path="src/Modules/Reservations/Reservations.Domain/Reservations.Domain.csproj" />

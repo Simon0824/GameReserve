@@ -2,6 +2,8 @@ using Games.Application;
 using Games.Infrastructure;
 using Identity.Application;
 using Identity.Infrastructure;
+using Payments.Application;
+using Payments.Infrastructure;
 using Reservations.Application;
 using Reservations.Infrastructure;
 
@@ -18,6 +20,10 @@ public static class DependencyInjection
         
         services.AddGamesApplicationDI()
                 .AddGamesInfrastructureDI(cfg);
+
+        services.AddPaymentsApplicationDI()
+                .AddPaymentsInfrastructureDI(cfg);
+        
         return services;
     }
 }
