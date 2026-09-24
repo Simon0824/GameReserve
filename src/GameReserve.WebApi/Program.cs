@@ -5,14 +5,11 @@ using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
 using Games.Infrastructure.Data;
-using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using MassTransit;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reservations.Application.Events;
 using Reservations.Infrastructure.Data;
-using SharedKernel.Domain.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +26,7 @@ builder.Services.AddMassTransit(busConfiguration =>
 {
     busConfiguration.SetKebabCaseEndpointNameFormatter();
 
-    busConfiguration.AddConsumer<UserCreatedEventHandler>();
+    busConfiguration.AddConsumer<UserCreatedEventConsumer>();
 
     busConfiguration.UsingInMemory((context, configurator) =>
     {

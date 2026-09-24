@@ -1,5 +1,4 @@
 using FluentValidation;
-using MassTransit.Internals;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

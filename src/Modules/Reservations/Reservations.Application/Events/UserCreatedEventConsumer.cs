@@ -6,8 +6,8 @@ using Reservations.Domain.Primitives;
 using SharedKernel.IntegrationEvents;
 
 namespace Reservations.Application.Events;
-public class UserCreatedEventHandler(
-ILogger<UserCreatedEventHandler> logger, 
+public class UserCreatedEventConsumer(
+ILogger<UserCreatedEventConsumer> logger, 
 IReservationsRepository reservationsRepository,
 IUnitOfWork unitOfWork) : IConsumer<UserCreatedIntegrationEvent>
 {
