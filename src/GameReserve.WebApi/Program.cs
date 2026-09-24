@@ -8,6 +8,7 @@ using Games.Infrastructure.Data;
 using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Payments.Application.EventConsumers;
 using Reservations.Application.Events;
 using Reservations.Infrastructure.Data;
 
@@ -27,6 +28,7 @@ builder.Services.AddMassTransit(busConfiguration =>
     busConfiguration.SetKebabCaseEndpointNameFormatter();
 
     busConfiguration.AddConsumer<UserCreatedEventConsumer>();
+    busConfiguration.AddConsumer<ReservationCreatedEventConsumer>();
 
     busConfiguration.UsingInMemory((context, configurator) =>
     {

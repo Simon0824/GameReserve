@@ -1620,7 +1620,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Payments.Domain": "1.0.0"
+          "MassTransit.RabbitMQ": "8.5.0",
+          "Payments.Domain": "1.0.0",
+          "SharedKernel": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Payments.Application.dll": {}

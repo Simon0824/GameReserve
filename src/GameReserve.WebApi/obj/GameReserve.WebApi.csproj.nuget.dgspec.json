@@ -2679,6 +2679,9 @@
             "projectReferences": {
               "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Payments/Payments.Domain/Payments.Domain.csproj": {
                 "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/Modules/Payments/Payments.Domain/Payments.Domain.csproj"
+              },
+              "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/SharedKernel/SharedKernel.csproj": {
+                "projectPath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/SharedKernel/SharedKernel.csproj"
               }
             }
           }
@@ -2699,6 +2702,10 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "MassTransit.RabbitMQ": {
+              "target": "Package",
+              "version": "[8.5.0, )"
+            },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
               "version": "[10.0.12, )"
