@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Payments.Domain.Interfaces;
 using Payments.Domain.Iterfaces;
 using Payments.Infrastructure.Data;
 using Payments.Infrastructure.Gateways;
+using Payments.Infrastructure.Repositories;
 
 namespace Payments.Infrastructure;
 
@@ -17,6 +19,7 @@ public static class DependencyInjection
         });
 
         services.AddSingleton<IPaymentGateway, StripePaymentGateway>();
+        services.AddScoped<IPaymentsRepository, PaymentsRepository>();
         return services;
     }
 }
