@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YBNZOVQDw0g=",
+  "dgSpecHash": "Clxt05gYnZQ=",
   "success": true,
   "projectFilePath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/GameReserve.WebApi/GameReserve.WebApi.csproj",
   "expectedPackageFiles": [
@@ -60,6 +60,7 @@
     "/home/simon/.nuget/packages/runtime.win-arm64.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "/home/simon/.nuget/packages/runtime.win-x64.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "/home/simon/.nuget/packages/runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "/home/simon/.nuget/packages/stripe.net/52.4.2/stripe.net.52.4.2.nupkg.sha512",
     "/home/simon/.nuget/packages/swashbuckle.aspnetcore.swagger/10.2.3/swashbuckle.aspnetcore.swagger.10.2.3.nupkg.sha512",
     "/home/simon/.nuget/packages/swashbuckle.aspnetcore.swaggergen/10.2.3/swashbuckle.aspnetcore.swaggergen.10.2.3.nupkg.sha512",
     "/home/simon/.nuget/packages/swashbuckle.aspnetcore.swaggerui/10.2.3/swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512",

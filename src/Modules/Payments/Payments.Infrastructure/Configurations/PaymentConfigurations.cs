@@ -12,6 +12,12 @@ public class PaymentConfigurations : IEntityTypeConfiguration<Payment>
 
         builder.Property(p => p.Status)
                .HasConversion<string>();
+            
+        builder.Property(p => p.Id)
+               .HasConversion(
+                id => id.Value,
+                value => new PaymentId(value)
+               );
 
         builder.Property(p => p.ReservationId)
                .HasConversion(
@@ -24,5 +30,8 @@ public class PaymentConfigurations : IEntityTypeConfiguration<Payment>
                 id => id.Value,
                 value => new ExternalPaymentId(value)
                );
+
+        builder.HasIndex(p => p.ExternalPaymentId)
+               .IsUnique();
     }
 }
