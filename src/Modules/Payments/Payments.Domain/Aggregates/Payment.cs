@@ -6,19 +6,21 @@ namespace Payments.Domain.Aggregates;
 public class Payment : Entity<PaymentId>
 {
     public ReservationId ReservationId {get; private set;}
+    public ExternalPaymentId ExternalPaymentId {get; private set;}
     public decimal Amount {get; private set;}
     public PaymentStatus Status {get; private set;}
 
-    public Payment(PaymentId paymentId, ReservationId reservationId, decimal amount)
+    public Payment(PaymentId paymentId, ExternalPaymentId externalPaymentId, ReservationId reservationId, decimal amount)
     {
         Id = paymentId;
+        ExternalPaymentId = externalPaymentId;
         ReservationId = reservationId;
         Amount = amount;
         Status = PaymentStatus.Pending;
     }
 
-    public static Payment CreatePayment(ReservationId reservationId, decimal amount) =>
-                                                            new Payment(new PaymentId(Guid.NewGuid()), reservationId, amount);
+    public static Payment CreatePayment(ReservationId reservationId, string externalPaymentId, decimal amount) =>
+                                                            new Payment(new PaymentId(Guid.NewGuid()), new ExternalPaymentId(externalPaymentId), reservationId, amount);
 
     public void Complete()
     {
