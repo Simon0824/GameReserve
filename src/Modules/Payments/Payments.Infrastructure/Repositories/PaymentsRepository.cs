@@ -1,4 +1,5 @@
-using System.Data.Entity;
+
+using Microsoft.EntityFrameworkCore;
 using Payments.Domain.Aggregates;
 using Payments.Domain.Interfaces;
 using Payments.Domain.Primitives;
@@ -12,7 +13,7 @@ public class PaymentsRepository(PaymentsContext context) : IPaymentsRepository
         context.Payments.Add(payment);
     }
 
-    public async Task<Payment> GetPaymentByExternalId(ExternalPaymentId externalPaymentId, CancellationToken cancellationToken)
+    public async Task<Payment?> GetPaymentByExternalId(ExternalPaymentId externalPaymentId, CancellationToken cancellationToken)
     {
         return await context.Payments
                             .AsNoTracking()

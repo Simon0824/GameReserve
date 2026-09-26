@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Clxt05gYnZQ=",
+  "dgSpecHash": "6AuhN/RJA3I=",
   "success": true,
   "projectFilePath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/GameReserve.WebApi/GameReserve.WebApi.csproj",
   "expectedPackageFiles": [
@@ -30,9 +30,9 @@
     "/home/simon/.nuget/packages/microsoft.data.sqlclient/6.1.6/microsoft.data.sqlclient.6.1.6.nupkg.sha512",
     "/home/simon/.nuget/packages/microsoft.data.sqlclient.sni.runtime/6.0.2/microsoft.data.sqlclient.sni.runtime.6.0.2.nupkg.sha512",
     "/home/simon/.nuget/packages/microsoft.entityframework.sqlserver/6.5.2/microsoft.entityframework.sqlserver.6.5.2.nupkg.sha512",
-    "/home/simon/.nuget/packages/microsoft.entityframeworkcore/10.0.12/microsoft.entityframeworkcore.10.0.12.nupkg.sha512",
-    "/home/simon/.nuget/packages/microsoft.entityframeworkcore.abstractions/10.0.12/microsoft.entityframeworkcore.abstractions.10.0.12.nupkg.sha512",
-    "/home/simon/.nuget/packages/microsoft.entityframeworkcore.analyzers/10.0.12/microsoft.entityframeworkcore.analyzers.10.0.12.nupkg.sha512",
+    "/home/simon/.nuget/packages/microsoft.entityframeworkcore/10.0.11/microsoft.entityframeworkcore.10.0.11.nupkg.sha512",
+    "/home/simon/.nuget/packages/microsoft.entityframeworkcore.abstractions/10.0.11/microsoft.entityframeworkcore.abstractions.10.0.11.nupkg.sha512",
+    "/home/simon/.nuget/packages/microsoft.entityframeworkcore.analyzers/10.0.11/microsoft.entityframeworkcore.analyzers.10.0.11.nupkg.sha512",
     "/home/simon/.nuget/packages/microsoft.entityframeworkcore.design/10.0.11/microsoft.entityframeworkcore.design.10.0.11.nupkg.sha512",
     "/home/simon/.nuget/packages/microsoft.entityframeworkcore.relational/10.0.11/microsoft.entityframeworkcore.relational.10.0.11.nupkg.sha512",
     "/home/simon/.nuget/packages/microsoft.entityframeworkcore.sqlserver/10.0.11/microsoft.entityframeworkcore.sqlserver.10.0.11.nupkg.sha512",

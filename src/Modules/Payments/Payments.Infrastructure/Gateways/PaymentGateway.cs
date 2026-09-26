@@ -9,7 +9,6 @@ public class StripePaymentGateway(IConfiguration configuration) : IPaymentGatewa
     private readonly IStripeClient _stripeClient = new StripeClient(configuration["Stripe:ApiKey"]);
     public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, decimal amount)
     {
-
         var options = new PaymentIntentCreateOptions()
         {
             Amount = (long)(amount * 100),
@@ -24,12 +23,15 @@ public class StripePaymentGateway(IConfiguration configuration) : IPaymentGatewa
                 AllowRedirects = "never"
             },
             Confirm = true,
-            PaymentMethod = "pm_visa_card"
+            PaymentMethod = "pm_card_visa"
         };
 
         var service = new PaymentIntentService(_stripeClient);
 
         var paymentIntent = await service.CreateAsync(options);
+
+        Console.WriteLine($"PaymentIntent: {paymentIntent.Id}");
+Console.WriteLine($"Status: {paymentIntent.Status}");
 
         return paymentIntent.Id;
     }
