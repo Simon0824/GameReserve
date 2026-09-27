@@ -18,7 +18,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [x] Identity
 - [x] Games
 - [x] Reservations
-- [ ] Payments
+- [x] Payments
 
 ## Planned Architecture
 
