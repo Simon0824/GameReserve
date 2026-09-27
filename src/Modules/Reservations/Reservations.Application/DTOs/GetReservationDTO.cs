@@ -1,2 +1,4 @@
+using Reservations.Domain.Enums;
+
 namespace Reservations.Application.DTOs;
-public record GetReservationDTO(Guid ReservationId, Guid GameId, DateTimeOffset StartDate, DateTimeOffset EndDate);
+public record GetReservationDTO(Guid ReservationId, Guid GameId, DateTimeOffset StartDate, DateTimeOffset EndDate, ReservationStatus Status);

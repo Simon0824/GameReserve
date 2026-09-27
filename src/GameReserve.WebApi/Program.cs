@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using GameReserve.WebApi.BackgroundServices;
@@ -9,6 +10,7 @@ using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.EventConsumers;
+using Reservations.Application.EventConsumers;
 using Reservations.Application.Events;
 using Reservations.Infrastructure.Data;
 
@@ -17,7 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(
+                        new JsonStringEnumConverter()
+                    );
+                }
+                );
 
 builder.Services.AddSwaggerExtension();
 
@@ -28,7 +37,11 @@ builder.Services.AddMassTransit(busConfiguration =>
     busConfiguration.SetKebabCaseEndpointNameFormatter();
 
     busConfiguration.AddConsumer<UserCreatedEventConsumer>();
+
     busConfiguration.AddConsumer<ReservationCreatedEventConsumer>();
+
+    busConfiguration.AddConsumer<PaymentConfirmedEventConsumer>();
+    busConfiguration.AddConsumer<PaymentFailedEventConsumer>();
 
     busConfiguration.UsingInMemory((context, configurator) =>
     {

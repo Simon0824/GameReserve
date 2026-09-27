@@ -22,7 +22,8 @@ public class GetReservationByIdQueryHandler(IReservationsRepository reservations
             reservation.Id.Value,
             reservation.GameId,
             reservation.StartDate,
-            reservation.EndDate
+            reservation.EndDate,
+            reservation.Status
         );
     }
 }

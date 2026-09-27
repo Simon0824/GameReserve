@@ -40,7 +40,8 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
         return new AddNewReservationResultDTO(
             reservation.Id.Value,
             game.Title,
-            reservation.EndDate
+            reservation.EndDate,
+            reservation.Status
         );
     }
 }

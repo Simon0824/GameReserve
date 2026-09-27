@@ -15,7 +15,7 @@ public class GetReservationProfilesQueryHandler(IReservationsRepository reservat
         {
             var reservations = profile!.Reservations
             .Select(
-                r => new GetReservationDTO(r.Id.Value, r.GameId, r.StartDate, r.EndDate))
+                r => new GetReservationDTO(r.Id.Value, r.GameId, r.StartDate, r.EndDate, r.Status))
             .ToList();
 
             return new GetReservationProfilesListResultDTO(profile.Id.Value, profile.UserId.Value, reservations);

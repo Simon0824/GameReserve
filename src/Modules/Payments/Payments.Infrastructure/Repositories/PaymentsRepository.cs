@@ -16,7 +16,6 @@ public class PaymentsRepository(PaymentsContext context) : IPaymentsRepository
     public async Task<Payment?> GetPaymentByExternalId(ExternalPaymentId externalPaymentId, CancellationToken cancellationToken)
     {
         return await context.Payments
-                            .AsNoTracking()
                             .FirstOrDefaultAsync(
                                 p => p.ExternalPaymentId == externalPaymentId, 
                                                             cancellationToken);

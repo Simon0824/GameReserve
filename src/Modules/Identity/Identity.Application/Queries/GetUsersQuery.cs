@@ -22,7 +22,7 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
                 user.Id,
                 user.FullName,
                 user.Email!,
-                user.Status.ToString()
+                user.Status
             ));
         }
 

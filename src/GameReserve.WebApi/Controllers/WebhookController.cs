@@ -11,7 +11,6 @@ public class WebhookController(IConfiguration configuration, ISender sender) : C
     [HttpPost]
     public async Task<IActionResult> SendPayment()
     {
-        Console.WriteLine($"Webhook secret exists: {!string.IsNullOrEmpty(configuration["Stripe:Webhook"])}");
         var json = await new StreamReader(Request.Body).ReadToEndAsync();
         try
         {
