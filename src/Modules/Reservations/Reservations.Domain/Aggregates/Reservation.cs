@@ -17,7 +17,8 @@ public class Reservation
         ReservationId id, 
         ReservationProfileId reservationProfileId, 
         Guid gameId, 
-        DateTimeOffset startDate, DateTimeOffset endDate)
+        DateTimeOffset startDate, 
+        DateTimeOffset endDate)
     {
         if(startDate >= endDate)
         {

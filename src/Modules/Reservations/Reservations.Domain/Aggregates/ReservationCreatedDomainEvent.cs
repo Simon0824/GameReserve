@@ -3,4 +3,4 @@ using SharedKernel.Domain.Primivites.DomainEvent;
 
 namespace Reservations.Domain.Aggregates;
 
-public record ReservationCreatedDomainEvent(Guid Id, ReservationId ReservationId) : DomainEvent(Id);
+public record ReservationCreatedDomainEvent(Guid Id, ReservationId ReservationId, decimal Amount) : DomainEvent(Id);

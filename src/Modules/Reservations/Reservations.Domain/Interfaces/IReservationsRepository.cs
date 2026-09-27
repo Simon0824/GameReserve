@@ -7,8 +7,8 @@ public interface IReservationsRepository
     void AddReservationProfile(ReservationProfile reservationProfile);
     Task<Reservation?> GetReservationById(ReservationId reservationId, CancellationToken cancellationToken);
     Task<IReadOnlyList<ReservationProfile?>> GetReservationProfiles(CancellationToken cancellationToken);
-    Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId);
-    Task<ReservationProfile?> GetReservationProfileByUserId(UserId userId);
+    Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId, CancellationToken cancellationToken);
+    Task<ReservationProfile?> GetReservationProfileByUserId(UserId userId, CancellationToken cancellationToken);
     Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate);
-    Task CreateReservation(Reservation reservation);
+    void CreateReservation(Reservation reservation);
 }

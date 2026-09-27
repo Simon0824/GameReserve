@@ -10,7 +10,7 @@ public class GetReservationProfileByIdQueryHandler(IReservationsRepository reser
 {
     public async Task<GetReservationProfileByIdResultDTO> Handle(GetReservationProfileByIdQuery request, CancellationToken cancellationToken)
     {
-        var profile = await reservationsRepository.GetReservationProfileById(new ReservationProfileId(request.Id));
+        var profile = await reservationsRepository.GetReservationProfileById(new ReservationProfileId(request.Id), cancellationToken);
         if(profile is null)
         {
             throw new Exception($"Reservation profile with ID: {request.Id} does not exist");

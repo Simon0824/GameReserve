@@ -4,4 +4,4 @@ public interface IGamePublicApi
     Task<GameResultDTO?> GetGameById(Guid gameId, CancellationToken cancellationToken);
 }
 
-public record GameResultDTO(Guid GameId, string Title);
+public record GameResultDTO(Guid GameId, string Title, string Category);

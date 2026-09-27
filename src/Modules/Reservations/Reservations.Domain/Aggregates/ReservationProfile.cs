@@ -17,11 +17,11 @@ public class ReservationProfile : Entity<ReservationProfileId>
     public static ReservationProfile CreateProfile(UserId userId) =>
             new ReservationProfile(new ReservationProfileId(Guid.NewGuid()), userId);
 
-    public Reservation AddReservation(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate)
+    public Reservation AddReservation(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, decimal amount)
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
         _reservations.Add(reservation);
-        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Id));
+        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Id, amount));
         return reservation;
     }
     private ReservationProfile() {}

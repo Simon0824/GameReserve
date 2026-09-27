@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Games.Infrastructure.Repositories;
 public class GameRepository(GamesContext context) : IGameRepository
 {
-    public async Task AddGame(Game game)
+    public void AddGame(Game game)
     {
         context.games.Add(game);
     }

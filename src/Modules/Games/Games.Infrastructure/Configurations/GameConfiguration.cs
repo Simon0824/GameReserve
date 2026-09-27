@@ -15,6 +15,9 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
                  id => id.Value,
                  value => new GameId(value)
                );
+        
+        builder.Property(g => g.Category)
+               .HasConversion<string>();
 
         builder.Property(g => g.Title)
             .IsRequired()

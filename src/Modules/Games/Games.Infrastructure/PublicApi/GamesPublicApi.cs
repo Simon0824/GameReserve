@@ -13,7 +13,7 @@ internal class GamePublicApi(GamesContext context) : IGamePublicApi
         return await context.games
             .AsNoTracking()
             .Where(g => g.Id == id)
-            .Select(g => new GameResultDTO(g.Id.Value, g.Title))
+            .Select(g => new GameResultDTO(g.Id.Value, g.Title, g.Category.ToString()))
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

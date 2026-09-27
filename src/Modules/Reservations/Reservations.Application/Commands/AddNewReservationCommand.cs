@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using MediatR;
 using Reservations.Application.DTOs;
 using Reservations.Domain.Interfaces;
@@ -18,7 +19,7 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
             throw new Exception($"Game with ID: {request.GameId} does not exist");
         }
 
-        var profile = await reservationsRepository.GetReservationProfileByUserId(request.UserId);
+        var profile = await reservationsRepository.GetReservationProfileByUserId(request.UserId, cancellationToken);
 
         if(profile is null)
         {
@@ -32,8 +33,17 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
             throw new Exception("Your reservation overlaps with existing reservation");
         }
 
-        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate);
-        await reservationsRepository.CreateReservation(reservation);
+        decimal amount = game.Category switch
+        {
+            "AAA" => 100.00m,
+            "AA" => 70.00m,
+            "III" => 50.00m,
+            "Indie" => 20.00m,
+            _ => 5.00m
+        };
+
+        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, amount);
+        reservationsRepository.CreateReservation(reservation);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

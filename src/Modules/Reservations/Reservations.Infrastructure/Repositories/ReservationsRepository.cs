@@ -27,19 +27,19 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
                             .FirstOrDefaultAsync(r => r.Id == reservationId, cancellationToken);
     }
 
-    public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId)
+    public async Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId, CancellationToken cancellationToken)
     {
         return await context.ReservationProfiles
                             .Include(p => p.Reservations)
                             .AsNoTracking()
-                            .FirstOrDefaultAsync(p => p.Id == reservationProfileId);
+                            .FirstOrDefaultAsync(p => p.Id == reservationProfileId, cancellationToken);
     }
 
-    public async Task<ReservationProfile?> GetReservationProfileByUserId(UserId userId)
+    public async Task<ReservationProfile?> GetReservationProfileByUserId(UserId userId, CancellationToken cancellationToken)
     {
         return await context.ReservationProfiles
                             .Include(p => p.Reservations)
-                            .FirstOrDefaultAsync(p => p.UserId == userId);
+                            .FirstOrDefaultAsync(p => p.UserId == userId, cancellationToken);
     }
 
     public async Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate)
@@ -53,7 +53,7 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
         return invalidDates;
     }
 
-    public async Task CreateReservation(Reservation reservation)
+    public void CreateReservation(Reservation reservation)
     {
         context.Reservations.Add(reservation);
     }

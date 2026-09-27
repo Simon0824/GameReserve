@@ -16,7 +16,7 @@ public class GamesController(ISender sender) : ControllerBase
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IActionResult> AddNewGame([FromBody] AddNewGameDTO dto)
     {
-        var resultDTO = await sender.Send(new AddNewGameCommand(dto.Title, dto.Description));
+        var resultDTO = await sender.Send(new AddNewGameCommand(dto.Title, dto.Description, dto.Category));
         return Ok(resultDTO);
     }
 

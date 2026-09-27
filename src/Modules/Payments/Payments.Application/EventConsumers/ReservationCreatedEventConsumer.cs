@@ -11,6 +11,6 @@ public class ReservationCreatedEventConsumer(ILogger<ReservationCreatedEventCons
     public async Task Consume(ConsumeContext<ReservationCreatedIntegrationEvent> context)
     {
         logger.LogInformation($"Consuming ReservationCreated event with ID: {context.Message.ReservationId}");
-        await sender.Send(new CreateNewPaymentCommand(new ReservationId(context.Message.ReservationId)));
+        await sender.Send(new CreateNewPaymentCommand(new ReservationId(context.Message.ReservationId), context.Message.Amount));
     }
 }
