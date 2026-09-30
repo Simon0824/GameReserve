@@ -12,7 +12,7 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
         var games = await gameRepository.GetGames();
         var result = new List<GetGamesCatalogResultDTO>();
 
-        var message = games.Count == 0 ?
+        var message = games.Count() == 0 ?
                             "No games found" : "Games retrieved succesfully";
 
         if(games.Count == 0) return Result<GetGamesQueryDTO>.Succes(new GetGamesQueryDTO(message, Enumerable.Empty<GetGamesCatalogResultDTO>()));
