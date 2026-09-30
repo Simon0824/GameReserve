@@ -1,20 +1,21 @@
 using Games.Application.DTOs;
 using Games.Domain.Interfaces;
 using MediatR;
+using SharedKernel.Domain.Abstractions;
 
 namespace Games.Application.Queries;
-public record GetGamesCatalogQuery() : IRequest<List<GetGamesCatalogResultDTO>>;
-public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequestHandler<GetGamesCatalogQuery, List<GetGamesCatalogResultDTO>>
+public record GetGamesCatalogQuery() : IRequest<Result<GetGamesQueryDTO>>;
+public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequestHandler<GetGamesCatalogQuery, Result<GetGamesQueryDTO>>
 {
-    public async Task<List<GetGamesCatalogResultDTO>> Handle(GetGamesCatalogQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetGamesQueryDTO>> Handle(GetGamesCatalogQuery request, CancellationToken cancellationToken)
     {
         var games = await gameRepository.GetGames();
         var result = new List<GetGamesCatalogResultDTO>();
 
-        if(games is null || !games.Any())
-        {
-            return result;
-        }
+        var message = games.Count == 0 ?
+                            "No games found" : "Games retrieved succesfully";
+
+        if(games.Count == 0) return Result<GetGamesQueryDTO>.Succes(new GetGamesQueryDTO(message, Enumerable.Empty<GetGamesCatalogResultDTO>()));
 
         foreach(var game in games)
         {
@@ -25,6 +26,6 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
             ));
         }
 
-        return result;
+        return Result<GetGamesQueryDTO>.Succes(new GetGamesQueryDTO(message, result));
     }
 }

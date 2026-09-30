@@ -18,7 +18,11 @@ public class FailedPaymentCommandHandler(
     {
         var payment = await paymentsRepository.GetPaymentByExternalId(new ExternalPaymentId(request.ExternalPaymentId), cancellationToken);
 
-        if(payment is null) return Result.Failure(PaymentErrors.PaymentWithExternalIdNotFound);
+        if(payment is null) 
+        {
+            logger.LogWarning($"Payment with external ID: {request.ExternalPaymentId} is not found in db");
+            return Result.Failure(PaymentErrors.PaymentWithExternalIdNotFound);
+        }
 
         payment.Failed();
         await paymentsRepository.SaveChangesAsync(cancellationToken);
