@@ -27,7 +27,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [x] Domain-Driven Design
 - [x] CQRS
 - [x] MediatR
-- [ ] Result Pattern
+- [x] Result Pattern
 - [ ] Specification Pattern
 - [x] Domain Events
 - [ ] Module Public APIs
