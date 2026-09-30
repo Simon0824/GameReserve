@@ -3,26 +3,28 @@ using Identity.Application.DTOs;
 using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
 using MediatR;
+using SharedKernel.Domain.Abstractions;
+using Identity.Domain.UserAggregate;
 
 namespace Identity.Application.Commands;
-public record LoginUserCommand(string Email, string Password) : ICommand<LoginUserResultDTO>;
+public record LoginUserCommand(string Email, string Password) : ICommand<Result<LoginUserResultDTO>>;
 
-public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvider tokenProvider) :IRequestHandler<LoginUserCommand, LoginUserResultDTO>
+public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvider tokenProvider) : IRequestHandler<LoginUserCommand, Result<LoginUserResultDTO>>
 {
-    public async Task<LoginUserResultDTO> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<LoginUserResultDTO>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var user = await userRepository.FindUser(request.Email);
 
         if(user is null)
         {
-            throw new Exception("User is not found");
+            return Result<LoginUserResultDTO>.Failure(UserErrors.UserNotFoundException);
         }
 
         var isPasswordValid = await userRepository.CheckPassword(user, request.Password);
 
         if(!isPasswordValid)
         {
-            throw new Exception("You've entered a wrong password");
+            return Result<LoginUserResultDTO>.Failure(UserErrors.PasswordNotValid);
         }
 
         var token = await tokenProvider.CreateToken(user);
@@ -39,11 +41,11 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
         await userRepository.AddRefreshToken(refreshToken);
         await userRepository.SaveChangesAsync();
 
-        return new LoginUserResultDTO(
+        return Result<LoginUserResultDTO>.Succes(new LoginUserResultDTO(
             user.FullName,
             user.Email!,
             token,
             refreshToken.Token
-        );
+        ));
     }
 }

@@ -20,9 +20,9 @@ public class ReservationProfile : Entity<ReservationProfileId>
     public Reservation AddReservation(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, decimal amount)
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
-        _reservations.Add(reservation);
-        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Id, amount));
-        return reservation;
+        _reservations.Add(reservation.Value!);
+        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Value!.Id, amount));
+        return reservation.Value!;
     }
     private ReservationProfile() {}
 }

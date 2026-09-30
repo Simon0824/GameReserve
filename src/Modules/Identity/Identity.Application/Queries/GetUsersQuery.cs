@@ -1,18 +1,19 @@
 using Identity.Application.DTOs;
 using Identity.Domain.Interfaces;
 using MediatR;
+using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Application.Queries;
-public record GetUsersQuery : IRequest<IEnumerable<GetUsersResultDTO>>;
-public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHandler<GetUsersQuery, IEnumerable<GetUsersResultDTO>>
+public record GetUsersQuery : IRequest<Result<IEnumerable<GetUsersResultDTO>>>;
+public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHandler<GetUsersQuery, Result<IEnumerable<GetUsersResultDTO>>>
 {
-    public async Task<IEnumerable<GetUsersResultDTO>> Handle(GetUsersQuery request, CancellationToken token)
+    public async Task<Result<IEnumerable<GetUsersResultDTO>>> Handle(GetUsersQuery request, CancellationToken token)
     {
         var users = await userRepository.GetUsers();
         var result = new List<GetUsersResultDTO>();
         if(users is null || !users.Any())
         {
-            throw new Exception("Theres no users");
+            return Result<IEnumerable<GetUsersResultDTO>>.Succes(Enumerable.Empty<GetUsersResultDTO>());
         }
 
         foreach(var user in users)
@@ -25,6 +26,6 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
             ));
         }
 
-        return result;
+        return Result<IEnumerable<GetUsersResultDTO>>.Succes(result);
     }
 }
