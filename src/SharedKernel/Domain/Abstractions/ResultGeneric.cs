@@ -1,9 +1,9 @@
 namespace SharedKernel.Domain.Abstractions;
 
-public class ResultGeneric<T>
+public class Result<T>
 {
 
-    private ResultGeneric(bool _isSucceded, T? value, Error _error)
+    private Result(bool _isSucceded, T? value, Error _error)
     {
         if(_isSucceded == true && _error != Error.None ||
         _isSucceded == false && _error == Error.None)
@@ -18,6 +18,6 @@ public class ResultGeneric<T>
     public T? Value {get;}
     public Error Error {get;}
 
-    public static ResultGeneric<T> Succes(T value) => new(true, value, Error.None);
-    public static ResultGeneric<T> Failure(Error error) => new(false, default, error); 
+    public static Result<T> Succes(T value) => new(true, value, Error.None);
+    public static Result<T> Failure(Error error) => new(false, default, error); 
 }

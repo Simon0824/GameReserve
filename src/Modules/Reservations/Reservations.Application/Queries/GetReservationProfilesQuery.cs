@@ -2,12 +2,13 @@ using MediatR;
 using Reservations.Application.DTOs;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
+using SharedKernel.Domain.Abstractions;
 
-public record GetReservationProfilesQuery() : IRequest<GetReservationProfilesResultDTO>;
+public record GetReservationProfilesQuery() : IRequest<Result<GetReservationProfilesResultDTO>>;
 public class GetReservationProfilesQueryHandler(IReservationsRepository reservationsRepository) : IRequestHandler<GetReservationProfilesQuery,
-                                                                                                                  GetReservationProfilesResultDTO>
+                                                                                                                  Result<GetReservationProfilesResultDTO>>
 {
-    public async Task<GetReservationProfilesResultDTO> Handle(GetReservationProfilesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetReservationProfilesResultDTO>> Handle(GetReservationProfilesQuery request, CancellationToken cancellationToken)
     {
         var profiles = await reservationsRepository.GetReservationProfiles(cancellationToken);
 
@@ -26,6 +27,6 @@ public class GetReservationProfilesQueryHandler(IReservationsRepository reservat
                                 "No reservation profiles found"
                                 : "Reservation profiles retrieved succesfully";
 
-        return new GetReservationProfilesResultDTO(message, profilesResult);
+        return Result<GetReservationProfilesResultDTO>.Succes(new GetReservationProfilesResultDTO(message, profilesResult));
     }
 }

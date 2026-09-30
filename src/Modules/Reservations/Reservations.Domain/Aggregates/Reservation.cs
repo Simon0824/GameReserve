@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Reservations.Domain.Enums;
 using Reservations.Domain.Primitives;
+using SharedKernel.Domain.Abstractions;
 
 namespace Reservations.Domain.Aggregates;
 public class Reservation
@@ -20,10 +21,6 @@ public class Reservation
         DateTimeOffset startDate, 
         DateTimeOffset endDate)
     {
-        if(startDate >= endDate)
-        {
-            throw new Exception("Start date has to be set before end date");
-        }
         Id = id;
         ReservationProfileId = reservationProfileId;
         GameId = gameId;
@@ -32,14 +29,14 @@ public class Reservation
         Status = ReservationStatus.Pending;
     }
 
-    public static Reservation CreateReservation(
+    public static Result<Reservation> CreateReservation(
         ReservationProfileId reservationProfileId, 
         Guid gameId, 
         DateTimeOffset startDate, DateTimeOffset endDate)
     {
-        if(startDate > endDate)
+        if(startDate >= endDate)
         {
-            throw new Exception("Start date cannot be after ending date");
+            return Result<Reservation>.Failure(ReservationErrors.ReservationStartDateGreaterOrEqual);
         }
         
          var reservation = new Reservation(
@@ -48,20 +45,22 @@ public class Reservation
           gameId,
           startDate,
           endDate);
-        return reservation;
+        return Result<Reservation>.Succes(reservation);
     }
 
-    public void Completed()
+    public Result Completed()
     {
         if(Status == ReservationStatus.Completed)
         {
-            return;
+            return Result.Succes;
         }
         else if(Status == ReservationStatus.Failed)
         {
-            throw new Exception("Reservation payment has already failed");
+            return Result.Failure(ReservationErrors.ReservationPaymentAlreadyFailed);
         }
         Status = ReservationStatus.Completed;
+
+        return Result.Succes;
     }
 
     public void Failed()

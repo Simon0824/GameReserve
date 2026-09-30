@@ -1,36 +1,38 @@
 using System.Security.Cryptography;
 using MediatR;
 using Reservations.Application.DTOs;
+using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using SharedKernel.Application.Abstractions.Messaging;
+using SharedKernel.Domain.Abstractions;
 using SharedKernel.PublicApi.Games;
 
 namespace Reservations.Application.Commands;
-public record AddNewReservationCommand(UserId UserId, Guid GameId, DateTimeOffset StartDate, DateTimeOffset EndDate) : ICommand<AddNewReservationResultDTO>;
-public class AddNewReservationCommandHandler(IReservationsRepository reservationsRepository, IGamePublicApi gamePublicApi, IUnitOfWork unitOfWork) : IRequestHandler<AddNewReservationCommand, AddNewReservationResultDTO>
+public record AddNewReservationCommand(UserId UserId, Guid GameId, DateTimeOffset StartDate, DateTimeOffset EndDate) : ICommand<Result<AddNewReservationResultDTO>>;
+public class AddNewReservationCommandHandler(IReservationsRepository reservationsRepository, IGamePublicApi gamePublicApi, IUnitOfWork unitOfWork) : IRequestHandler<AddNewReservationCommand, Result<AddNewReservationResultDTO>>
 {
-    public async Task<AddNewReservationResultDTO> Handle(AddNewReservationCommand request, CancellationToken cancellationToken)
+    public async Task<Result<AddNewReservationResultDTO>> Handle(AddNewReservationCommand request, CancellationToken cancellationToken)
     {
         var game = await gamePublicApi.GetGameById(request.GameId, cancellationToken);
 
         if(game is null)
         {
-            throw new Exception($"Game with ID: {request.GameId} does not exist");
+            return Result<AddNewReservationResultDTO>.Failure(ReservationErrors.GameIdNotFoundInDB);
         }
 
         var profile = await reservationsRepository.GetReservationProfileByUserId(request.UserId, cancellationToken);
 
         if(profile is null)
         {
-            throw new Exception($"You don't have a reservation profile");
+            return Result<AddNewReservationResultDTO>.Failure(ReservationErrors.ReservationProfileNotFoundByUserId);
         }
 
         var invalidDates = await reservationsRepository.CheckReservationDates(game.GameId, request.StartDate, request.EndDate);
 
         if(invalidDates is not false)
         {
-            throw new Exception("Your reservation overlaps with existing reservation");
+            return Result<AddNewReservationResultDTO>.Failure(ReservationErrors.ReservationOverlapping);
         }
 
         decimal amount = game.Category switch
@@ -47,11 +49,11 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new AddNewReservationResultDTO(
+        return Result<AddNewReservationResultDTO>.Succes(new AddNewReservationResultDTO(
             reservation.Id.Value,
             game.Title,
             reservation.EndDate,
             reservation.Status
-        );
+        )); 
     }
 }

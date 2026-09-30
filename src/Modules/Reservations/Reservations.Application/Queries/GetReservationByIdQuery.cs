@@ -2,28 +2,30 @@ using MassTransit;
 using MassTransit.Serialization;
 using MediatR;
 using Reservations.Application.DTOs;
+using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
+using SharedKernel.Domain.Abstractions;
 
-public record GetReservationByIdQuery(Guid ReservatonId) : IRequest<GetReservationDTO>;
+public record GetReservationByIdQuery(Guid ReservatonId) : IRequest<Result<GetReservationDTO>>;
 public class GetReservationByIdQueryHandler(IReservationsRepository reservationsRepository) : IRequestHandler<GetReservationByIdQuery,
-                                                                                                                  GetReservationDTO>
+                                                                                                                  Result<GetReservationDTO>>
 {
-    public async Task<GetReservationDTO> Handle(GetReservationByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetReservationDTO>> Handle(GetReservationByIdQuery request, CancellationToken cancellationToken)
     {
         var reservation = await reservationsRepository.GetReservationById(new ReservationId(request.ReservatonId), cancellationToken);
 
         if(reservation is null)
         {
-          throw new Exception($"Cannot find reservation with ID: {request.ReservatonId}");
+          return Result<GetReservationDTO>.Failure(ReservationErrors.ReservationProfileNotFoundById);
         }
 
-        return new GetReservationDTO(
+        return Result<GetReservationDTO>.Succes(new GetReservationDTO(
             reservation.Id.Value,
             reservation.GameId,
             reservation.StartDate,
             reservation.EndDate,
             reservation.Status
-        );
+        ));
     }
 }

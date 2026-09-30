@@ -1,6 +1,6 @@
 namespace SharedKernel.Domain.Abstractions;
 
-public record Error(string Code, string? Description = null, string? StackTrace = null)
+public record Error(string Code, string? Description = null)
 {
     public static readonly Error None = new(string.Empty, string.Empty);
 }

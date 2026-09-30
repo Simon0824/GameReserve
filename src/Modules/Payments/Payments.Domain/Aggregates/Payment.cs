@@ -22,18 +22,19 @@ public class Payment : Entity<PaymentId>
     public static Payment CreatePayment(ReservationId reservationId, string externalPaymentId, decimal amount) =>
                                                             new Payment(new PaymentId(Guid.NewGuid()), new ExternalPaymentId(externalPaymentId), reservationId, amount);
 
-    public void Complete()
+    public Result Complete()
     {
         if(Status == PaymentStatus.Completed)
         {
-            return;
+            return Result.Succes;
         }
         else if(Status == PaymentStatus.Failed)
         {
-            throw new Exception("Payment already has failed");
+            return Result.Failure(PaymentErrors.PaymentAlreadyFailed);
         }
 
         Status = PaymentStatus.Completed;
+        return Result.Succes;
     }
 
     public void Failed()
