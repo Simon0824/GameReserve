@@ -42,13 +42,14 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
                             .FirstOrDefaultAsync(p => p.UserId == userId, cancellationToken);
     }
 
-    public async Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate)
+    public async Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
     {
 
         var invalidDates = await context.Reservations.AsNoTracking()
                                                      .AnyAsync(r => r.GameId == gameId &&
                                                                r.StartDate <= endDate && 
-                                                               r.EndDate >= startDate
+                                                               r.EndDate >= startDate, 
+                                                               cancellationToken
                                                               );
         return invalidDates;
     }

@@ -17,6 +17,9 @@ public class GamesController(ISender sender) : ControllerBase
     public async Task<IActionResult> AddNewGame([FromBody] AddNewGameDTO dto)
     {
         var resultDTO = await sender.Send(new AddNewGameCommand(dto.Title, dto.Description, dto.Category));
+        if(resultDTO.isFailed)
+         return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 
@@ -24,6 +27,9 @@ public class GamesController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetGames()
     {
         var resultDTO = await sender.Send(new GetGamesCatalogQuery());
+        if(resultDTO.isFailed)
+         return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 
@@ -31,6 +37,9 @@ public class GamesController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetGameById(Guid id)
     {
         var resultDTO = await sender.Send(new GetGameByIdQuery(id));
+        if(resultDTO.isFailed)
+         return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 }

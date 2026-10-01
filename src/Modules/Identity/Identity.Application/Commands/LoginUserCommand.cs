@@ -38,8 +38,8 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
             User = user
         };
 
-        await userRepository.AddRefreshToken(refreshToken);
-        await userRepository.SaveChangesAsync();
+        userRepository.AddRefreshToken(refreshToken);
+        await userRepository.SaveChangesAsync(cancellationToken);
 
         return Result<LoginUserResultDTO>.Succes(new LoginUserResultDTO(
             user.FullName,

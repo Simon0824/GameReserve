@@ -18,6 +18,9 @@ public class IdentityController(ISender sender) : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO dto)
     {
          var resultDTO = await sender.Send(new CreateUserCommand(dto.FullName, dto.Email, dto.Password));
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
+
          return Ok(resultDTO);
     }
 
@@ -26,6 +29,8 @@ public class IdentityController(ISender sender) : ControllerBase
     public async Task<IActionResult> LoginUser([FromBody] LoginUserDTO dto)
     {
          var resultDTO = await sender.Send(new LoginUserCommand(dto.Email, dto.Password));
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
          return Ok(resultDTO);
     }
 
@@ -34,6 +39,8 @@ public class IdentityController(ISender sender) : ControllerBase
     public async Task<IActionResult> LoginWithRefreshToken([FromBody] LoginWithRefreshTokenDTO dto)
     {
          var resultDTO = await sender.Send(new LoginWithRefreshTokenCommand(dto.RefreshToken));
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
          return Ok(resultDTO);
     }
 
@@ -42,6 +49,8 @@ public class IdentityController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetUsers()
     {
          var resultDTO = await sender.Send(new GetUsersQuery());
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
          return Ok(resultDTO);
     }
 }

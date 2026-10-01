@@ -29,6 +29,10 @@ public class ReservationsController(ISender sender) : ControllerBase
             dto.GameId, 
             dto.StartDate,
             dto.EndDate));
+
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 
@@ -37,6 +41,9 @@ public class ReservationsController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetReservationProfileById(Guid id)
     {
         var resultDTO = await sender.Send(new GetReservationProfileByIdQuery(id));
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 
@@ -45,6 +52,9 @@ public class ReservationsController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetReservationById(Guid id)
     {
         var resultDTO = await sender.Send(new GetReservationByIdQuery(id));
+         if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 
@@ -53,6 +63,9 @@ public class ReservationsController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetReservationProfiles()
     {
         var resultDTO = await sender.Send(new GetReservationProfilesQuery());
+        if(resultDTO.isFailed)
+          return BadRequest(resultDTO);
+
         return Ok(resultDTO);
     }
 }

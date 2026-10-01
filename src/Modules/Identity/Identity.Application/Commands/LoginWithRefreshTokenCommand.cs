@@ -14,7 +14,7 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
 {
     public async Task<Result<LoginWithRefreshTokenResultDTO>> Handle(LoginWithRefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var refreshToken = await userRepository.FindRefreshToken(request.RefreshToken);
+        var refreshToken = await userRepository.FindRefreshToken(request.RefreshToken, cancellationToken);
         if(refreshToken is null || refreshToken.ExpiresOnUtc < DateTime.UtcNow)
         {
             return Result<LoginWithRefreshTokenResultDTO>.Failure(UserErrors.CannotLogInRefreshTokenException);
@@ -24,7 +24,7 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
 
         refreshToken.Token = tokenProvider.GenerateRefreshToken();
 
-        await userRepository.SaveChangesAsync();
+        await userRepository.SaveChangesAsync(cancellationToken);
 
         return Result<LoginWithRefreshTokenResultDTO>.Succes(new LoginWithRefreshTokenResultDTO(
             accessToken,

@@ -43,20 +43,20 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await userManager.DeleteAsync(user);
     }
 
-    public async Task AddRefreshToken(RefreshToken refreshToken)
+    public void AddRefreshToken(RefreshToken refreshToken)
     {
-        await context.refreshTokens.AddAsync(refreshToken);
+        context.refreshTokens.Add(refreshToken);
     }
 
-    public async Task<RefreshToken?> FindRefreshToken(string refreshToken)
+    public async Task<RefreshToken?> FindRefreshToken(string refreshToken, CancellationToken cancellationToken)
     {
         return await context.refreshTokens
                      .Include(u => u.User)
-                     .FirstOrDefaultAsync(t => t.Token == refreshToken);
+                     .FirstOrDefaultAsync(t => t.Token == refreshToken, cancellationToken);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

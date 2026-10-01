@@ -12,7 +12,7 @@ public interface IUserRepository
     Task<IList<string>> GetUserRole(User user);
     Task<IEnumerable<User>> GetUsers();
     Task<IdentityResult> DeleteUser(User user);
-    Task AddRefreshToken(RefreshToken refreshToken);
-    Task<RefreshToken?> FindRefreshToken(string refreshToken);
-    Task SaveChangesAsync();
+    void AddRefreshToken(RefreshToken refreshToken);
+    Task<RefreshToken?> FindRefreshToken(string refreshToken, CancellationToken cancellationToken);
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }
