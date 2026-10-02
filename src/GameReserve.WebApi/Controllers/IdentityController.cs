@@ -57,6 +57,6 @@ public class IdentityController(ISender sender) : ControllerBase
     {
          var resultDTO = await sender.Send(new GetUsersQuery());
 
-         return resultDTO.IsSucceded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+         return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
     }
 }

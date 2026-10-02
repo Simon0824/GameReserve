@@ -30,7 +30,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [x] Result Pattern
 - [ ] Specification Pattern
 - [x] Domain Events
-- [ ] Module Public APIs
+- [x] Module Public APIs
 - [x] Shared Kernel
 
 ## Planned Infrastructure

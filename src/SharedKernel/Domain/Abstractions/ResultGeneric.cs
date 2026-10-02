@@ -9,12 +9,12 @@ public class Result<T>
         _isSucceded == false && _error == Error.None)
         throw new ArgumentException("Wrong exception parameters", nameof(_error));
 
-        IsSucceded = _isSucceded;
+        IsSucceeded = _isSucceded;
         Value = value;
         Error = _error;
     }
-    public bool IsSucceded {get;}
-    public bool IsFailed => !IsSucceded;
+    public bool IsSucceeded {get;}
+    public bool IsFailed => !IsSucceeded;
     public T? Value {get;}
     public Error Error {get;}
 
@@ -26,5 +26,5 @@ public class Result<T>
     public static Result<T> Failure(Error error) => new(false, default, error); 
 
     public TOut Match<TOut>(Func<T, TOut> onSuccess, Func<Error, TOut> onFailure) =>
-    IsSucceded ? onSuccess(Value!) : onFailure(Error); 
+    IsSucceeded ? onSuccess(Value!) : onFailure(Error); 
 }

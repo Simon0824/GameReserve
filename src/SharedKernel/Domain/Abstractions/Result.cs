@@ -9,11 +9,11 @@ public class Result
         _isSucceded == false && _error == Error.None)
         throw new ArgumentException("Wrong exception parameters", nameof(_error));
 
-        IsSucceded = _isSucceded;
+        IsSucceeded = _isSucceded;
         Error = _error;
     }
-    public bool IsSucceded {get;}
-    public bool IsFailed => !IsSucceded;
+    public bool IsSucceeded {get;}
+    public bool IsFailed => !IsSucceeded;
 
     public Error Error {get;}
 

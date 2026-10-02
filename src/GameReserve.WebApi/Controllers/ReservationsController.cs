@@ -44,7 +44,7 @@ public class ReservationsController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetReservationProfileByIdQuery(id));
 
-        return resultDTO.IsSucceded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
     }
 
     [HttpGet("get-reservation-by-{id:guid}")]
@@ -53,7 +53,7 @@ public class ReservationsController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetReservationByIdQuery(id));
 
-        return resultDTO.IsSucceded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
     }
 
     [HttpGet("get-reservation-profiles")]
@@ -62,6 +62,6 @@ public class ReservationsController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetReservationProfilesQuery());
 
-        return resultDTO.IsSucceded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
     }
 }
