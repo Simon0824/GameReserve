@@ -26,7 +26,7 @@ public class Payment : Entity<PaymentId>
     {
         if(Status == PaymentStatus.Completed)
         {
-            return Result.Succes;
+            return Result.Success;
         }
         else if(Status == PaymentStatus.Failed)
         {
@@ -34,7 +34,7 @@ public class Payment : Entity<PaymentId>
         }
 
         Status = PaymentStatus.Completed;
-        return Result.Succes;
+        return Result.Success;
     }
 
     public void Failed()

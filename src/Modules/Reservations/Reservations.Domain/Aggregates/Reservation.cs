@@ -36,7 +36,7 @@ public class Reservation
     {
         if(startDate >= endDate)
         {
-            return Result<Reservation>.Failure(ReservationErrors.ReservationStartDateGreaterOrEqual);
+            return ReservationErrors.ReservationStartDateGreaterOrEqual;
         }
         
          var reservation = new Reservation(
@@ -45,14 +45,14 @@ public class Reservation
           gameId,
           startDate,
           endDate);
-        return Result<Reservation>.Succes(reservation);
+        return reservation;
     }
 
     public Result Completed()
     {
         if(Status == ReservationStatus.Completed)
         {
-            return Result.Succes;
+            return Result.Success;
         }
         else if(Status == ReservationStatus.Failed)
         {
@@ -60,7 +60,7 @@ public class Reservation
         }
         Status = ReservationStatus.Completed;
 
-        return Result.Succes;
+        return Result.Success;
     }
 
     public void Failed()
