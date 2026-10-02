@@ -17,15 +17,15 @@ public class GetReservationByIdQueryHandler(IReservationsRepository reservations
 
         if(reservation is null)
         {
-          return Result<GetReservationDTO>.Failure(ReservationErrors.ReservationProfileNotFoundById);
+          return ReservationErrors.ReservationProfileNotFoundById;
         }
 
-        return Result<GetReservationDTO>.Succes(new GetReservationDTO(
+        return new GetReservationDTO(
             reservation.Id.Value,
             reservation.GameId,
             reservation.StartDate,
             reservation.EndDate,
             reservation.Status
-        ));
+        );
     }
 }

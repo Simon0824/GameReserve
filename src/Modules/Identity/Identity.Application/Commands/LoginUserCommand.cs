@@ -17,14 +17,14 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
 
         if(user is null)
         {
-            return Result<LoginUserResultDTO>.Failure(UserErrors.UserNotFoundException);
+            return UserErrors.UserNotFoundException;
         }
 
         var isPasswordValid = await userRepository.CheckPassword(user, request.Password);
 
         if(!isPasswordValid)
         {
-            return Result<LoginUserResultDTO>.Failure(UserErrors.PasswordNotValid);
+            return UserErrors.PasswordNotValid;
         }
 
         var token = await tokenProvider.CreateToken(user);
@@ -41,11 +41,11 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
         userRepository.AddRefreshToken(refreshToken);
         await userRepository.SaveChangesAsync(cancellationToken);
 
-        return Result<LoginUserResultDTO>.Succes(new LoginUserResultDTO(
+        return new LoginUserResultDTO(
             user.FullName,
             user.Email!,
             token,
             refreshToken.Token
-        ));
+        );
     }
 }

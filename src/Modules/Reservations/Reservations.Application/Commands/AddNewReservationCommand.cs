@@ -18,21 +18,21 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
 
         if(game is null)
         {
-            return Result<AddNewReservationResultDTO>.Failure(ReservationErrors.GameIdNotFoundInDB);
+            return ReservationErrors.GameIdNotFoundInDB;
         }
 
         var profile = await reservationsRepository.GetReservationProfileByUserId(request.UserId, cancellationToken);
 
         if(profile is null)
         {
-            return Result<AddNewReservationResultDTO>.Failure(ReservationErrors.ReservationProfileNotFoundByUserId);
+            return ReservationErrors.ReservationProfileNotFoundByUserId;
         }
 
-        var invalidDates = await reservationsRepository.CheckReservationDates(game.GameId, request.StartDate, request.EndDate);
+        var invalidDates = await reservationsRepository.CheckReservationDates(game.GameId, request.StartDate, request.EndDate, cancellationToken);
 
         if(invalidDates is not false)
         {
-            return Result<AddNewReservationResultDTO>.Failure(ReservationErrors.ReservationOverlapping);
+            return ReservationErrors.ReservationOverlapping;
         }
 
         decimal amount = game.Category switch
@@ -49,11 +49,11 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<AddNewReservationResultDTO>.Succes(new AddNewReservationResultDTO(
+        return new AddNewReservationResultDTO(
             reservation.Id.Value,
             game.Title,
             reservation.EndDate,
             reservation.Status
-        )); 
+        ); 
     }
 }

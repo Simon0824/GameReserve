@@ -27,6 +27,6 @@ public class GetReservationProfilesQueryHandler(IReservationsRepository reservat
                                 "No reservation profiles found"
                                 : "Reservation profiles retrieved succesfully";
 
-        return Result<GetReservationProfilesResultDTO>.Succes(new GetReservationProfilesResultDTO(message, profilesResult));
+        return new GetReservationProfilesResultDTO(message, profilesResult);
     }
 }

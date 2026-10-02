@@ -17,17 +17,17 @@ public class AddNewGameCommandHandler(IGameRepository gameRepository) : IRequest
         var gameExist = await gameRepository.FindGame(request.Title, cancellationToken);
         if(gameExist is not null)
         {
-            return Result<AddNewGameResultDTO>.Failure(GamesErrors.GameAlreadyExist);
+            return GamesErrors.GameAlreadyExist;
         }
 
         gameRepository.AddGame(game);
         await gameRepository.SaveChanges(cancellationToken);
 
-        return Result<AddNewGameResultDTO>.Succes(new AddNewGameResultDTO(
+        return new AddNewGameResultDTO(
               game.Id.Value,
               game.Title,
               game.Description,
               game.Category
-        ));
+        );
     }
 }

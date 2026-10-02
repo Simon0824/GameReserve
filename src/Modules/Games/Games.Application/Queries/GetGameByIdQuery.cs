@@ -16,13 +16,13 @@ public class GetGameByIdQueryHandler(IGameRepository gameRepository) : IRequestH
 
         if(game is null)
         {
-            return Result<GetGamesCatalogResultDTO>.Failure(GamesErrors.GameNotFound);
+            return GamesErrors.GameNotFound;
         }
 
-        return Result<GetGamesCatalogResultDTO>.Succes(new GetGamesCatalogResultDTO(
+        return new GetGamesCatalogResultDTO(
             game.Id.Value,
             game.Title,
             game.Description
-        ));
+        );
     }
 }

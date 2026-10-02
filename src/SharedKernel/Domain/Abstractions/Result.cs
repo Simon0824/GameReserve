@@ -1,3 +1,4 @@
+using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
 
 namespace SharedKernel.Domain.Abstractions;
@@ -19,6 +20,8 @@ public class Result
 
     public Error Error {get;}
 
-    public static Result Succes => new(true, Error.None);
+    public static implicit operator Result(Error error) => Failure(error);
+
+    public static Result Success => new(true, Error.None);
     public static Result Failure(Error error) => new(false, error); 
 }

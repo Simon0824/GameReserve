@@ -14,7 +14,7 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
         var message = users.Count() == 0 ?
                             "No users found" : "Users retrieved succesfully";
 
-        if(users.Count() == 0) return Result<GetUsersQueryDTO>.Succes(new GetUsersQueryDTO(message, Enumerable.Empty<GetUsersResultDTO>()));
+        if(users.Count() == 0) return new GetUsersQueryDTO(message, Enumerable.Empty<GetUsersResultDTO>());
 
         foreach(var user in users)
         {
@@ -26,6 +26,6 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
             ));
         }
 
-        return Result<GetUsersQueryDTO>.Succes(new GetUsersQueryDTO(message, result));
+        return new GetUsersQueryDTO(message, result);
     }
 }

@@ -21,7 +21,7 @@ public class FailedPaymentCommandHandler(
         if(payment is null) 
         {
             logger.LogWarning($"Payment with external ID: {request.ExternalPaymentId} is not found in db");
-            return Result.Failure(PaymentErrors.PaymentWithExternalIdNotFound);
+            return PaymentErrors.PaymentWithExternalIdNotFound;
         }
 
         payment.Failed();
@@ -29,6 +29,6 @@ public class FailedPaymentCommandHandler(
         logger.LogInformation("Payment failed");
 
         await publisher.Publish(new PaymentFailedIntegrationEvent(Guid.NewGuid(), payment.ReservationId.Value));
-        return Result.Succes;
+        return Result.Success;
     }
 }

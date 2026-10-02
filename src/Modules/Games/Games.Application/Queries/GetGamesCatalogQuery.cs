@@ -15,7 +15,7 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
         var message = games.Count() == 0 ?
                             "No games found" : "Games retrieved succesfully";
 
-        if(games.Count == 0) return Result<GetGamesQueryDTO>.Succes(new GetGamesQueryDTO(message, Enumerable.Empty<GetGamesCatalogResultDTO>()));
+        if(games.Count == 0) return new GetGamesQueryDTO(message, Enumerable.Empty<GetGamesCatalogResultDTO>());
 
         foreach(var game in games)
         {
@@ -26,6 +26,6 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
             ));
         }
 
-        return Result<GetGamesQueryDTO>.Succes(new GetGamesQueryDTO(message, result));
+        return new GetGamesQueryDTO(message, result);
     }
 }

@@ -16,7 +16,7 @@ public class CreateUserCommandHandler(IUserRepository userRepository) : IRequest
         var result = await userRepository.CreateUser(user, request.Password);
         if(!result.Succeeded)
         {
-            return Result<CreateUserResultDTO>.Failure(UserErrors.CannotCreateUserException);
+            return UserErrors.CannotCreateUserException;
         }
 
         var roleResult = await userRepository.AddUserRole(user);
@@ -27,16 +27,16 @@ public class CreateUserCommandHandler(IUserRepository userRepository) : IRequest
             
             if(!deleteResult.Succeeded)
             {
-                return Result<CreateUserResultDTO>.Failure(UserErrors.CannotDeleteUserException);
+                return UserErrors.CannotDeleteUserException;
             }
 
-            return Result<CreateUserResultDTO>.Failure(UserErrors.CannotAddUserRoleException);
+            return UserErrors.CannotAddUserRoleException;
         }
 
-        return Result<CreateUserResultDTO>.Succes(new CreateUserResultDTO(
+        return new CreateUserResultDTO(
                 user.Id,
                 user.FullName,
                 user.Email!
-        ));
+        );
     }
 }

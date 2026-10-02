@@ -18,6 +18,10 @@ public class Result<T>
     public T? Value {get;}
     public Error Error {get;}
 
-    public static Result<T> Succes(T value) => new(true, value, Error.None);
+    public static implicit operator Result<T>(T Value)  => Success(Value);
+
+    public static implicit operator Result<T>(Error Error) => Failure(Error);
+
+    public static Result<T> Success(T value) => new(true, value, Error.None);
     public static Result<T> Failure(Error error) => new(false, default, error); 
 }

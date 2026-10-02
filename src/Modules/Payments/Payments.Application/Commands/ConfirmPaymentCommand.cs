@@ -21,7 +21,7 @@ public class ConfirmPaymentCommandHandler(
         if(payment is null)
         {
             logger.LogWarning($"Payment with external ID: {request.ExternalPaymentId} is not found in db");
-            return Result.Failure(PaymentErrors.PaymentWithExternalIdNotFound);
+            return PaymentErrors.PaymentWithExternalIdNotFound;
         }
 
         payment.Complete();
@@ -29,6 +29,6 @@ public class ConfirmPaymentCommandHandler(
         logger.LogInformation("Payment confirmed");
 
         await publisher.Publish(new PaymentConfirmedIntegrationEvent(Guid.NewGuid(), payment.ReservationId.Value));
-        return Result.Succes;
+        return Result.Success;
     }
 }

@@ -15,14 +15,14 @@ public class GetReservationProfileByIdQueryHandler(IReservationsRepository reser
         var profile = await reservationsRepository.GetReservationProfileById(new ReservationProfileId(request.Id), cancellationToken);
         if(profile is null)
         {
-           return Result<GetReservationProfileByIdResultDTO>.Failure(ReservationErrors.ReservationProfileNotFoundById);
+           return ReservationErrors.ReservationProfileNotFoundById;
         }
 
-        return Result<GetReservationProfileByIdResultDTO>.Succes(new GetReservationProfileByIdResultDTO(
+        return new GetReservationProfileByIdResultDTO(
             profile.Id.Value,
             profile.UserId.Value,
             profile.Reservations
-        ));
+        );
     }
 }
 
