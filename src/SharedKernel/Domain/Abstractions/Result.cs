@@ -1,6 +1,3 @@
-using System.Data.SqlTypes;
-using System.Runtime.CompilerServices;
-
 namespace SharedKernel.Domain.Abstractions;
 
 public class Result

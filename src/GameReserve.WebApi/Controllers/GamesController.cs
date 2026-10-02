@@ -2,12 +2,10 @@ using GameReserve.WebApi.Extensions;
 using Games.Application.Commands;
 using Games.Application.DTOs;
 using Games.Application.Queries;
-using Games.Domain.GameAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Domain.Abstractions;
 using SharedKernel.Domain.Constants;
 
 namespace GameReserve.WebApi.Controllers;
@@ -29,22 +27,18 @@ public class GamesController(ISender sender) : ControllerBase
     }
 
     [HttpGet("get-games")]
-    public async Task<IActionResult> GetGames()
+    public async Task<IResult> GetGames()
     {
         var resultDTO = await sender.Send(new GetGamesCatalogQuery());
-        if(resultDTO.IsFailed)
-         return BadRequest(resultDTO);
 
-        return Ok(resultDTO);
+        return resultDTO.IsSucceded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
     }
 
     [HttpGet("get-game-by-id")]
-    public async Task<IActionResult> GetGameById(Guid id)
+    public async Task<IResult> GetGameById(Guid id)
     {
         var resultDTO = await sender.Send(new GetGameByIdQuery(id));
-        if(resultDTO.IsFailed)
-         return BadRequest(resultDTO);
 
-        return Ok(resultDTO);
+        return resultDTO.IsSucceded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
     }
 }
