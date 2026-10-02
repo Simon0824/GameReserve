@@ -24,4 +24,7 @@ public class Result<T>
 
     public static Result<T> Success(T value) => new(true, value, Error.None);
     public static Result<T> Failure(Error error) => new(false, default, error); 
+
+    public TOut Match<TOut>(Func<T, TOut> onSuccess, Func<Error, TOut> onFailure) =>
+    IsSucceded ? onSuccess(Value!) : onFailure(Error); 
 }

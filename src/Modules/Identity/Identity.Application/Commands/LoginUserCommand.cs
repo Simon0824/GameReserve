@@ -17,7 +17,7 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
 
         if(user is null)
         {
-            return UserErrors.UserNotFoundException;
+            return UserErrors.UserNotFound;
         }
 
         var isPasswordValid = await userRepository.CheckPassword(user, request.Password);

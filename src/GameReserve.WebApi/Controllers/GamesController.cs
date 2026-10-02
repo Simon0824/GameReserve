@@ -1,9 +1,13 @@
+using GameReserve.WebApi.Extensions;
 using Games.Application.Commands;
 using Games.Application.DTOs;
 using Games.Application.Queries;
+using Games.Domain.GameAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.Domain.Abstractions;
 using SharedKernel.Domain.Constants;
 
 namespace GameReserve.WebApi.Controllers;
@@ -14,13 +18,14 @@ public class GamesController(ISender sender) : ControllerBase
 {
     [HttpPost("add-game")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IActionResult> AddNewGame([FromBody] AddNewGameDTO dto)
+    public async Task<IResult> AddNewGame([FromBody] AddNewGameDTO dto)
     {
         var resultDTO = await sender.Send(new AddNewGameCommand(dto.Title, dto.Description, dto.Category));
-        if(resultDTO.IsFailed)
-         return BadRequest(resultDTO);
 
-        return Ok(resultDTO);
+
+        return resultDTO.Match<Results<Ok<AddNewGameResultDTO>, ProblemHttpResult>>(
+            onSuccess: game => TypedResults.Ok(game),
+            onFailure: error => error.ToProblem());
     }
 
     [HttpGet("get-games")]

@@ -17,7 +17,7 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
         var refreshToken = await userRepository.FindRefreshToken(request.RefreshToken, cancellationToken);
         if(refreshToken is null || refreshToken.ExpiresOnUtc < DateTime.UtcNow)
         {
-            return UserErrors.CannotLogInRefreshTokenException;
+            return UserErrors.CannotLogInRefreshToken;
         }
 
         var accessToken = await tokenProvider.CreateToken(refreshToken.User);
