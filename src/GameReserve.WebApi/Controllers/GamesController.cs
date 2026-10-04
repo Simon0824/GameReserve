@@ -31,7 +31,9 @@ public class GamesController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetGamesCatalogQuery());
 
-        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.Match<Results<Ok<GetGamesQueryDTO>, ProblemHttpResult>>(
+            onSuccess: games => TypedResults.Ok(games),
+            onFailure: error => error.ToProblem());
     }
 
     [HttpGet("get-game-by-id")]
@@ -39,6 +41,8 @@ public class GamesController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetGameByIdQuery(id));
 
-        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.Match<Results<Ok<GetGamesCatalogResultDTO>, ProblemHttpResult>>(
+            onSuccess: game => TypedResults.Ok(game),
+            onFailure: error => error.ToProblem());
     }
 }

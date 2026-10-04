@@ -44,7 +44,10 @@ public class ReservationsController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetReservationProfileByIdQuery(id));
 
-        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.Match<Results<Ok<GetReservationProfileByIdResultDTO>, ProblemHttpResult>>(
+            onSuccess: profile => TypedResults.Ok(profile),
+            onFailure: error => error.ToProblem()
+        );
     }
 
     [HttpGet("get-reservation-by-{id:guid}")]
@@ -53,7 +56,10 @@ public class ReservationsController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetReservationByIdQuery(id));
 
-        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.Match<Results<Ok<GetReservationDTO>, ProblemHttpResult>>(
+            onSuccess: reservation => TypedResults.Ok(reservation),
+            onFailure: error => error.ToProblem()
+        );
     }
 
     [HttpGet("get-reservation-profiles")]
@@ -62,6 +68,9 @@ public class ReservationsController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new GetReservationProfilesQuery());
 
-        return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+        return resultDTO.Match<Results<Ok<GetReservationProfilesResultDTO>, ProblemHttpResult>>(
+            onSuccess: profiles => TypedResults.Ok(profiles),
+            onFailure: error => error.ToProblem()
+        );
     }
 }

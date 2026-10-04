@@ -4,7 +4,7 @@ namespace Identity.Domain.UserAggregate;
 
 public class UserErrors
 {
-    public static readonly Error UserNotFound = Error.NotFound("User.UserNoutFound", "User not found in DB");
+    public static readonly Error UserNotFound = Error.NotFound("User.UserNotFound", "User not found in DB");
     public static readonly Error UserBanned = Error.Forbidden("User.UserIsBanned", "User is banned");
     public static readonly Error CannotDeleteUser = Error.Forbidden("User.CannotDelete", "User cannot be deleted");
     public static readonly Error CannotCreateUser = Error.Forbidden("User.CannotCreate", "User cannot be created");

@@ -58,10 +58,7 @@ public class IdentityController(ISender sender) : ControllerBase
     {
         var resultDTO = await sender.Send(new BanUserCommand(Email));
 
-        return resultDTO.Match<Results<Ok, ProblemHttpResult>>(
-          onSuccess: () => TypedResults.Ok(),
-          onFailure: error => error.ToProblem()
-        );
+        return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
 
     [HttpPut("change-password")]
@@ -76,10 +73,7 @@ public class IdentityController(ISender sender) : ControllerBase
 
           var resultDTO = await sender.Send(new ChangePasswordCommand(userId, dto.CurrentPassword, dto.NewPassword));
 
-          return resultDTO.Match<Results<Ok, ProblemHttpResult>>(
-               onSuccess: () => TypedResults.Ok(),
-               onFailure: error => error.ToProblem()
-          );
+          return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
 
     [HttpGet("get-users")]
@@ -88,6 +82,18 @@ public class IdentityController(ISender sender) : ControllerBase
     {
          var resultDTO = await sender.Send(new GetUsersQuery());
 
-         return resultDTO.IsSucceeded ? TypedResults.Ok(resultDTO.Value) : resultDTO.Error.ToProblem();
+         return resultDTO.Match<Results<Ok<GetUsersQueryDTO>, ProblemHttpResult>>(
+          onSuccess: users => TypedResults.Ok(users),
+          onFailure: error => error.ToProblem()
+         );
     }
+
+    [HttpDelete("delete-user")]
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IResult> DeleteUser(string UserId)
+     {
+          var resultDTO = await sender.Send(new DeleteUserCommand(UserId));
+
+          return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
+     }
 }
