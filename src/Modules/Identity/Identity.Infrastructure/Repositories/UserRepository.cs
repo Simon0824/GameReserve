@@ -14,9 +14,14 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await userManager.CreateAsync(user, password);
     }
 
-    public async Task<User?> FindUser(string email)
+    public async Task<User?> FindUserByEmail(string Email)
     {
-        return await userManager.FindByEmailAsync(email);
+        return await userManager.FindByEmailAsync(Email);
+    }
+
+    public async Task<User?> FindUser(string UserId)
+    {
+        return await userManager.FindByIdAsync(UserId);
     }
 
     public async Task<bool> CheckPassword(User user, string password)
@@ -53,6 +58,11 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await context.refreshTokens
                      .Include(u => u.User)
                      .FirstOrDefaultAsync(t => t.Token == refreshToken, cancellationToken);
+    }
+
+    public async Task UpdateAsync(User user)
+    {
+        await userManager.UpdateAsync(user);
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)

@@ -22,7 +22,8 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
             result.Add(new GetGamesCatalogResultDTO(
                 game.Id.Value,
                 game.Title,
-                game.Description
+                game.Description,
+                game.Category
             ));
         }
 

@@ -51,6 +51,18 @@ public class IdentityController(ISender sender) : ControllerBase
          );
     }
 
+    [HttpPost("ban-user")]
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IResult> BanUser(string Email)
+    {
+        var resultDTO = await sender.Send(new BanUserCommand(Email));
+
+        return resultDTO.Match<Results<Ok, ProblemHttpResult>>(
+          onSuccess: () => TypedResults.Ok(),
+          onFailure: error => error.ToProblem()
+        );
+    }
+
     [HttpGet("get-users")]
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IResult> GetUsers()

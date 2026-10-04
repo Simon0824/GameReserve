@@ -24,4 +24,9 @@ public class User : Entity
 
         return user;
     }
+
+    public void BanUser(User user)
+    {
+        user.Status = UserStatus.Banned;
+    }
 }

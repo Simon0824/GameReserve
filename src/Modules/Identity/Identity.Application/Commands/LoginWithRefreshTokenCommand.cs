@@ -4,6 +4,7 @@ using Identity.Domain.Interfaces;
 using MediatR;
 using SharedKernel.Domain.Abstractions;
 using Identity.Domain.UserAggregate;
+using Identity.Domain.Enums;
 
 namespace Identity.Application.Commands;
 public record LoginWithRefreshTokenCommand(string RefreshToken) : ICommand<Result<LoginWithRefreshTokenResultDTO>>;
@@ -19,6 +20,14 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
         {
             return UserErrors.CannotLogInRefreshToken;
         }
+
+        var user = await userRepository.FindUser(refreshToken.UserId);
+
+        if(user is null)
+            return UserErrors.UserNotFound;
+
+        if(user.Status == UserStatus.Banned)
+            return UserErrors.UserBanned;
 
         var accessToken = await tokenProvider.CreateToken(refreshToken.User);
 
