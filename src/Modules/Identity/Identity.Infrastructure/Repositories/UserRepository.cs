@@ -29,6 +29,10 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await userManager.CheckPasswordAsync(user, password);
     }
 
+    public async Task<IdentityResult> ChangePassword(User user, string CurrentPassword, string NewPassword)
+    {
+        return await userManager.ChangePasswordAsync(user, CurrentPassword, NewPassword);
+    }
     public async Task<IdentityResult> AddUserRole(User user)
     {
         return await userManager.AddToRoleAsync(user, UserRoles.User);

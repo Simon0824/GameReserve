@@ -11,5 +11,6 @@ public class UserErrors
     public static readonly Error CannotLogInUser = Error.Unauthorized("User.CannotLogIn", "Cannot log a user");
     public static readonly Error CannotLogInRefreshToken = Error.Unauthorized("User.CannotLogInRefreshToken", "Refresh token is expired or is not set in db");
     public static readonly Error CannotAddUserRole = Error.Forbidden("User.CannotAddRole", "Cannot add a role to user");
+    public static readonly Error CannotChangePassword = Error.Forbidden("User.CannotChangePassword", "Cannot change a user password");
     public static readonly Error PasswordNotValid = Error.Validation("User.NotValidPass", "Password not valid");
 }

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using GameReserve.WebApi.Extensions;
 using Identity.Application.Commands;
 using Identity.Application.DTOs;
@@ -61,6 +62,24 @@ public class IdentityController(ISender sender) : ControllerBase
           onSuccess: () => TypedResults.Ok(),
           onFailure: error => error.ToProblem()
         );
+    }
+
+    [HttpPut("change-password")]
+    public async Task<IResult> ChangePassword([FromBody] ChangePasswordDTO dto)
+    {
+          var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+          if(userId is null)
+          {
+               return TypedResults.Unauthorized();
+          }
+
+          var resultDTO = await sender.Send(new ChangePasswordCommand(userId, dto.CurrentPassword, dto.NewPassword));
+
+          return resultDTO.Match<Results<Ok, ProblemHttpResult>>(
+               onSuccess: () => TypedResults.Ok(),
+               onFailure: error => error.ToProblem()
+          );
     }
 
     [HttpGet("get-users")]
