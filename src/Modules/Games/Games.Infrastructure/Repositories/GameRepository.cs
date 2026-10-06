@@ -12,6 +12,13 @@ public class GameRepository(GamesContext context) : IGameRepository
         context.games.Add(game);
     }
 
+    public async Task DeleteGameAsync(GameId gameId)
+    {
+        await context.games
+               .Where(g => g.Id == gameId)
+               .ExecuteDeleteAsync();
+    }
+
     public async Task<Game?> FindGame(string title, CancellationToken cancellationToken)
     {
         return await context.games

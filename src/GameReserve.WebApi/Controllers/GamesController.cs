@@ -45,4 +45,15 @@ public class GamesController(ISender sender) : ControllerBase
             onSuccess: game => TypedResults.Ok(game),
             onFailure: error => error.ToProblem());
     }
+
+    [HttpDelete("delete-game")]
+    public async Task<IResult> DeleteGame(Guid GameId)
+    {
+        var resultDTO = await sender.Send(new DeleteGameCommand(GameId));
+
+        return resultDTO.Match<Results<Ok, ProblemHttpResult>>(
+            onSuccess: () => TypedResults.Ok(),
+            onFailure: error => error.ToProblem()
+        );
+    }
 }
