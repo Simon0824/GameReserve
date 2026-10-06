@@ -1,0 +1,38 @@
+
+services:
+  gamereservewebapi:
+    image: gamereservewebapi
+    build:
+      context: .
+      dockerfile: src/GameReserve.WebApi/Dockerfile
+    ports:
+      - "5110:5110"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: ${DB_URL}
+      Stripe__ApiKey: ${STRIPE_APIKEY}
+      Stripe__Webhook: ${WEBHOOK_KEY}
+      Admin__FullName: "Admin"
+      Admin__Email: ${ADMIN_EMAIL}
+      Admin__Password: ${ADMIN_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: postgres:latest
+    container_name: game-reserve-postgres
+    ports:
+      - ${PORT}
+    environment:
+      - POSTGRES_DB=gamereserve_db
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d gamereserve_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+volumes:
+  postgres_data:
