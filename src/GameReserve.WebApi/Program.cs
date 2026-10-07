@@ -48,9 +48,15 @@ builder.Services.AddMassTransit(busConfiguration =>
     busConfiguration.AddConsumer<PaymentConfirmedEventConsumer>();
     busConfiguration.AddConsumer<PaymentFailedEventConsumer>();
 
-    busConfiguration.UsingInMemory((context, configurator) =>
+    busConfiguration.UsingRabbitMq((context, config) =>
     {
-        configurator.ConfigureEndpoints(context);
+        config.Host("rabbitmq://rabbitmq", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        config.ConfigureEndpoints(context);
     });
 });
 

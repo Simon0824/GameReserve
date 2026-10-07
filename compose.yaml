@@ -15,14 +15,19 @@ services:
       Admin__FullName: "Admin"
       Admin__Email: ${ADMIN_EMAIL}
       Admin__Password: ${ADMIN_PASSWORD}
+      Jwt__SecretKey: ${JWT_SECRET}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
     depends_on:
       postgres:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
   postgres:
     image: postgres:latest
     container_name: game-reserve-postgres
     ports:
-      - ${PORT}
+      - ${DB_PORT}
     environment:
       - POSTGRES_DB=gamereserve_db
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -34,5 +39,20 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      Rabbitmq_Host: "rabbitmq"
+    ports:
+      - ${RABBITMQ_PORT}
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
 volumes:
   postgres_data:
