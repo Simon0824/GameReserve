@@ -36,9 +36,9 @@ Architecture, modules, infrastructure, and features will be introduced increment
 
 - [x] PostgreSQL
 - [ ] Redis
-- [ ] RabbitMQ
+- [x] RabbitMQ
 - [x] MassTransit
-- [ ] Docker
+- [x] Docker
 - [x] Transactional Outbox
 - [ ] Inbox Pattern
 
