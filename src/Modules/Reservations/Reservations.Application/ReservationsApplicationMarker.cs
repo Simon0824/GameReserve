@@ -1,0 +1,2 @@
+namespace Reservations.Application;
+public sealed class ReservationsApplicationMarker;

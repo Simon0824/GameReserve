@@ -2,14 +2,17 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Reservations.Domain.Aggregates;
+using Reservations.Domain.Interfaces;
 using SharedKernel.IntegrationEvents;
 
 namespace Reservations.Application.DomainEventHandlers;
 public class ReservationCreatedEventHandler : INotificationHandler<ReservationCreatedDomainEvent>
 {
-    private ILogger<ReservationCreatedEventHandler> _logger;
-    public ReservationCreatedEventHandler(ILogger<ReservationCreatedEventHandler> logger)
+    private readonly IReservationsOutboxRepository _reservationsOutboxRepository;
+    private readonly ILogger<ReservationCreatedEventHandler> _logger;
+    public ReservationCreatedEventHandler(IReservationsOutboxRepository reservationsOutboxRepository, ILogger<ReservationCreatedEventHandler> logger)
     {
+        _reservationsOutboxRepository = reservationsOutboxRepository;
         _logger = logger;
     }    
     public async Task Handle(ReservationCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -18,6 +21,7 @@ public class ReservationCreatedEventHandler : INotificationHandler<ReservationCr
 
         try
         {
+            _reservationsOutboxRepository.InsertOutboxMessage(integrationEvent);
             _logger.LogInformation($"Succesfully send ReservationCreatedIntegrationEvent {notification.Id}", integrationEvent.Id);
         }
         catch(Exception ex)

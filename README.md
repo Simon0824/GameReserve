@@ -28,7 +28,6 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [x] CQRS
 - [x] MediatR
 - [x] Result Pattern
-- [ ] Specification Pattern
 - [x] Domain Events
 - [x] Module Public APIs
 - [x] Shared Kernel
@@ -40,7 +39,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [ ] RabbitMQ
 - [x] MassTransit
 - [ ] Docker
-- [ ] Transactional Outbox
+- [x] Transactional Outbox
 - [ ] Inbox Pattern
 
 ## Testing

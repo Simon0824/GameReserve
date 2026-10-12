@@ -1,13 +1,14 @@
 ﻿using Identity.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payments.Domain.Interfaces;
 using Payments.Domain.Iterfaces;
+using Payments.Infrastructure.Behaviors;
 using Payments.Infrastructure.Data;
 using Payments.Infrastructure.Gateways;
 using Payments.Infrastructure.Repositories;
-using SharedKernel.Domain.Interfaces;
 
 namespace Payments.Infrastructure;
 
@@ -22,7 +23,9 @@ public static class DependencyInjection
 
         services.AddSingleton<IPaymentGateway, StripePaymentGateway>();
         services.AddScoped<IPaymentsRepository, PaymentsRepository>();
-        services.AddScoped<IOutboxRepository, PaymentsOutboxRepository>();
+        services.AddScoped<IPaymentsOutboxRepository, PaymentsOutboxRepository>();
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PaymentsTransactionalBehavior<,>));
+        
         return services;
     }
 }

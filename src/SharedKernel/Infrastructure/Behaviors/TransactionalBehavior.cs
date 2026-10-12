@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace SharedKernel.Infrastructure.Behaviors;
-public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(
-                                                TContext context, 
-                                                ILogger<TransactionalBehaviorBase<TRequest, TResponse, TContext>> logger) : 
+public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(TContext context) : 
                                         IPipelineBehavior<TRequest, TResponse> where TRequest : notnull where TContext : DbContext
 {
     protected abstract bool AppliesTo(TRequest request);

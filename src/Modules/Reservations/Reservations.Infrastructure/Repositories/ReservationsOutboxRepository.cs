@@ -1,11 +1,12 @@
 using System.Text.Json;
+using Reservations.Domain.Interfaces;
 using Reservations.Infrastructure.Data;
 using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Infrastructure.Repositories;
-public class ReservationsOutboxRepository(ReservationsContext context)
+public class ReservationsOutboxRepository(ReservationsContext context) : IReservationsOutboxRepository
 {
-    public async Task InsertOutboxMessage<T>(T message) where T : notnull
+    public void InsertOutboxMessage<T>(T message) where T : notnull
     {
         string JsonString = JsonSerializer.Serialize(message);
 
@@ -19,6 +20,6 @@ public class ReservationsOutboxRepository(ReservationsContext context)
             OccuredOnTime = DateTime.UtcNow
         };
 
-        await context.OutboxMessages.AddAsync(outboxMessage);
+        context.OutboxMessages.Add(outboxMessage);
     }
 }

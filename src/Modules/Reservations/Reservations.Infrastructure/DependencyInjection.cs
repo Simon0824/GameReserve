@@ -1,11 +1,12 @@
 ﻿using Identity.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reservations.Domain.Interfaces;
+using Reservations.Infrastructure.Behaviors;
 using Reservations.Infrastructure.Data;
 using Reservations.Infrastructure.Repositories;
-using SharedKernel.Domain.Interfaces;
 
 namespace Reservations.Infrastructure;
 
@@ -22,6 +23,9 @@ public static class DependencyInjection
 
         services.AddScoped<IReservationsRepository, ReservationsRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IReservationsOutboxRepository, ReservationsOutboxRepository>();
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ReservationsTransactionalBehavior<,>));
+        
         return services;
     }
 }

@@ -1,13 +1,16 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Payments.Domain.Interfaces;
 using SharedKernel.IntegrationEvents;
 
 namespace Payments.Application.EventHandlers;
 public class PaymentConfirmedEventHandler : INotificationHandler<PaymentConfirmedIntegrationEvent>
 {
-    private ILogger<PaymentConfirmedEventHandler> _logger;
-    public PaymentConfirmedEventHandler(ILogger<PaymentConfirmedEventHandler> logger)
+    private readonly IPaymentsOutboxRepository _paymentsOutboxRepository;
+    private readonly ILogger<PaymentFailedEventHandler> _logger;
+    public PaymentConfirmedEventHandler(IPaymentsOutboxRepository paymentsOutboxRepository, ILogger<PaymentFailedEventHandler> logger)
     {
+        _paymentsOutboxRepository = paymentsOutboxRepository;
         _logger = logger;
     }    
     public async Task Handle(PaymentConfirmedIntegrationEvent notification, CancellationToken cancellationToken)
@@ -15,6 +18,7 @@ public class PaymentConfirmedEventHandler : INotificationHandler<PaymentConfirme
         _logger.LogInformation("Handling PaymenyConfirmed event");
         try
         {
+            _paymentsOutboxRepository.InsertOutboxMessage(notification);
             _logger.LogInformation($"Succesfully send PaymentConfirmedEvent for reservation {notification.ReservationId}", notification.Id);
         }
         catch(Exception ex)

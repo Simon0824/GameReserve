@@ -5,7 +5,6 @@ using Identity.Infrastructure.Auth;
 using Identity.Infrastructure.Behaviors;
 using Identity.Infrastructure.Data;
 using Identity.Infrastructure.Repositories;
-using Identy.Application.IdentityAppliactionMarker;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using SharedKernel.Domain.Interfaces;
 
 namespace Identity.Infrastructure;
 
