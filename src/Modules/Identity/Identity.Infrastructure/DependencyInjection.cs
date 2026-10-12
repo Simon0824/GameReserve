@@ -2,14 +2,18 @@
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Auth;
+using Identity.Infrastructure.Behaviors;
 using Identity.Infrastructure.Data;
 using Identity.Infrastructure.Repositories;
+using Identy.Application.IdentityAppliactionMarker;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SharedKernel.Domain.Interfaces;
 
 namespace Identity.Infrastructure;
 
@@ -26,6 +30,9 @@ public static class DependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITokenProvider, TokenProvider>();        
+        services.AddScoped<IIdentityOutboxRepository, IdentityOutboxRepository>();
+
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(IdentityTransactionalBehavior<,>));
 
         services.AddIdentity<User, IdentityRole>(options =>
         {

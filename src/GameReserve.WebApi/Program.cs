@@ -5,11 +5,13 @@ using GameReserve.WebApi.BackgroundServices;
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
+using GameReserve.WebApi.Outbox;
 using Games.Infrastructure.Data;
 using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Payments.Application.EventConsumers;
+using Payments.Infrastructure.Data;
 using Reservations.Application.EventConsumers;
 using Reservations.Application.Events;
 using Reservations.Infrastructure.Data;
@@ -36,6 +38,11 @@ builder.Services.AddControllers()
 builder.Services.AddSwaggerExtension();
 
 builder.Services.AddApiDI(builder.Configuration);
+
+builder.Services.AddDistributedRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["Redis:Port"];
+});
 
 builder.Services.AddMassTransit(busConfiguration =>
 {
@@ -67,10 +74,13 @@ builder.Services.AddProblemDetails(configuration =>
         context.ProblemDetails.Extensions.Add("reqId", context.HttpContext.TraceIdentifier);
     };
 });
+
+builder.Services.AddScoped(typeof(OutboxProcessor<>));
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddHostedService<AdminSeedingService>();
+builder.Services.AddHostedService<OutboxBackgroundService>();
 
 var app = builder.Build();
 
@@ -81,13 +91,16 @@ if(app.Environment.IsDevelopment())
 
     var scope = app.Services.CreateScope();
     var IdentityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
-    IdentityContext.Database.Migrate();
+    //IdentityContext.Database.Migrate();
 
     var GamesContext = scope.ServiceProvider.GetRequiredService<GamesContext>();
-    GamesContext.Database.Migrate();
+    //GamesContext.Database.Migrate();
 
     var ReservationsContext = scope.ServiceProvider.GetRequiredService<ReservationsContext>();
-    ReservationsContext.Database.Migrate();
+    //ReservationsContext.Database.Migrate();
+
+    var PaymentsContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+    //PaymentsContext.Database.Migrate();
 }
 else
 {

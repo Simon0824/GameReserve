@@ -1,5 +1,5 @@
+using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
-using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using SharedKernel.IntegrationEvents;
@@ -7,11 +7,14 @@ using SharedKernel.IntegrationEvents;
 namespace Identity.Application.DomainEventHandlers;
 public class UserCreatedDomainEventHandler : INotificationHandler<UserCreatedDomainEvent>
 {
-    private IPublishEndpoint _publishEndpoint;
-    private ILogger<UserCreatedDomainEventHandler> _logger;
-    public UserCreatedDomainEventHandler(IPublishEndpoint publishEndpoint, ILogger<UserCreatedDomainEventHandler> logger)
+    private readonly IIdentityOutboxRepository _identityOutboxRepository;
+    private readonly ILogger<UserCreatedDomainEventHandler> _logger;
+
+    public UserCreatedDomainEventHandler(
+                    IIdentityOutboxRepository identityOutboxRepository, 
+                    ILogger<UserCreatedDomainEventHandler> logger)
     {
-        _publishEndpoint = publishEndpoint;
+        _identityOutboxRepository = identityOutboxRepository;
         _logger = logger;
     }
     public async Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -20,12 +23,14 @@ public class UserCreatedDomainEventHandler : INotificationHandler<UserCreatedDom
 
         try
         {
-            await _publishEndpoint.Publish(integrationEvent, cancellationToken);
-            _logger.LogInformation($"Succesfully send UserCreatedIntegrationEvent {notification.Id}", integrationEvent.Id);
+            _identityOutboxRepository.InsertOutboxMessage(integrationEvent);
+            _logger.LogInformation($"Succesfully send UserCreatedIntegrationEvent {notification.Id}, ", integrationEvent.Id);
         }
         catch(Exception ex)
         {
-            _logger.LogError(ex, $"Cannot send event for user {notification.UserId}");            
+            _logger.LogError(ex, "Cannot send UserCreatedIntegrationEvent");
+            throw;
         }
+        
     }
 }

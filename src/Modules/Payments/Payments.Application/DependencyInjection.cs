@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Abstractions;
 
 namespace Payments.Application;
 

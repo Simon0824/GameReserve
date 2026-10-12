@@ -5,12 +5,14 @@ using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Infrastructure.Data;
 public class IdentityContext : IdentityDbContext<User>
 {
     public IdentityContext(DbContextOptions<IdentityContext> options) : base(options){}
     public DbSet<RefreshToken> refreshTokens {get; set;}
+    public DbSet<OutboxMessage> OutboxMessages {get; set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

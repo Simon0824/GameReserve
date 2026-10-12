@@ -802,10 +802,26 @@
           }
         }
       },
+      "Microsoft.Extensions.Caching.Redis/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "StackExchange.Redis.StrongName": "1.2.6"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Caching.Redis.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Caching.Redis.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Extensions.DependencyModel/10.0.11": {
         "type": "package",
         "compile": {
-          "lib/net10.0/_._": {
+          "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
             "related": ".xml"
           }
         },
@@ -1001,6 +1017,15 @@
           }
         }
       },
+      "Microsoft.NETCore.Platforms/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/_._": {}
+        }
+      },
       "Microsoft.OpenApi/2.7.5": {
         "type": "package",
         "compile": {
@@ -1109,6 +1134,12 @@
           "buildTransitive/Mono.TextTemplating.targets": {}
         }
       },
+      "NETStandard.Library/1.6.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
       "Newtonsoft.Json/13.0.4": {
         "type": "package",
         "compile": {
@@ -1198,6 +1229,38 @@
           "runtimes/win-x86/native/sni.dll": {
             "assetType": "native",
             "rid": "win-x86"
+          }
+        }
+      },
+      "Scrutor/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyModel": "10.0.0"
+        },
+        "compile": {
+          "lib/net10.0/Scrutor.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Scrutor.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "StackExchange.Redis.StrongName/1.2.6": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.5/StackExchange.Redis.StrongName.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.5/StackExchange.Redis.StrongName.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -1728,7 +1791,8 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "FluentValidation": "12.1.1",
-          "MediatR": "12.5.0"
+          "MediatR": "12.5.0",
+          "Microsoft.EntityFrameworkCore": "10.0.11"
         },
         "compile": {
           "bin/placeholder/SharedKernel.dll": {}
@@ -3361,6 +3425,19 @@
         "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
+    "Microsoft.Extensions.Caching.Redis/2.3.0": {
+      "sha512": "aQJks+wZRxXULdDJv1qx8gaImX0c6+3RSXY7hjLIkSYewI2KkrCxJqKJo0g13/OWFLKrZRNPcaFqhYSCT4AQBQ==",
+      "type": "package",
+      "path": "microsoft.extensions.caching.redis/2.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.Caching.Redis.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Caching.Redis.xml",
+        "microsoft.extensions.caching.redis.2.3.0.nupkg.sha512",
+        "microsoft.extensions.caching.redis.nuspec"
+      ]
+    },
     "Microsoft.Extensions.DependencyModel/10.0.11": {
       "sha512": "PJPtFYsZ+r+uz9qqXWUTEyKeJ1EiBGIJtqavkg9ZXijjGSFAk4Fgi5sqIxj+uAyLZwEKgexDUQXhWhvU6l3+og==",
       "type": "package",
@@ -3626,6 +3703,21 @@
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "type": "package",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/netstandard1.0/_._",
+        "microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+        "microsoft.netcore.platforms.nuspec",
+        "runtime.json"
+      ]
+    },
     "Microsoft.OpenApi/2.7.5": {
       "sha512": "0FA67RSnRM4tcBKqiqVu/HPdZ9+QOKbmeRjxRUGTCjPU4C0bmUhd97Dso7Yild5P7nOV6GxJ2xrK0Kv/O9xp0w==",
       "type": "package",
@@ -3732,6 +3824,19 @@
         "mono.texttemplating.3.0.0.nupkg.sha512",
         "mono.texttemplating.nuspec",
         "readme.md"
+      ]
+    },
+    "NETStandard.Library/1.6.1": {
+      "sha512": "WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
+      "type": "package",
+      "path": "netstandard.library/1.6.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "netstandard.library.1.6.1.nupkg.sha512",
+        "netstandard.library.nuspec"
       ]
     },
     "Newtonsoft.Json/13.0.4": {
@@ -3876,6 +3981,47 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Scrutor/7.0.0": {
+      "sha512": "wHWaroody48jnlLoq/REwUltIFLxplXyHTP+sttrc8P7+jkiVqf38afDidJNv4qgD/6zz2NKOYg06xLZ1bG7wQ==",
+      "type": "package",
+      "path": "scrutor/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0/Scrutor.dll",
+        "lib/net10.0/Scrutor.pdb",
+        "lib/net10.0/Scrutor.xml",
+        "lib/net462/Scrutor.dll",
+        "lib/net462/Scrutor.pdb",
+        "lib/net462/Scrutor.xml",
+        "lib/net8.0/Scrutor.dll",
+        "lib/net8.0/Scrutor.pdb",
+        "lib/net8.0/Scrutor.xml",
+        "lib/netstandard2.0/Scrutor.dll",
+        "lib/netstandard2.0/Scrutor.pdb",
+        "lib/netstandard2.0/Scrutor.xml",
+        "scrutor.7.0.0.nupkg.sha512",
+        "scrutor.nuspec"
+      ]
+    },
+    "StackExchange.Redis.StrongName/1.2.6": {
+      "sha512": "UFmT1/JYu1PLiRwkyvEPVHk/tVTJa8Ka2rb9yzidzDoQARvhBVRpaWUeaP81373v54jupDBvAoGHGl0EY/HphQ==",
+      "type": "package",
+      "path": "stackexchange.redis.strongname/1.2.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/StackExchange.Redis.StrongName.dll",
+        "lib/net45/StackExchange.Redis.StrongName.xml",
+        "lib/net46/StackExchange.Redis.StrongName.dll",
+        "lib/net46/StackExchange.Redis.StrongName.xml",
+        "lib/netstandard1.5/StackExchange.Redis.StrongName.dll",
+        "lib/netstandard1.5/StackExchange.Redis.StrongName.xml",
+        "stackexchange.redis.strongname.1.2.6.nupkg.sha512",
+        "stackexchange.redis.strongname.nuspec"
       ]
     },
     "Stripe.net/52.4.2": {
@@ -4573,8 +4719,10 @@
       "Identity.Infrastructure >= 1.0.0",
       "MassTransit.RabbitMQ >= 8.5.0",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.11",
+      "Microsoft.Extensions.Caching.Redis >= 2.3.0",
       "Payments.Infrastructure >= 1.0.0",
       "Reservations.Infrastructure >= 1.0.0",
+      "Scrutor >= 7.0.0",
       "Swashbuckle.AspNetCore.SwaggerGen >= 10.2.3",
       "Swashbuckle.AspNetCore.SwaggerUI >= 10.2.3"
     ]
@@ -4652,6 +4800,14 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[10.0.11, )"
+          },
+          "Microsoft.Extensions.Caching.Redis": {
+            "target": "Package",
+            "version": "[2.3.0, )"
+          },
+          "Scrutor": {
+            "target": "Package",
+            "version": "[7.0.0, )"
           },
           "Swashbuckle.AspNetCore.SwaggerGen": {
             "target": "Package",
