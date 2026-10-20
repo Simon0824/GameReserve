@@ -1,13 +1,12 @@
-using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using SharedKernel.IntegrationEvents;
 
-namespace Reservations.Application.EventConsumers;
-public class PaymentConfirmedEventConsumer(
-ILogger<PaymentConfirmedEventConsumer> logger, 
+namespace Reservations.Application.EventHandlers;
+public class PaymentConfirmedEventHandler(
+ILogger<PaymentConfirmedEventHandler> logger, 
 IReservationsRepository reservationsRepository,
 IUnitOfWork unitOfWork) : INotificationHandler<PaymentConfirmedIntegrationEvent>
 {

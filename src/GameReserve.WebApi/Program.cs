@@ -11,10 +11,8 @@ using GemeReserve.WebApi.Inbox;
 using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Payments.Application.EventConsumers;
+using Payments.Application.PaymentsInboxConsumer;
 using Payments.Infrastructure.Data;
-using Reservations.Application.EventConsumers;
-using Reservations.Application.Events;
 using Reservations.Application.InboxConsumer;
 using Reservations.Infrastructure.Data;
 using SharedKernel.IntegrationEvents;
@@ -54,6 +52,8 @@ builder.Services.AddMassTransit(busConfiguration =>
     busConfiguration.AddConsumer<ReservationsInboxConsumer<UserCreatedIntegrationEvent>>();
     busConfiguration.AddConsumer<ReservationsInboxConsumer<PaymentConfirmedIntegrationEvent>>();
     busConfiguration.AddConsumer<ReservationsInboxConsumer<PaymentFailedIntegrationEvent>>();
+
+    busConfiguration.AddConsumer<PaymentsInboxConsumer<ReservationCreatedIntegrationEvent>>();
 
     busConfiguration.UsingRabbitMq((context, config) =>
     {

@@ -1,4 +1,3 @@
-using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Reservations.Domain.Aggregates;
@@ -6,9 +5,9 @@ using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using SharedKernel.IntegrationEvents;
 
-namespace Reservations.Application.Events;
-public class UserCreatedEventConsumer(
-ILogger<UserCreatedEventConsumer> logger, 
+namespace Reservations.Application.EventHandlers;
+public class UserCreatedEventHandler(
+ILogger<UserCreatedEventHandler> logger, 
 IReservationsRepository reservationsRepository,
 IUnitOfWork unitOfWork) : INotificationHandler<UserCreatedIntegrationEvent>
 {

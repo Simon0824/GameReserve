@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddSingleton<IPaymentGateway, StripePaymentGateway>();
         services.AddScoped<IPaymentsRepository, PaymentsRepository>();
         services.AddScoped<IPaymentsOutboxRepository, PaymentsOutboxRepository>();
+        services.AddScoped<IPaymentsInboxRepository, PaymentsInboxRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PaymentsTransactionalBehavior<,>));
         
         return services;

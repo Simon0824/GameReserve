@@ -1,14 +1,12 @@
-using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using SharedKernel.IntegrationEvents;
 
-namespace Reservations.Application.EventConsumers;
-public class PaymentFailedEventConsumer(
-ILogger<PaymentFailedEventConsumer> logger, 
+namespace Reservations.Application.EventHandlers;
+public class PaymentFailedEventHandler(
+ILogger<PaymentFailedEventHandler> logger, 
 IReservationsRepository reservationsRepository,
 IUnitOfWork unitOfWork) : INotificationHandler<PaymentFailedIntegrationEvent>
 {

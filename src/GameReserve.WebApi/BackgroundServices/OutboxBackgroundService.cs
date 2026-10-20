@@ -19,9 +19,11 @@ public class OutboxBackgroundService(ILogger<OutboxBackgroundService> logger,
                 var outboxPayments = scope.ServiceProvider.GetRequiredService<OutboxProcessor<PaymentsContext>>();
                 var outboxReservations = scope.ServiceProvider.GetRequiredService<OutboxProcessor<ReservationsContext>>();
 
-                await outboxIdentity.ExecuteAsync(stoppingToken);
-                await outboxPayments.ExecuteAsync(stoppingToken);
-                await outboxReservations.ExecuteAsync(stoppingToken);
+                await Task.WhenAll(
+                    outboxIdentity.ExecuteAsync(stoppingToken),
+                    outboxPayments.ExecuteAsync(stoppingToken),
+                    outboxReservations.ExecuteAsync(stoppingToken)
+                );
 
                 await Task.Delay(TimeSpan.FromSeconds(Frequency));
             }

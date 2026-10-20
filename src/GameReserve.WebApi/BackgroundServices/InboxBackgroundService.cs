@@ -17,9 +17,12 @@ public class InboxBackgroundService(ILogger<InboxBackgroundService> logger,
             {
                 using var scope = scopeFactory.CreateAsyncScope();
                 var inboxReservations = scope.ServiceProvider.GetRequiredService<InboxProcessor<ReservationsContext>>();
+                var inboxPayments = scope.ServiceProvider.GetRequiredService<InboxProcessor<PaymentsContext>>();
 
-
-                await inboxReservations.ExecuteAsync(stoppingToken);
+                await Task.WhenAll(
+                inboxReservations.ExecuteAsync(stoppingToken),
+                inboxPayments.ExecuteAsync(stoppingToken)
+                );
 
                 await Task.Delay(TimeSpan.FromSeconds(Frequency));
             }

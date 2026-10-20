@@ -40,7 +40,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 - [x] MassTransit
 - [x] Docker
 - [x] Transactional Outbox
-- [ ] Inbox Pattern
+- [x] Inbox Pattern
 
 ## Testing
 
