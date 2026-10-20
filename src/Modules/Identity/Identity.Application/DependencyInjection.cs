@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Application.Abstractions.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
-using Identy.Application.IdentityAppliactionMarker;
+using Identity.Application.IdentityAppliactionMarker;
 
 namespace Identity.Application;
 

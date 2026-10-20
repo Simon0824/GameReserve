@@ -1,5 +1,5 @@
 using Identity.Infrastructure.Data;
-using Identy.Application.IdentityAppliactionMarker;
+using Identity.Application.IdentityAppliactionMarker;
 using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.Infrastructure.Behaviors;
 namespace Identity.Infrastructure.Behaviors;

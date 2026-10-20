@@ -1,4 +1,3 @@
-using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Payments.Application.Commands;
@@ -11,7 +10,7 @@ public class ReservationCreatedEventHandler(ILogger<ReservationCreatedEventHandl
 {
     public async Task Handle(ReservationCreatedIntegrationEvent notification, CancellationToken cancellationToken)
     {
-        logger.LogInformation($"Consuming ReservationCreated event with ID: {notification.ReservationId}");
+        logger.LogInformation($"Handling ReservationCreated notification with ID: {notification.ReservationId}");
         await sender.Send(new CreateNewPaymentCommand(new ReservationId(notification.ReservationId), notification.Amount));
     }
 }

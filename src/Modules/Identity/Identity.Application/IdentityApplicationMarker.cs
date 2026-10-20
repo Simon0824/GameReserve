@@ -1,2 +1,2 @@
-namespace Identy.Application.IdentityAppliactionMarker;
+namespace Identity.Application.IdentityAppliactionMarker;
 public sealed class IdentityApplicationMarker;

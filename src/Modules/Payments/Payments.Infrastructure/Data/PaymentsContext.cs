@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using Payments.Domain.Aggregates;
 using SharedKernel.Domain.Abstractions;

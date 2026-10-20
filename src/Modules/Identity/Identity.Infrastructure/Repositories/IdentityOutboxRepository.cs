@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Identity.Domain.Interfaces;
 using Identity.Infrastructure.Data;
-using Microsoft.Extensions.Logging;
 using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Infrastructure.Repositories;

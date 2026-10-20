@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Abstractions;
 
 namespace Payments.Application;
 
@@ -8,9 +7,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPaymentsApplicationDI(this IServiceCollection services)
     {
-        services.AddMediatR(options =>
+        services.AddMediatR(cfg =>
         {
-            options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
         return services;
     }

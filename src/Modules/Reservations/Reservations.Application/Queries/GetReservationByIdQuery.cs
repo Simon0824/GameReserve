@@ -1,5 +1,3 @@
-using MassTransit;
-using MassTransit.Serialization;
 using MediatR;
 using Reservations.Application.DTOs;
 using Reservations.Domain.Aggregates;

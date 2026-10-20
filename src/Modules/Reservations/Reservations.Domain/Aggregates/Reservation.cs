@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Reservations.Domain.Enums;
 using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;

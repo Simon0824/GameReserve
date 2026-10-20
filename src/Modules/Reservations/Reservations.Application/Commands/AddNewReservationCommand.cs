@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using MediatR;
 using Reservations.Application.DTOs;
 using Reservations.Domain.Aggregates;

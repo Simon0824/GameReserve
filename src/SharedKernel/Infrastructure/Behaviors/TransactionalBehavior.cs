@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace SharedKernel.Infrastructure.Behaviors;
 public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(TContext context) : 
