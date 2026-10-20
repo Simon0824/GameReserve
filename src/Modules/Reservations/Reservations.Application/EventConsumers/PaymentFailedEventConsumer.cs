@@ -1,4 +1,5 @@
 using MassTransit;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
@@ -9,21 +10,21 @@ namespace Reservations.Application.EventConsumers;
 public class PaymentFailedEventConsumer(
 ILogger<PaymentFailedEventConsumer> logger, 
 IReservationsRepository reservationsRepository,
-IUnitOfWork unitOfWork) : IConsumer<PaymentFailedIntegrationEvent>
+IUnitOfWork unitOfWork) : INotificationHandler<PaymentFailedIntegrationEvent>
 {
-    public async Task Consume(ConsumeContext<PaymentFailedIntegrationEvent> context)
+    public async Task Handle(PaymentFailedIntegrationEvent notification, CancellationToken cancellationToken)
     {
         logger.LogInformation("Consuming PaymentFailed event");
 
-        var reservationId = new ReservationId(context.Message.ReservationId);
+        var reservationId = new ReservationId(notification.ReservationId);
 
-        var reservation = await reservationsRepository.GetReservationById(reservationId, context.CancellationToken);
+        var reservation = await reservationsRepository.GetReservationById(reservationId, cancellationToken);
         if(reservation is null)
         {
-            throw new Exception($"Reservation with ID: {context.Message.ReservationId}, cannot be found");
+            throw new Exception($"Reservation with ID: {notification.ReservationId}, cannot be found");
         }
         reservation.Failed();
-        await unitOfWork.SaveChangesAsync(context.CancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation($"Payment failed, event consumed");
     }

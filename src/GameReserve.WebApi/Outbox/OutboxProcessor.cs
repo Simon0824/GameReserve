@@ -22,7 +22,7 @@ public class OutboxProcessor<TContext>(TContext context, IServiceProvider servic
 
         foreach(var message in messages)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            await using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
             var messageType = Type.GetType(message.Type) ?? throw new Exception("Cannot get a message type");
@@ -43,8 +43,6 @@ public class OutboxProcessor<TContext>(TContext context, IServiceProvider servic
             }
             catch(Exception ex)
             {
-                transaction.Rollback();
-
                 await context.Set<OutboxMessage>()
                                 .Where(m => m.Id == message.Id)
                                 .ExecuteUpdateAsync(m => 

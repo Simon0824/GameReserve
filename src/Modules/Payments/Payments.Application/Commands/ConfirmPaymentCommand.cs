@@ -28,7 +28,7 @@ public class ConfirmPaymentCommandHandler(
         await paymentsRepository.SaveChangesAsync(cancellationToken);
         logger.LogInformation("Payment confirmed");
 
-        await publisher.Publish(new PaymentConfirmedIntegrationEvent(Guid.NewGuid(), payment.ReservationId.Value));
+        await publisher.Publish(new PaymentConfirmedIntegrationEvent(payment.ReservationId.Value));
         return Result.Success;
     }
 }

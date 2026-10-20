@@ -1,4 +1,5 @@
 using MassTransit;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
@@ -9,17 +10,17 @@ namespace Reservations.Application.Events;
 public class UserCreatedEventConsumer(
 ILogger<UserCreatedEventConsumer> logger, 
 IReservationsRepository reservationsRepository,
-IUnitOfWork unitOfWork) : IConsumer<UserCreatedIntegrationEvent>
+IUnitOfWork unitOfWork) : INotificationHandler<UserCreatedIntegrationEvent>
 {
-    public async Task Consume(ConsumeContext<UserCreatedIntegrationEvent> context)
+    public async Task Handle(UserCreatedIntegrationEvent notification, CancellationToken cancellationToken)
     {
         logger.LogInformation("Consuming UserCreated event");
 
-        var userId = new UserId(context.Message.UserId);
+        var userId = new UserId(notification.UserId);
         var profile = ReservationProfile.CreateProfile(userId);
 
         reservationsRepository.AddReservationProfile(profile);
-        await unitOfWork.SaveChangesAsync(context.CancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation($"UserCreated {userId} event consumed succesfully! {profile.Id}");
     }

@@ -19,7 +19,7 @@ public class UserCreatedDomainEventHandler : INotificationHandler<UserCreatedDom
     }
     public async Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new UserCreatedIntegrationEvent(Guid.NewGuid(), notification.UserId);
+        var integrationEvent = new UserCreatedIntegrationEvent(notification.UserId);
 
         try
         {

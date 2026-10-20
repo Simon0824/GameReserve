@@ -1,4 +1,4 @@
 using MediatR;
 
 namespace SharedKernel.IntegrationEvents;
-public record PaymentConfirmedIntegrationEvent(Guid Id, Guid ReservationId) : INotification;
+public record PaymentConfirmedIntegrationEvent(Guid ReservationId) : IntegrationEvent(Guid.CreateVersion7());

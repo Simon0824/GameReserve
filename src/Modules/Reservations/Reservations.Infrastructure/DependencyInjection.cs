@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddScoped<IReservationsRepository, ReservationsRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IReservationsOutboxRepository, ReservationsOutboxRepository>();
+        services.AddScoped<IReservationsInboxRepository, ReservationInboxRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ReservationsTransactionalBehavior<,>));
         
         return services;

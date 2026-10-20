@@ -75,7 +75,7 @@ namespace Payments.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutboxMessages");
+                    b.ToTable("outbox_messages", "payments");
                 });
 
             modelBuilder.Entity("SharedKernel.Domain.Primivites.DomainEvent.DomainEvent", b =>

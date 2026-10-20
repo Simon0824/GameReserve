@@ -7,6 +7,7 @@ using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
 using GameReserve.WebApi.Outbox;
 using Games.Infrastructure.Data;
+using GemeReserve.WebApi.Inbox;
 using Identity.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,9 @@ using Payments.Application.EventConsumers;
 using Payments.Infrastructure.Data;
 using Reservations.Application.EventConsumers;
 using Reservations.Application.Events;
+using Reservations.Application.InboxConsumer;
 using Reservations.Infrastructure.Data;
+using SharedKernel.IntegrationEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,12 +51,9 @@ builder.Services.AddMassTransit(busConfiguration =>
 {
     busConfiguration.SetKebabCaseEndpointNameFormatter();
 
-    busConfiguration.AddConsumer<UserCreatedEventConsumer>();
-
-    busConfiguration.AddConsumer<ReservationCreatedEventConsumer>();
-
-    busConfiguration.AddConsumer<PaymentConfirmedEventConsumer>();
-    busConfiguration.AddConsumer<PaymentFailedEventConsumer>();
+    busConfiguration.AddConsumer<ReservationsInboxConsumer<UserCreatedIntegrationEvent>>();
+    busConfiguration.AddConsumer<ReservationsInboxConsumer<PaymentConfirmedIntegrationEvent>>();
+    busConfiguration.AddConsumer<ReservationsInboxConsumer<PaymentFailedIntegrationEvent>>();
 
     busConfiguration.UsingRabbitMq((context, config) =>
     {
@@ -76,11 +76,13 @@ builder.Services.AddProblemDetails(configuration =>
 });
 
 builder.Services.AddScoped(typeof(OutboxProcessor<>));
+builder.Services.AddScoped(typeof(InboxProcessor<>));
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddHostedService<AdminSeedingService>();
 builder.Services.AddHostedService<OutboxBackgroundService>();
+builder.Services.AddHostedService<InboxBackgroundService>();
 
 var app = builder.Build();
 
@@ -91,16 +93,16 @@ if(app.Environment.IsDevelopment())
 
     var scope = app.Services.CreateScope();
     var IdentityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
-    //IdentityContext.Database.Migrate();
+    IdentityContext.Database.Migrate();
 
     var GamesContext = scope.ServiceProvider.GetRequiredService<GamesContext>();
-    //GamesContext.Database.Migrate();
+    GamesContext.Database.Migrate();
 
     var ReservationsContext = scope.ServiceProvider.GetRequiredService<ReservationsContext>();
-    //ReservationsContext.Database.Migrate();
+    ReservationsContext.Database.Migrate();
 
     var PaymentsContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
-    //PaymentsContext.Database.Migrate();
+    PaymentsContext.Database.Migrate();
 }
 else
 {

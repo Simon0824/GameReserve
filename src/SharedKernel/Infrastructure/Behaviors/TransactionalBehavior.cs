@@ -16,13 +16,20 @@ public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(T
         if(!AppliesTo(request)) 
             return await next(cancellationToken);
 
-        using var transaction = await context.Database.BeginTransactionAsync();
-
+        await using var transaction = await context.Database.BeginTransactionAsync();
+        try
+        {
+            
         TResponse response = await next(cancellationToken);
 
         await context.SaveChangesAsync();
         await transaction.CommitAsync();
 
         return response;
+        }
+        catch(Exception)
+        {
+            throw;
+        }
     }
 }

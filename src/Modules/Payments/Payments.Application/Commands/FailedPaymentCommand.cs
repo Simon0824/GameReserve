@@ -28,7 +28,7 @@ public class FailedPaymentCommandHandler(
         await paymentsRepository.SaveChangesAsync(cancellationToken);
         logger.LogInformation("Payment failed");
 
-        await publisher.Publish(new PaymentFailedIntegrationEvent(Guid.NewGuid(), payment.ReservationId.Value));
+        await publisher.Publish(new PaymentFailedIntegrationEvent(payment.ReservationId.Value));
         return Result.Success;
     }
 }

@@ -283,7 +283,7 @@ namespace Identity.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutboxMessages");
+                    b.ToTable("outbox_messages", "identity");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.RefreshToken", b =>
