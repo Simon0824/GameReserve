@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text.Json.Serialization;
 using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
 
@@ -9,9 +11,22 @@ public class ReservationProfile : Entity<ReservationProfileId>
     private readonly List<Reservation> _reservations = new();
     public IReadOnlyList<Reservation> Reservations => _reservations;
 
+    [JsonConstructor]
     private ReservationProfile(ReservationProfileId id, UserId userId) : base(id)
     {
         UserId = userId;
+    }
+
+    public static ReservationProfile Rehydrate(    
+            ReservationProfileId id,
+            UserId userId,
+            IEnumerable<Reservation> reservations)
+    {
+        var profile = new ReservationProfile(id, userId);
+
+        profile._reservations.AddRange(reservations);
+
+        return profile;
     }
 
     public static ReservationProfile CreateProfile(UserId userId) =>

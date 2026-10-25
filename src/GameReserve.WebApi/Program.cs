@@ -42,7 +42,8 @@ builder.Services.AddApiDI(builder.Configuration);
 
 builder.Services.AddDistributedRedisCache(options =>
 {
-    options.Configuration = builder.Configuration["Redis:Port"];
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "GameReserve";
 });
 
 builder.Services.AddMassTransit(busConfiguration =>

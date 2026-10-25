@@ -22,6 +22,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IReservationsRepository, ReservationsRepository>();
+        services.Decorate<IReservationsRepository, CachedReservationRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IReservationsOutboxRepository, ReservationsOutboxRepository>();
         services.AddScoped<IReservationsInboxRepository, ReservationInboxRepository>();

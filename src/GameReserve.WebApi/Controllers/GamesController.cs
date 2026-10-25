@@ -36,7 +36,7 @@ public class GamesController(ISender sender) : ControllerBase
             onFailure: error => error.ToProblem());
     }
 
-    [HttpGet("get-game-by-id")]
+    [HttpGet("get-game-by-{id:guid}")]
     public async Task<IResult> GetGameById(Guid id)
     {
         var resultDTO = await sender.Send(new GetGameByIdQuery(id));

@@ -1,5 +1,4 @@
 using GemeReserve.WebApi.Inbox;
-using Identity.Infrastructure.Data;
 using Payments.Infrastructure.Data;
 using Reservations.Infrastructure.Data;
 
@@ -7,7 +6,7 @@ namespace GameReserve.WebApi.BackgroundServices;
 public class InboxBackgroundService(ILogger<InboxBackgroundService> logger, 
                                      IServiceScopeFactory scopeFactory) : BackgroundService
 {
-    private const int Frequency = 8;
+    private const int Frequency = 7500;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await Task.Yield();
@@ -24,7 +23,7 @@ public class InboxBackgroundService(ILogger<InboxBackgroundService> logger,
                 inboxPayments.ExecuteAsync(stoppingToken)
                 );
 
-                await Task.Delay(TimeSpan.FromSeconds(Frequency));
+                await Task.Delay(TimeSpan.FromMilliseconds(Frequency));
             }
         }
         catch(OperationCanceledException)

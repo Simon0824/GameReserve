@@ -7,7 +7,7 @@ namespace GameReserve.WebApi.BackgroundServices;
 public class OutboxBackgroundService(ILogger<OutboxBackgroundService> logger, 
                                      IServiceScopeFactory scopeFactory) : BackgroundService
 {
-    private const int Frequency = 8;
+    private const int Frequency = 7500;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
@@ -25,7 +25,7 @@ public class OutboxBackgroundService(ILogger<OutboxBackgroundService> logger,
                     outboxReservations.ExecuteAsync(stoppingToken)
                 );
 
-                await Task.Delay(TimeSpan.FromSeconds(Frequency));
+                await Task.Delay(TimeSpan.FromMilliseconds(Frequency));
             }
         }
         catch(OperationCanceledException)

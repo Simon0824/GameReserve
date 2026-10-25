@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Reservations.Domain.Enums;
 using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
@@ -13,6 +14,7 @@ public class Reservation
     public DateTimeOffset EndDate {get; private set;}
     public ReservationStatus Status {get; private set;}
 
+    [JsonConstructor]
     private Reservation(
         ReservationId id, 
         ReservationProfileId reservationProfileId, 
