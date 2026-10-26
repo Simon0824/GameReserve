@@ -1,6 +1,8 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
 using Reservations.Domain.Aggregates;
+using Reservations.Domain.Enums;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using Reservations.Infrastructure.Dtos;
@@ -23,13 +25,32 @@ public class CachedReservationRepository(
 
     DistributedCacheEntryOptions ProfileTtl = new()
     {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
     };
 
     DistributedCacheEntryOptions ReservationTtl = new()
     {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
     };
+
+    private static Reservation ToDomain(CachedReservationDto dto)
+    {
+        if(!Enum.TryParse(dto.Status, out ReservationStatus reservationStatus))
+        {
+            throw new JsonException(
+                $"Invalid reservation status in Redis cache: '{dto.Status}'."
+            );
+        }
+
+        return Reservation.Rehydrate(
+            new ReservationId(dto.Id),
+            new ReservationProfileId(dto.ReservationProfileId),
+            dto.GameId,
+            dto.StartDate,
+            dto.EndDate,
+            reservationStatus
+        );
+    }
 
     public void AddReservationProfile(
         ReservationProfile reservationProfile)
@@ -48,18 +69,29 @@ public class CachedReservationRepository(
         {
             reservationProfiles = await decorated.GetReservationProfiles(cancellationToken);
 
-            var cachedDtos = reservationProfiles.Select(profile => new CachedReservationProfileDto(
-                profile!.Id,
-                profile.UserId,
-                profile.Reservations
-            )).ToList();
 
             if(reservationProfiles == null)
                 return reservationProfiles!;
 
+            var cachedDtos = reservationProfiles.Select(profile => new CachedReservationProfileDto(
+                profile!.Id.Value,
+                profile.UserId.Value,
+                profile.Reservations.Select(reservation =>
+                        new CachedReservationDto(
+                            reservation.Id.Value,
+                            reservation.ReservationProfileId.Value,
+                            reservation.GameId,
+                            reservation.StartDate,
+                            reservation.EndDate,
+                            reservation.Status.ToString()
+                        )
+                    ).ToList()
+                )
+            ).ToList();
+
             await cache.SetStringAsync(
-                    _cachedReservationsProfiles, 
-                    JsonSerializer.Serialize(cachedDtos), 
+                    _cachedReservationsProfiles,
+                    JsonSerializer.Serialize(cachedDtos),
                     AllProfilesTtl,
                     cancellationToken);
 
@@ -67,15 +99,13 @@ public class CachedReservationRepository(
         }
 
         var deserializedProfiles = JsonSerializer.Deserialize<List<CachedReservationProfileDto>>(cachedProfiles)!;
-
         reservationProfiles =  deserializedProfiles
-            .Select(profile => 
+            .Select(profile =>
                     ReservationProfile.Rehydrate(
-                        profile.Id, 
-                        profile.UserId, 
-                        profile.Reservations
-                        ))
-            .ToList();
+                        new ReservationProfileId(profile.Id),
+                        new UserId(profile.UserId),
+                        profile.Reservations.Select(ToDomain))
+                        ).ToList();
 
         return reservationProfiles;
     }
@@ -94,12 +124,36 @@ public class CachedReservationRepository(
             if(reservation is null)
                 return null;
 
-            await cache.SetStringAsync(ReservationByIdKey(stringId), JsonSerializer.Serialize(reservation), ReservationTtl);
+            var cacheReserve = new CachedReservationDto(
+                reservation.Id.Value,
+                reservation.ReservationProfileId.Value,
+                reservation.GameId,
+                reservation.StartDate,
+                reservation.EndDate,
+                reservation.Status.ToString()
+            );
+
+            await cache.SetStringAsync(
+                ReservationByIdKey(stringId), 
+                JsonSerializer.Serialize(cacheReserve), 
+                ReservationTtl,
+                cancellationToken);
 
             return reservation;
         }
 
-        reservation = JsonSerializer.Deserialize<Reservation>(cachedReservation);
+        var deserializedReservation = JsonSerializer.Deserialize<CachedReservationDto>(cachedReservation);
+
+        Enum.TryParse(deserializedReservation!.Status, out ReservationStatus reservationStatus);
+
+        reservation = Reservation.Rehydrate(
+            new ReservationId(deserializedReservation.Id),
+            new ReservationProfileId(deserializedReservation.ReservationProfileId),
+            deserializedReservation.GameId,
+            deserializedReservation.StartDate,
+            deserializedReservation.EndDate,
+            reservationStatus
+        );
 
         return reservation;
     }
@@ -118,12 +172,37 @@ public class CachedReservationRepository(
             if(reservationProfile is null)
                 return null;
 
-            await cache.SetStringAsync(ReservationProfileByIdKey(stringId), JsonSerializer.Serialize(reservationProfile), ProfileTtl);
+            
+            var cachedProfile = new CachedReservationProfileDto(
+                reservationProfile.Id.Value, 
+                reservationProfile.UserId.Value, 
+                reservationProfile.Reservations.Select(reservation => 
+                    new CachedReservationDto(
+                        reservation.Id.Value, 
+                        reservation.ReservationProfileId.Value, 
+                        reservation.GameId, 
+                        reservation.StartDate, 
+                        reservation.EndDate,
+                        reservation.Status.ToString())
+                        ).ToList()
+                    );
+
+            await cache.SetStringAsync(
+                ReservationProfileByIdKey(stringId), 
+                JsonSerializer.Serialize(cachedProfile), 
+                ProfileTtl,
+                cancellationToken);
 
             return reservationProfile;
         }
 
-        reservationProfile = JsonSerializer.Deserialize<ReservationProfile>(cachedProfileId);
+        var deserializedProfile = JsonSerializer.Deserialize<CachedReservationProfileDto>(cachedProfileId);
+
+        reservationProfile = ReservationProfile.Rehydrate(
+            new ReservationProfileId(deserializedProfile!.Id), 
+            new UserId(deserializedProfile.UserId), 
+            deserializedProfile.Reservations.Select(ToDomain).ToList()
+            );
 
         return reservationProfile;
     }
@@ -142,12 +221,36 @@ public class CachedReservationRepository(
             if(reservationProfile is null)
                 return null;
 
-            await cache.SetStringAsync(ReservationProfileByUserIdKey(stringId), JsonSerializer.Serialize(reservationProfile), ProfileTtl);
+            var cachedProfile = new CachedReservationProfileDto(
+                reservationProfile.Id.Value, 
+                reservationProfile.UserId.Value, 
+                reservationProfile.Reservations.Select(reservation => 
+                    new CachedReservationDto(
+                        reservation.Id.Value, 
+                        reservation.ReservationProfileId.Value, 
+                        reservation.GameId, 
+                        reservation.StartDate, 
+                        reservation.EndDate,
+                        reservation.Status.ToString())
+                        ).ToList()
+                    );
+
+            await cache.SetStringAsync(
+                ReservationProfileByUserIdKey(stringId), 
+                JsonSerializer.Serialize(cachedProfile), 
+                ProfileTtl,
+                cancellationToken);
 
             return reservationProfile;
         }
 
-        reservationProfile = JsonSerializer.Deserialize<ReservationProfile>(cachedProfileId);
+        var deserializedProfile = JsonSerializer.Deserialize<CachedReservationProfileDto>(cachedProfileId);
+
+        reservationProfile = ReservationProfile.Rehydrate(
+            new ReservationProfileId(deserializedProfile!.Id), 
+            new UserId(deserializedProfile.UserId), 
+            deserializedProfile.Reservations.Select(ToDomain).ToList()
+            );
 
         return reservationProfile;
     }

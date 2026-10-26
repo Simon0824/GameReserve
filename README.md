@@ -35,7 +35,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 ## Planned Infrastructure
 
 - [x] PostgreSQL
-- [ ] Redis
+- [x] Redis
 - [x] RabbitMQ
 - [x] MassTransit
 - [x] Docker

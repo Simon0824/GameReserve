@@ -49,6 +49,25 @@ public class Reservation
         return reservation;
     }
 
+    public static Reservation Rehydrate(
+        ReservationId id, 
+        ReservationProfileId reservationProfileId, 
+        Guid gameId, 
+        DateTimeOffset startDate, 
+        DateTimeOffset endDate,
+        ReservationStatus status)
+    {
+        return new Reservation()
+        {
+            Id = id,
+            ReservationProfileId = reservationProfileId,
+            GameId = gameId,
+            StartDate = startDate,
+            EndDate = endDate,
+            Status = status
+        };
+    }
+
     public Result Completed()
     {
         if(Status == ReservationStatus.Completed)

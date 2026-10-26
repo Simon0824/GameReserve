@@ -10,6 +10,7 @@ public class OutboxBackgroundService(ILogger<OutboxBackgroundService> logger,
     private const int Frequency = 7500;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await Task.Yield();
         try
         {
             while(!stoppingToken.IsCancellationRequested)

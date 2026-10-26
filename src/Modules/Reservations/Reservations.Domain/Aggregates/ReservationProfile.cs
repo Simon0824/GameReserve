@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json.Serialization;
 using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
@@ -32,7 +31,11 @@ public class ReservationProfile : Entity<ReservationProfileId>
     public static ReservationProfile CreateProfile(UserId userId) =>
             new ReservationProfile(new ReservationProfileId(Guid.NewGuid()), userId);
 
-    public Reservation AddReservation(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, decimal amount)
+    public Reservation AddReservation(
+        Guid gameId, 
+        DateTimeOffset startDate, 
+        DateTimeOffset endDate, 
+        decimal amount)
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
         _reservations.Add(reservation.Value!);
