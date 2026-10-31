@@ -14,12 +14,12 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await userManager.CreateAsync(user, password);
     }
 
-    public async Task<User?> FindUserByEmail(string Email)
+    public async Task<User?> FindUserByEmail(string Email, CancellationToken cancellationToken)
     {
         return await userManager.FindByEmailAsync(Email);
     }
 
-    public async Task<User?> FindUser(string UserId)
+    public async Task<User?> FindUser(string UserId, CancellationToken cancellationToken)
     {
         return await userManager.FindByIdAsync(UserId);
     }
@@ -43,7 +43,7 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await userManager.GetRolesAsync(user);
     }
 
-    public async Task<IEnumerable<User>> GetUsers()
+    public async Task<IEnumerable<User>> GetUsers(CancellationToken cancellationToken)
     {
         return await userManager.Users.AsNoTracking().ToListAsync();
     }

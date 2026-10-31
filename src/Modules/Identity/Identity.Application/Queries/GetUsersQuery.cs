@@ -9,7 +9,7 @@ public class GetUsersQueryHandler(IUserRepository userRepository) : IRequestHand
 {
     public async Task<Result<GetUsersQueryDTO>> Handle(GetUsersQuery request, CancellationToken token)
     {
-        var users = await userRepository.GetUsers();
+        var users = await userRepository.GetUsers(token);
         var result = new List<GetUsersResultDTO>();
         var message = users.Count() == 0 ?
                             "No users found" : "Users retrieved succesfully";

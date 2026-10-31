@@ -10,7 +10,7 @@ public class ChangePasswordCommandHandler(IUserRepository userRepository) : IReq
 {
     public async Task<Result> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.FindUser(request.UserId);
+        var user = await userRepository.FindUser(request.UserId, cancellationToken);
 
         if(user is null)
             return UserErrors.UserNotFound;

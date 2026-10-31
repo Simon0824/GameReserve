@@ -21,7 +21,7 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
             return UserErrors.CannotLogInRefreshToken;
         }
 
-        var user = await userRepository.FindUser(refreshToken.UserId);
+        var user = await userRepository.FindUser(refreshToken.UserId, cancellationToken);
 
         if(user is null)
             return UserErrors.UserNotFound;

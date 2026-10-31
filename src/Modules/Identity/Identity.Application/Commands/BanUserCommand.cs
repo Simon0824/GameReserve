@@ -11,7 +11,7 @@ public class BanUserCommandHandler(IUserRepository userRepository) : IRequestHan
 {
     public async Task<Result> Handle(BanUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.FindUserByEmail(request.Email);
+        var user = await userRepository.FindUserByEmail(request.Email, cancellationToken);
 
         if(user is null)
             return UserErrors.UserNotFound;

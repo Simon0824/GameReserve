@@ -14,7 +14,7 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
 {
     public async Task<Result<LoginUserResultDTO>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.FindUserByEmail(request.Email);
+        var user = await userRepository.FindUserByEmail(request.Email, cancellationToken);
 
         if(user is null)
         {
