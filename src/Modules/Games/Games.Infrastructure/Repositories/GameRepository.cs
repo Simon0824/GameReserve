@@ -12,7 +12,7 @@ public class GameRepository(GamesContext context) : IGameRepository
         context.games.Add(game);
     }
 
-    public async Task DeleteGameAsync(GameId gameId)
+    public async Task DeleteGameAsync(GameId gameId, CancellationToken cancellationToken)
     {
         await context.games
                .Where(g => g.Id == gameId)
@@ -35,7 +35,7 @@ public class GameRepository(GamesContext context) : IGameRepository
                 cancellationToken);
     }
 
-    public async Task<List<Game>> GetGames()
+    public async Task<List<Game>> GetGames(CancellationToken cancellationToken)
     {
         return await context.games.AsNoTracking().ToListAsync();
     }

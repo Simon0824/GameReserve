@@ -18,7 +18,9 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IGameRepository, GameRepository>();
+        services.Decorate<IGameRepository, CachedGameRepository>();
         services.AddScoped<IGamePublicApi, GamePublicApi>();
+
         return services;
     }
 }
