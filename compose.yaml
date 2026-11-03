@@ -9,14 +9,16 @@ services:
       - "5110:5110"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Default: ${DB_URL}
+      ASPNETCORE_HTTP_PORTS: "5110"
+      ConnectionStrings__Default: Host=postgres;Port=5432;Database=gamereserve_db;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres};
       ConnectionStrings__Redis: ${REDIS_PORT}
-      Stripe__ApiKey: ${STRIPE_APIKEY}
-      Stripe__Webhook: ${WEBHOOK_KEY}
+      Stripe__ApiKey: ${STRIPE_APIKEY:-}
+      Stripe__Webhook: ${WEBHOOK_KEY:-}
+      RabbitMq__Host: "rabbitmq"
       Admin__FullName: "Admin"
-      Admin__Email: ${ADMIN_EMAIL}
-      Admin__Password: ${ADMIN_PASSWORD}
-      Jwt__SecretKey: ${JWT_SECRET}
+      Admin__Email: ${ADMIN_EMAIL:-admin@gamereserve.com}
+      Admin__Password: ${ADMIN_PASSWORD:-Admin123!}
+      Jwt__SecretKey: ${JWT_SECRET:-replace_with_a_secure_secret_at_least_32_bytes_long}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE}
     depends_on:
@@ -30,9 +32,10 @@ services:
     image: postgres:latest
     container_name: game-reserve-postgres
     ports:
-      - ${DB_PORT}
+      - "${DB_PORT:-5433}:5432"
     environment:
       - POSTGRES_DB=gamereserve_db
+      - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql
@@ -45,10 +48,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
-    environment:
-      Rabbitmq_Host: "rabbitmq"
     ports:
-      - ${RABBITMQ_PORT}
       - "15672:15672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "check_port_connectivity"]

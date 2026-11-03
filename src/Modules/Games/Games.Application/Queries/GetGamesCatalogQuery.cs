@@ -9,7 +9,7 @@ public class GetGamesCatalogQueryHandler(IGameRepository gameRepository) : IRequ
 {
     public async Task<Result<GetGamesQueryDTO>> Handle(GetGamesCatalogQuery request, CancellationToken cancellationToken)
     {
-        var games = await gameRepository.GetGames();
+        var games = await gameRepository.GetGames(cancellationToken);
         var result = new List<GetGamesCatalogResultDTO>();
 
         var message = games.Count() == 0 ?

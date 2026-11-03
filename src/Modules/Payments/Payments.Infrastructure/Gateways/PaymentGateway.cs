@@ -31,7 +31,7 @@ public class StripePaymentGateway(IConfiguration configuration) : IPaymentGatewa
         var paymentIntent = await service.CreateAsync(options);
 
         Console.WriteLine($"PaymentIntent: {paymentIntent.Id}");
-Console.WriteLine($"Status: {paymentIntent.Status}");
+        Console.WriteLine($"Status: {paymentIntent.Status}");
 
         return paymentIntent.Id;
     }

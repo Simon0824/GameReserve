@@ -16,7 +16,7 @@ public class DeleteGameCommandHandler(IGameRepository gameRepository) : IRequest
         if(game is null)
             return GamesErrors.GameNotFound;
 
-        await gameRepository.DeleteGameAsync(game.Id);
+        await gameRepository.DeleteGameAsync(game.Id, cancellationToken);
         await gameRepository.SaveChanges(cancellationToken);
 
         return Result.Success;

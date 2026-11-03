@@ -24,4 +24,7 @@
     <Project Path="src/Modules/Reservations/Reservations.Domain/Reservations.Domain.csproj" />
     <Project Path="src/Modules/Reservations/Reservations.Infrastructure/Reservations.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Identity/GameReserve.UnitTests/GameReserve.UnitTests.csproj" />
+  </Folder>
 </Solution>

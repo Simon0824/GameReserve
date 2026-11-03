@@ -1,6 +1,7 @@
 using SharedKernel.Domain.Abstractions;
 using Games.Domain.Primitives;
 using Games.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Games.Domain.GameAggregate;
 public class Game : Entity<GameId>
@@ -9,6 +10,7 @@ public class Game : Entity<GameId>
     public string Description {get; private set;} = string.Empty;
     public GameCategory Category {get; private set;}
     
+    [JsonConstructor]
     private Game(GameId id, string title, string description, GameCategory category) : base(id)
     {
         Title = title;
