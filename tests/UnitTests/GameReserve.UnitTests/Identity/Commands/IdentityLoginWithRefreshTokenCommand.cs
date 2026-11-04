@@ -17,7 +17,7 @@ public class IdentityLoginWithRefreshTokenCommand
         Id = Guid.NewGuid(),
         Token = Command.RefreshToken,
         UserId = User.Id,
-        ExpiresOnUtc = DateTime.UtcNow.AddMinutes(5),
+        ExpiresOnUtc = DateTime.UtcNow.AddDays(6),
         User = User,
 
     };
@@ -76,6 +76,9 @@ public class IdentityLoginWithRefreshTokenCommand
 
         bannedUser.BanUser();
 
+        if(TestRefreshToken.ExpiresOnUtc <= DateTime.UtcNow)
+            TestRefreshToken.ExpiresOnUtc = DateTime.UtcNow.AddDays(6);
+
         _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(TestRefreshToken));
 
         _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(User));
@@ -103,6 +106,8 @@ public class IdentityLoginWithRefreshTokenCommand
 
         _tokenProvider.GenerateRefreshToken().Returns("new-test-refresh-token");
 
+        _userRepo.AddRefreshToken(TestRefreshToken);
+
         //Act
         Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(Command, default);
 
@@ -117,5 +122,11 @@ public class IdentityLoginWithRefreshTokenCommand
         await _userRepo.Received(1).FindRefreshToken(Arg.Is<string>(rt => rt == Command.RefreshToken), default);
 
         await _userRepo.Received(1).FindUser(Arg.Is<string>(id => id == TestRefreshToken.UserId), default);
+
+        await _tokenProvider.Received(1).CreateToken(Arg.Is<User>(User));
+
+        _tokenProvider.Received(1).GenerateRefreshToken();
+
+        await _userRepo.Received(1).SaveChangesAsync(default);
     }
 }

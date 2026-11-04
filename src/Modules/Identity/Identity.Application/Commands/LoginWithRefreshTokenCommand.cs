@@ -5,6 +5,7 @@ using MediatR;
 using SharedKernel.Domain.Abstractions;
 using Identity.Domain.UserAggregate;
 using Identity.Domain.Enums;
+using Identity.Domain.Entities;
 
 namespace Identity.Application.Commands;
 public record LoginWithRefreshTokenCommand(string RefreshToken) : ICommand<Result<LoginWithRefreshTokenResultDTO>>;
@@ -31,13 +32,24 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
 
         var accessToken = await tokenProvider.CreateToken(refreshToken.User);
 
-        refreshToken.Token = tokenProvider.GenerateRefreshToken();
+        refreshToken.ExpiresOnUtc = DateTime.UtcNow;
+
+        var newRefreshToken = new RefreshToken()
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Token = tokenProvider.GenerateRefreshToken(),
+            ExpiresOnUtc = DateTime.UtcNow.AddDays(6),
+            User = user
+        };
+
+        userRepository.AddRefreshToken(newRefreshToken);
 
         await userRepository.SaveChangesAsync(cancellationToken);
 
         return new LoginWithRefreshTokenResultDTO(
             accessToken,
-            refreshToken.Token
+            newRefreshToken.Token
         );
     }
 }
