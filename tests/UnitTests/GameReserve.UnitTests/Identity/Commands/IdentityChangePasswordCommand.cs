@@ -10,7 +10,7 @@ namespace GameReserve.UnitTests;
 public class IdentityChangePasswordCommand
 {
     private static readonly User User = User.Create("FullName", "test@email.com");
-    private static readonly ChangePasswordCommand Command = new(User.Id.ToString(), "Password123!", "NewPassword123!");
+    private static readonly ChangePasswordCommand Command = new(User.Id, "Password123!", "NewPassword123!");
     private readonly ChangePasswordCommandHandler _handler;
     private readonly IUserRepository _userRepo;
     public IdentityChangePasswordCommand()
