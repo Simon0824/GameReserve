@@ -106,8 +106,6 @@ public class IdentityLoginWithRefreshTokenCommand
 
         _tokenProvider.GenerateRefreshToken().Returns("new-test-refresh-token");
 
-        _userRepo.AddRefreshToken(TestRefreshToken);
-
         //Act
         Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(Command, default);
 
@@ -126,6 +124,11 @@ public class IdentityLoginWithRefreshTokenCommand
         await _tokenProvider.Received(1).CreateToken(Arg.Is<User>(User));
 
         _tokenProvider.Received(1).GenerateRefreshToken();
+
+        _userRepo.Received(1).AddRefreshToken(Arg.Is<RefreshToken>(rt => 
+                                                                   rt.User == TestRefreshToken.User &&
+                                                                   rt.UserId == TestRefreshToken.UserId &&
+                                                                   rt.Token == "new-test-refresh-token"));
 
         await _userRepo.Received(1).SaveChangesAsync(default);
     }
