@@ -19,7 +19,7 @@ public class BanUserCommandHandler(IUserRepository userRepository) : IRequestHan
         if(user.Status == UserStatus.Banned)
           return UserErrors.UserBanned;
 
-        user.BanUser(user);
+        user.BanUser();
 
         await userRepository.UpdateAsync(user);
         

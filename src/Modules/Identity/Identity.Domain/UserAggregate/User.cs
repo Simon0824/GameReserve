@@ -25,8 +25,11 @@ public class User : Entity
         return user;
     }
 
-    public void BanUser(User user)
+    public void BanUser()
     {
-        user.Status = UserStatus.Banned;
+        if(Status == UserStatus.Banned)
+            throw new InvalidOperationException("User is already banned");
+
+        Status = UserStatus.Banned;
     }
 }

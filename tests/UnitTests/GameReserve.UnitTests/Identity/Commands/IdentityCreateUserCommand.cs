@@ -22,7 +22,7 @@ public class IdentityCreateUserCommand
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnError_WhenCreateUserIsNotSucceded()
+    public async Task Handle_Should_ReturnError_WhenCreateUserIsNotSucceeded()
     {
         //Arrange
         CreateUserCommand invalidCommand = Command with {Password = "error"};
@@ -42,7 +42,7 @@ public class IdentityCreateUserCommand
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnError_WhenAddRoleToUserIsNotSucceded()
+    public async Task Handle_Should_ReturnError_WhenAddRoleToUserIsNotSucceeded()
     {
         //Arrange
         _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
@@ -64,10 +64,10 @@ public class IdentityCreateUserCommand
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnError_WhenAddRoleToUserIsNotSucceded_AndCannotDeleteUser()
+    public async Task Handle_Should_ReturnError_WhenAddRoleToUserIsNotSucceeded_AndCannotDeleteUser()
     {
         //Arrange
-        _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(Task.FromResult(IdentityResult.Success));
+        _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
          _userRepo.AddUserRole(Arg.Any<User>())
         .Returns(IdentityResult.Failed());
@@ -88,7 +88,7 @@ public class IdentityCreateUserCommand
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnSuccess_WhenCreateUserAndAddRoleIsSucceded()
+    public async Task Handle_Should_ReturnSuccess_WhenCreateUserAndAddRoleIsSucceeded()
     {
         //Arrange
         _userRepo.CreateUser(Arg.Any<User>(),Arg.Any<string>()).Returns(IdentityResult.Success);
@@ -152,7 +152,7 @@ public class IdentityCreateUserCommand
 
         _userRepo.AddUserRole(Arg.Any<User>()).Returns(IdentityResult.Failed());
 
-        _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);;
+        _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
                         
         //Act
         Result<CreateUserResultDTO> result = await _handler.Handle(Command, default);
