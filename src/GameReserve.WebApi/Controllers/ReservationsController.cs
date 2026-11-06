@@ -16,7 +16,7 @@ namespace GameReserve.WebApi.Controllers;
 [Authorize]
 public class ReservationsController(ISender sender) : ControllerBase
 {
-    [HttpPost("add-reservation")]
+    [HttpPost]
     public async Task<IResult> AddNewReservation([FromBody] AddNewReservationDTO dto)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -38,7 +38,7 @@ public class ReservationsController(ISender sender) : ControllerBase
         );
     }
 
-    [HttpGet("get-reservation-profile-by-{id:guid}")]
+    [HttpGet("reservation-profiles/{id:guid}")]
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IResult> GetReservationProfileById(Guid id)
     {
@@ -50,7 +50,7 @@ public class ReservationsController(ISender sender) : ControllerBase
         );
     }
 
-    [HttpGet("get-reservation-by-{id:guid}")]
+    [HttpGet("{id:guid}")]
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IResult> GetReservationById(Guid id)
     {
@@ -62,7 +62,7 @@ public class ReservationsController(ISender sender) : ControllerBase
         );
     }
 
-    [HttpGet("get-reservation-profiles")]
+    [HttpGet("reservation-profiles")]
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IResult> GetReservationProfiles()
     {

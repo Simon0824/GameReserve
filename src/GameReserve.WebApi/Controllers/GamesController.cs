@@ -14,7 +14,7 @@ namespace GameReserve.WebApi.Controllers;
 [Authorize]
 public class GamesController(ISender sender) : ControllerBase
 {
-    [HttpPost("add-game")]
+    [HttpPost]
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IResult> AddNewGame([FromBody] AddNewGameDTO dto)
     {
@@ -26,7 +26,7 @@ public class GamesController(ISender sender) : ControllerBase
             onFailure: error => error.ToProblem());
     }
 
-    [HttpGet("get-games")]
+    [HttpGet]
     public async Task<IResult> GetGames()
     {
         var resultDTO = await sender.Send(new GetGamesCatalogQuery());
@@ -36,7 +36,7 @@ public class GamesController(ISender sender) : ControllerBase
             onFailure: error => error.ToProblem());
     }
 
-    [HttpGet("get-game-by-{id:guid}")]
+    [HttpGet("{id:guid}")]
     public async Task<IResult> GetGameById(Guid id)
     {
         var resultDTO = await sender.Send(new GetGameByIdQuery(id));
@@ -46,10 +46,10 @@ public class GamesController(ISender sender) : ControllerBase
             onFailure: error => error.ToProblem());
     }
 
-    [HttpDelete("delete-game")]
-    public async Task<IResult> DeleteGame(Guid GameId)
+    [HttpDelete("{id:guid}")]
+    public async Task<IResult> DeleteGame(Guid id)
     {
-        var resultDTO = await sender.Send(new DeleteGameCommand(GameId));
+        var resultDTO = await sender.Send(new DeleteGameCommand(id));
 
         return resultDTO.Match<Results<Ok, ProblemHttpResult>>(
             onSuccess: () => TypedResults.Ok(),

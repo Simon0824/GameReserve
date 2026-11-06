@@ -16,7 +16,7 @@ namespace GameReserve.WebApi.Controllers;
 [Authorize]
 public class IdentityController(ISender sender) : ControllerBase
 {
-    [HttpPost("users")]
+    [HttpPost]
     [AllowAnonymous]
     public async Task<IResult> CreateUser([FromBody] CreateUserDTO dto)
     {
@@ -40,7 +40,7 @@ public class IdentityController(ISender sender) : ControllerBase
          );
     }
 
-    [HttpPost("auth/login-with-refresh-token")]
+    [HttpPost("auth/login/refresh")]
     [AllowAnonymous]
     public async Task<IResult> LoginWithRefreshToken([FromBody] LoginWithRefreshTokenDTO dto)
     {
@@ -52,16 +52,16 @@ public class IdentityController(ISender sender) : ControllerBase
          );
     }
 
-    [HttpPost("ban-user")]
+    [HttpPost("ban")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IResult> BanUser(string Email)
+    public async Task<IResult> BanUser(string email)
     {
-        var resultDTO = await sender.Send(new BanUserCommand(Email));
+        var resultDTO = await sender.Send(new BanUserCommand(email));
 
         return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
 
-    [HttpPut("change-password")]
+    [HttpPut("{id:guid}/change-password")]
     public async Task<IResult> ChangePassword([FromBody] ChangePasswordDTO dto)
     {
           var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -76,7 +76,7 @@ public class IdentityController(ISender sender) : ControllerBase
           return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
 
-    [HttpGet("get-users")]
+    [HttpGet]
     [Authorize(Roles = UserRoles.Admin)]
     public async Task<IResult> GetUsers()
     {
@@ -88,11 +88,11 @@ public class IdentityController(ISender sender) : ControllerBase
          );
     }
 
-    [HttpDelete("delete-user")]
+    [HttpDelete("{id:guid}")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IResult> DeleteUser(string UserId)
+    public async Task<IResult> DeleteUser(string userId)
      {
-          var resultDTO = await sender.Send(new DeleteUserCommand(UserId));
+          var resultDTO = await sender.Send(new DeleteUserCommand(userId));
 
           return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
      }
