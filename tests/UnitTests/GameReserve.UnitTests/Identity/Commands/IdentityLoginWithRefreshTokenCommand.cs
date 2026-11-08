@@ -9,17 +9,25 @@ using SharedKernel.Domain.Abstractions;
 namespace GameReserve.UnitTests;
 public class IdentityLoginWithRefreshTokenCommand
 {
-    private static readonly LoginWithRefreshTokenCommand Command = new("test-refresh-token");
+    private static LoginWithRefreshTokenCommand CreateCommand(string refreshToken) => new(refreshToken);
+    private static User CreateTestUser(bool isBanned = false)
+    {
+        var user = User.Create("FullName", "test@email.com");
 
-    private static readonly User User = User.Create("FullName", "test@email.com");
-    private static readonly RefreshToken TestRefreshToken = new()
+        if(isBanned)
+        {
+            user.BanUser();
+        }
+
+        return user;
+    }
+    private static RefreshToken CreateTestRefreshToken(string userId, User user, string refreshToken) => new()
     {
         Id = Guid.NewGuid(),
-        Token = Command.RefreshToken,
-        UserId = User.Id,
+        Token = refreshToken,
+        UserId = userId,
         ExpiresOnUtc = DateTime.UtcNow.AddDays(6),
-        User = User,
-
+        User = user,
     };
     private readonly LoginWithRefreshTokenCommandHandler _handler;
     private readonly IUserRepository _userRepo;
@@ -36,10 +44,15 @@ public class IdentityLoginWithRefreshTokenCommand
     public async Task Handle_Should_ReturnError_WhenInvalidRefreshToken()
     {
         //Arrange
+        var user = CreateTestUser();
+
+        var testRefreshToken = "test-refresh-token";
+        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
+
         _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(null));
 
         //Act
-        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(Command, default);
+        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(CreateCommand(testRefreshToken), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -53,12 +66,17 @@ public class IdentityLoginWithRefreshTokenCommand
     public async Task Handle_Should_ReturnError_WhenFindUserFailed()
     {
         //Arrange
-        _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(TestRefreshToken));
+        var user = CreateTestUser();
+
+        var testRefreshToken = "test-refresh-token";
+        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
+
+        _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(refreshToken));
 
         _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
 
         //Act
-        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(Command, default);
+        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(CreateCommand(testRefreshToken), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -72,19 +90,17 @@ public class IdentityLoginWithRefreshTokenCommand
     public async Task Handle_Should_ReturnError_WhenUserIsBanned()
     {
         //Arrange
-        User bannedUser = User;
+        var user = CreateTestUser(true);
 
-        bannedUser.BanUser();
+        var testRefreshToken = "test-refresh-token";
+        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
 
-        if(TestRefreshToken.ExpiresOnUtc <= DateTime.UtcNow)
-            TestRefreshToken.ExpiresOnUtc = DateTime.UtcNow.AddDays(6);
+        _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(refreshToken));
 
-        _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(TestRefreshToken));
-
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(User));
+        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
 
         //Act
-        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(Command, default);
+        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(CreateCommand(testRefreshToken), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -98,37 +114,45 @@ public class IdentityLoginWithRefreshTokenCommand
     public async Task Handle_Should_ReturnSuccess_WhenRefreshTokenIsCorrect()
     {
         //Arrange
-        _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(TestRefreshToken));
+        var testRefreshToken = "test-refresh-token";
+        var testNewRefreshToken = "test-new-refresh-token";
+        var testAccessToken = "test-acces-token";
 
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(User));
+        var user = CreateTestUser();
 
-        _tokenProvider.CreateToken(User).Returns(Task.FromResult("test-access-token"));
+        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
 
-        _tokenProvider.GenerateRefreshToken().Returns("new-test-refresh-token");
+        _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(refreshToken));
+
+        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
+
+        _tokenProvider.CreateToken(user).Returns(Task.FromResult(testAccessToken));
+
+        _tokenProvider.GenerateRefreshToken().Returns(testNewRefreshToken);
 
         //Act
-        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(Command, default);
+        Result<LoginWithRefreshTokenResultDTO> result = await _handler.Handle(CreateCommand(testRefreshToken), default);
 
         //Assert
         Assert.True(result.IsSucceeded);
         Assert.False(result.IsFailed);
 
         Assert.NotNull(result.Value);
-        Assert.Equal("new-test-refresh-token", result.Value.RefreshToken);
-        Assert.Equal("test-access-token", result.Value.AccessToken);
+        Assert.Equal(testNewRefreshToken, result.Value.RefreshToken);
+        Assert.Equal(testAccessToken, result.Value.AccessToken);
 
-        await _userRepo.Received(1).FindRefreshToken(Arg.Is<string>(rt => rt == Command.RefreshToken), default);
+        await _userRepo.Received(1).FindRefreshToken(Arg.Is<string>(rt => rt == testRefreshToken), default);
 
-        await _userRepo.Received(1).FindUser(Arg.Is<string>(id => id == TestRefreshToken.UserId), default);
+        await _userRepo.Received(1).FindUser(Arg.Is<string>(id => id == refreshToken.UserId), default);
 
-        await _tokenProvider.Received(1).CreateToken(Arg.Is<User>(User));
+        await _tokenProvider.Received(1).CreateToken(Arg.Is<User>(user));
 
         _tokenProvider.Received(1).GenerateRefreshToken();
 
         _userRepo.Received(1).AddRefreshToken(Arg.Is<RefreshToken>(rt => 
-                                                                   rt.User == TestRefreshToken.User &&
-                                                                   rt.UserId == TestRefreshToken.UserId &&
-                                                                   rt.Token == "new-test-refresh-token"));
+                                                                   rt.User == refreshToken.User &&
+                                                                   rt.UserId == refreshToken.UserId &&
+                                                                   rt.Token == testNewRefreshToken));
 
         await _userRepo.Received(1).SaveChangesAsync(default);
     }

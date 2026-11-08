@@ -10,8 +10,22 @@ namespace GameReserve.UnitTests;
 
 public class IdentityCreateUserCommand
 {
-    private static readonly CreateUserCommand Command = new("FullName", "test@email.com", "TestPassword123!");
-    private static readonly User User = User.Create(Command.FullName, Command.Email);
+    private static string testPassword = "Password123!";
+    private static CreateUserCommand CreateCommand(string userFullName, string userEmail, string userPassword)
+    {
+        return new CreateUserCommand(userFullName, userEmail, userPassword);
+    }
+    private static User CreateTestUser(bool isBanned = false)
+    {
+        var user = User.Create("FullName", "test@email.com");
+
+        if(isBanned)
+        {
+            user.BanUser();
+        }
+
+        return user;
+    }
     private readonly CreateUserCommandHandler _handler;
     private readonly IUserRepository _userRepo;
 
@@ -26,12 +40,12 @@ public class IdentityCreateUserCommand
     public async Task Handle_Should_ReturnError_WhenCreateUserIsNotSucceeded()
     {
         //Arrange
-        CreateUserCommand invalidCommand = Command with {Password = "error"};
+        var user = CreateTestUser();
 
         _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
 
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(invalidCommand, default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -45,14 +59,16 @@ public class IdentityCreateUserCommand
     public async Task Handle_Should_ReturnError_WhenAddRoleToUserIsNotSucceeded()
     {
         //Arrange
+        var user = CreateTestUser();
+
         _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
-         _userRepo.AddUserRole(Arg.Any<User>()).Returns(IdentityResult.Failed());
+        _userRepo.AddUserRole(Arg.Any<User>()).Returns(IdentityResult.Failed());
 
         _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
 
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(Command, default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -66,6 +82,8 @@ public class IdentityCreateUserCommand
     public async Task Handle_Should_ReturnError_WhenAddRoleToUserIsNotSucceeded_AndCannotDeleteUser()
     {
         //Arrange
+        var user = CreateTestUser();
+        
         _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
          _userRepo.AddUserRole(Arg.Any<User>())
@@ -75,7 +93,7 @@ public class IdentityCreateUserCommand
         .Returns(IdentityResult.Failed());
 
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(Command, default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -89,13 +107,14 @@ public class IdentityCreateUserCommand
     public async Task Handle_Should_ReturnSuccess_WhenCreateUserAndAddRoleIsSucceeded()
     {
         //Arrange
+        var user = CreateTestUser();
 
         _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
         _userRepo.AddUserRole(Arg.Any<User>()).Returns(IdentityResult.Success);
                         
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(Command, default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
 
         //Assert
         Assert.True(result.IsSucceeded);
@@ -103,18 +122,20 @@ public class IdentityCreateUserCommand
 
         Assert.NotNull(result.Value);
 
-        Assert.Equal(Command.Email, result.Value.Email);
-        Assert.Equal(Command.FullName, result.Value.FullName);
+        Assert.Equal(user.Email, result.Value.Email);
+        Assert.Equal(user.FullName, result.Value.FullName);
 
-        await _userRepo.Received(1).CreateUser(Arg.Is<User>(u => u.Email == Command.Email && u.FullName == Command.FullName), Command.Password);
+        await _userRepo.Received(1).CreateUser(Arg.Is<User>(u => u.Email == user.Email && u.FullName == user.FullName), testPassword);
 
-        await _userRepo.Received(1).AddUserRole(Arg.Is<User>(u => u.Email == Command.Email && u.FullName == Command.FullName));
+        await _userRepo.Received(1).AddUserRole(Arg.Is<User>(u => u.Email == user.Email && u.FullName == user.FullName));
     }
 
     [Fact]
     public async Task Repository_Should_Receive_WhenDeleteUser()
     {
         //Arrange
+        var user = CreateTestUser();
+
         _userRepo.CreateUser(Arg.Any<User>(),Arg.Any<string>()).Returns(IdentityResult.Success);
 
         _userRepo.AddUserRole(Arg.Any<User>()).Returns(IdentityResult.Failed());
@@ -122,14 +143,14 @@ public class IdentityCreateUserCommand
         _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
                         
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(Command, default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
         Assert.False(result.IsSucceeded);
 
         await _userRepo.Received(1).DeleteUser(Arg.Is<User>(u =>
-                                                             u.FullName == Command.FullName &&
-                                                             u.Email == Command.Email));
+                                                             u.FullName == user.FullName &&
+                                                             u.Email == user.Email));
     }
 }

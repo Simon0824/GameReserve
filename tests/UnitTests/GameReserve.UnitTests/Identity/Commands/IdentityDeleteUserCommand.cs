@@ -8,8 +8,21 @@ using SharedKernel.Domain.Abstractions;
 namespace GameReserve.UnitTests;
 public class IdentityDeleteUserCommand
 {
-    private static readonly User User = User.Create("FullName", "test@email.com");
-    private static readonly DeleteUserCommand Command = new(User.Id);
+    private static User CreateTestUser(bool isBanned = false)
+    {
+        var user = User.Create("FullName", "test@email.com");
+
+        if(isBanned)
+        {
+            user.BanUser();
+        }
+
+        return user;
+    }
+    private static DeleteUserCommand CreateCommand(string userId)
+    {
+        return new DeleteUserCommand(userId);
+    }
     private readonly DeleteUserCommandHandler _handler;
     private readonly IUserRepository _userRepo;
     public IdentityDeleteUserCommand()
@@ -23,10 +36,11 @@ public class IdentityDeleteUserCommand
     public async Task Handle_Should_ReturnError_WhenUserNotFound()
     {
         //Arrange
-        _userRepo.FindUserByEmail(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
+        var user = CreateTestUser();
+        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
 
         //Act
-        Result result = await _handler.Handle(Command, default);
+        Result result = await _handler.Handle(CreateCommand(user.Id), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -40,12 +54,14 @@ public class IdentityDeleteUserCommand
     public async Task Handle_Should_ReturnError_WhenCannotDeleteUser()
     {
         //Arrange
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(User));
+        var user = CreateTestUser();
+
+        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
 
         _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Failed());
 
         //Act
-        Result result = await _handler.Handle(Command, default);
+        Result result = await _handler.Handle(CreateCommand(user.Id), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -59,19 +75,21 @@ public class IdentityDeleteUserCommand
     public async Task Handle_Should_ReturnSuccess_WhenUserDeleted()
     {
         //Arrange
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(User));
+        var user = CreateTestUser();
+
+        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
 
         _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
 
         //Act
-        Result result = await _handler.Handle(Command, default);
+        Result result = await _handler.Handle(CreateCommand(user.Id), default);
 
         //Assert
         Assert.True(result.IsSucceeded);
         Assert.False(result.IsFailed);
 
-        await _userRepo.Received(1).FindUser(Arg.Is<string>(Command.UserId), default);
+        await _userRepo.Received(1).FindUser(Arg.Is<string>(user.Id), default);
 
-        await _userRepo.Received(1).DeleteUser(Arg.Is<User>(User));
+        await _userRepo.Received(1).DeleteUser(Arg.Is<User>(user));
     }
 }
