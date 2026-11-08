@@ -34,16 +34,7 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
             return ReservationErrors.ReservationOverlapping;
         }
 
-        decimal amount = game.Category switch
-        {
-            "AAA" => 100.00m,
-            "AA" => 70.00m,
-            "III" => 50.00m,
-            "Indie" => 20.00m,
-            _ => 5.00m
-        };
-
-        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, amount);
+        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, Reservation.CalculatePrice(game.Category));
         reservationsRepository.CreateReservation(reservation);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

@@ -8,7 +8,7 @@ public class ValidationExceptionHandler(
     IProblemDetailsService problemDetailsService
 ) : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(
+    public ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken
@@ -16,7 +16,7 @@ public class ValidationExceptionHandler(
     {
         if(exception is not ValidationException validationException)
         {
-            return false;
+            return ValueTask.FromResult(false);
         }
 
         logger.LogError(exception, "Validation exception occured");
@@ -43,6 +43,6 @@ public class ValidationExceptionHandler(
 
         context.ProblemDetails.Extensions.Add("errors", errors);
 
-        return await problemDetailsService.TryWriteAsync(context);
+        return problemDetailsService.TryWriteAsync(context);
     }
 }

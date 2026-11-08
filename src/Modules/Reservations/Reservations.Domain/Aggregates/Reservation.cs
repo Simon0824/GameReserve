@@ -87,6 +87,18 @@ public class Reservation
     {
         Status = ReservationStatus.Failed;
     }
+
+    public static decimal CalculatePrice(string gameCategory)
+    {
+        return gameCategory switch
+        {
+            "AAA" => 100.00m,
+            "AA" => 70.00m,
+            "III" => 50.00m,
+            "Indie" => 20.00m,
+            _ => 5.00m
+        };
+    }
     private Reservation()
     {}
 }

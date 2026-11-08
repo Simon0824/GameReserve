@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GameReserve.WebApi.Exceptions;
 public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(
+    public ValueTask<bool> TryHandleAsync(
         HttpContext httpContext, 
         Exception exception, 
         CancellationToken cancellationToken)
@@ -13,7 +13,7 @@ public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext()
+        return problemDetailsService.TryWriteAsync(new ProblemDetailsContext()
         {
            Exception = exception,
            HttpContext = httpContext,
