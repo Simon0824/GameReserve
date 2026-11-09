@@ -2,28 +2,24 @@ using Identity.Application.Commands;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using NSubstitute;
 using SharedKernel.Domain.Abstractions;
-using SharedKernel.IntegrationEvents;
 
 namespace GameReserve.UnitTests;
 public class IdentityChangePasswordCommand
 {
-    private static string testPassword = "Password123!";
-    private static string testNewPassword = "NewPassword123!";
-    private static User CreateTestUser(bool isBanned = false)
+    private const string TestPassword = "Password123!";
+    private const string TestNewPassword = "NewPassword123!";
+    private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", "test@email.com");
 
         if(isBanned)
-        {
             user.BanUser();
-        }
 
         return user;
     }
-    private static ChangePasswordCommand CreateCommand(string userId, string currentPassword, string newPassword)
+    private ChangePasswordCommand CreateCommand(string userId, string currentPassword, string newPassword)
     {
         return new ChangePasswordCommand(userId, currentPassword, newPassword);
     }
@@ -44,7 +40,7 @@ public class IdentityChangePasswordCommand
         _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
 
         //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, testPassword, testNewPassword), default);
+        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -64,7 +60,7 @@ public class IdentityChangePasswordCommand
 
         _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
         //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, testPassword, testNewPassword), default);
+        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -85,7 +81,7 @@ public class IdentityChangePasswordCommand
     
         _userRepo.ChangePassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
         //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, testPassword, testNewPassword), default);
+        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -106,7 +102,7 @@ public class IdentityChangePasswordCommand
     
         _userRepo.ChangePassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>()).Returns(IdentityResult.Success);
         //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, testPassword, testNewPassword), default);
+        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
         //Assert
         Assert.True(result.IsSucceeded);
@@ -114,11 +110,11 @@ public class IdentityChangePasswordCommand
 
         await _userRepo.Received(1).FindUser(Arg.Is<string>(user.Id), default);
 
-        await _userRepo.Received(1).CheckPassword(Arg.Is<User>(user), Arg.Is<string>(testPassword));
+        await _userRepo.Received(1).CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));
 
         await _userRepo.Received(1).ChangePassword(
                         Arg.Is<User>(user), 
-                        Arg.Is<string>(testPassword), 
-                        Arg.Is<string>(testNewPassword));
+                        Arg.Is<string>(TestPassword), 
+                        Arg.Is<string>(TestNewPassword));
     }
 }

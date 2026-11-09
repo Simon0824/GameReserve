@@ -8,18 +8,16 @@ using SharedKernel.Domain.Abstractions;
 namespace GameReserve.UnitTests;
 public class IdentityDeleteUserCommand
 {
-    private static User CreateTestUser(bool isBanned = false)
+    private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", "test@email.com");
 
         if(isBanned)
-        {
             user.BanUser();
-        }
 
         return user;
     }
-    private static DeleteUserCommand CreateCommand(string userId)
+    private DeleteUserCommand CreateCommand(string userId)
     {
         return new DeleteUserCommand(userId);
     }

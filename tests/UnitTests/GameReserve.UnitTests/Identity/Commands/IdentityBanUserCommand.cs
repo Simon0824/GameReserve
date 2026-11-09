@@ -1,22 +1,19 @@
 using Identity.Application.Commands;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
-using MassTransit.Batching;
 using NSubstitute;
 using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
 public class IdentityBanUserCommand
 {
-    private static readonly BanUserCommand Command = new("test@email.com");
-    private static User CreateTestUser(bool isBanned = false)
+    private readonly BanUserCommand Command = new("test@email.com");
+    private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", Command.Email);
 
         if(isBanned)
-        {
             user.BanUser();
-        }
 
         return user;
     }
@@ -47,7 +44,7 @@ public class IdentityBanUserCommand
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnError_WhenUserBanned()
+    public async Task Handle_Should_ReturnError_WhenUserIsAlreadyBanned()
     {
         //Arrange
         _userRepo.FindUserByEmail(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(CreateTestUser(true)));
@@ -61,5 +58,25 @@ public class IdentityBanUserCommand
 
         Assert.Equal("User.UserIsBanned", result.Error.Code);
         Assert.Equal("User is banned", result.Error.Description);
+    }
+
+    [Fact]
+    public async Task Handle_Should_ReturnSuccess_WhenUserBanned()
+    {
+        //Arrange
+        var user = CreateTestUser();
+
+        _userRepo.FindUserByEmail(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
+
+        //Act
+        Result result = await _handler.Handle(Command, default);
+
+        //Assert
+        Assert.True(result.IsSucceeded);
+        Assert.False(result.IsFailed);
+
+        await _userRepo.Received(1).FindUserByEmail(Arg.Is<string>(user.Email!), default);
+
+        await _userRepo.Received(1).UpdateAsync(Arg.Is<User>(user));
     }
 }

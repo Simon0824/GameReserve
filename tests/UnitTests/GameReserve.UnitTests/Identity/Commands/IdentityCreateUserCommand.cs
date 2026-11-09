@@ -10,19 +10,17 @@ namespace GameReserve.UnitTests;
 
 public class IdentityCreateUserCommand
 {
-    private static string testPassword = "Password123!";
-    private static CreateUserCommand CreateCommand(string userFullName, string userEmail, string userPassword)
+    private const string TestPassword = "Password123!";
+    private CreateUserCommand CreateCommand(string userFullName, string userEmail, string userPassword)
     {
         return new CreateUserCommand(userFullName, userEmail, userPassword);
     }
-    private static User CreateTestUser(bool isBanned = false)
+    private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", "test@email.com");
 
         if(isBanned)
-        {
             user.BanUser();
-        }
 
         return user;
     }
@@ -45,7 +43,7 @@ public class IdentityCreateUserCommand
         _userRepo.CreateUser(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
 
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -68,7 +66,7 @@ public class IdentityCreateUserCommand
         _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
 
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -93,7 +91,7 @@ public class IdentityCreateUserCommand
         .Returns(IdentityResult.Failed());
 
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -114,7 +112,7 @@ public class IdentityCreateUserCommand
         _userRepo.AddUserRole(Arg.Any<User>()).Returns(IdentityResult.Success);
                         
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsSucceeded);
@@ -125,7 +123,7 @@ public class IdentityCreateUserCommand
         Assert.Equal(user.Email, result.Value.Email);
         Assert.Equal(user.FullName, result.Value.FullName);
 
-        await _userRepo.Received(1).CreateUser(Arg.Is<User>(u => u.Email == user.Email && u.FullName == user.FullName), testPassword);
+        await _userRepo.Received(1).CreateUser(Arg.Is<User>(u => u.Email == user.Email && u.FullName == user.FullName), TestPassword);
 
         await _userRepo.Received(1).AddUserRole(Arg.Is<User>(u => u.Email == user.Email && u.FullName == user.FullName));
     }
@@ -143,7 +141,7 @@ public class IdentityCreateUserCommand
         _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
                         
         //Act
-        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, testPassword), default);
+        Result<CreateUserResultDTO> result = await _handler.Handle(CreateCommand(user.FullName, user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);

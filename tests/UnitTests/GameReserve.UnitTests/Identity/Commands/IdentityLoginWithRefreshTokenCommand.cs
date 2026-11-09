@@ -9,19 +9,17 @@ using SharedKernel.Domain.Abstractions;
 namespace GameReserve.UnitTests;
 public class IdentityLoginWithRefreshTokenCommand
 {
-    private static LoginWithRefreshTokenCommand CreateCommand(string refreshToken) => new(refreshToken);
-    private static User CreateTestUser(bool isBanned = false)
+    private LoginWithRefreshTokenCommand CreateCommand(string refreshToken) => new(refreshToken);
+    private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", "test@email.com");
 
         if(isBanned)
-        {
             user.BanUser();
-        }
 
         return user;
     }
-    private static RefreshToken CreateTestRefreshToken(string userId, User user, string refreshToken) => new()
+    private RefreshToken CreateTestRefreshToken(string userId, User user, string refreshToken) => new()
     {
         Id = Guid.NewGuid(),
         Token = refreshToken,
@@ -44,10 +42,7 @@ public class IdentityLoginWithRefreshTokenCommand
     public async Task Handle_Should_ReturnError_WhenInvalidRefreshToken()
     {
         //Arrange
-        var user = CreateTestUser();
-
         var testRefreshToken = "test-refresh-token";
-        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
 
         _userRepo.FindRefreshToken(Arg.Any<string>(), default).Returns(Task.FromResult<RefreshToken?>(null));
 

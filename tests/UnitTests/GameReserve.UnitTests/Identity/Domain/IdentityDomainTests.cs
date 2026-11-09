@@ -1,24 +1,22 @@
-using System.Reflection;
 using FluentAssertions;
 using Identity.Domain.Enums;
 using Identity.Domain.UserAggregate;
-using NSubstitute;
 
 namespace GameReserve.UnitTests;
 public class IdentityDomainTests
 {
-    private static string testFullName = "FullName";
-    private static string testEmail = "test@email.com";
+    private const string TestFullName = "FullName";
+    private const string TestEmail = "test@email.com";
     [Fact]
     public void User_Should_BeReturned_WhenUserIsCreated()
     {
         //Act
-        var user = User.Create(testFullName, testEmail);
+        var user = User.Create(TestFullName, TestEmail);
 
         //Assert
         user.DomainEvents.Should().ContainSingle();
-        user.FullName.Should().Be(testFullName);
-        user.Email.Should().Be(testEmail);
+        user.FullName.Should().Be(TestFullName);
+        user.Email.Should().Be(TestEmail);
         user.Status.Should().Be(UserStatus.Active);
     }
 

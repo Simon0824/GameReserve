@@ -9,16 +9,14 @@ using SharedKernel.Domain.Abstractions;
 namespace GameReserve.UnitTests;
 public class IdentityLoginUserCommand
 {
-    private static string testPassword = "Password123!";
-    private static LoginUserCommand CreateCommand(string userEmail, string userPassword) => new(userEmail, userPassword);
-    private static User CreateTestUser(bool isBanned = false)
+    private const string TestPassword = "Password123!";
+    private LoginUserCommand CreateCommand(string userEmail, string userPassword) => new(userEmail, userPassword);
+    private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", "test@email.com");
 
         if(isBanned)
-        {
             user.BanUser();
-        }
 
         return user;
     }
@@ -43,7 +41,7 @@ public class IdentityLoginUserCommand
         _userRepo.FindUserByEmail(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
 
         //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, testPassword), default);
+        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -65,7 +63,7 @@ public class IdentityLoginUserCommand
         _userRepo.CheckPassword(user, Arg.Any<string>()).Returns(false);
 
         //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, testPassword), default);
+        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -87,7 +85,7 @@ public class IdentityLoginUserCommand
         _userRepo.CheckPassword(user, Arg.Any<string>()).Returns(true);
 
         //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, testPassword), default);
+        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsFailed);
@@ -116,7 +114,7 @@ public class IdentityLoginUserCommand
         _tokenProvider.GenerateRefreshToken().Returns(testRefreshToken);
 
         //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, testPassword), default);
+        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
 
         //Assert
         Assert.True(result.IsSucceeded);
@@ -129,7 +127,7 @@ public class IdentityLoginUserCommand
 
         await _userRepo.Received(1).FindUserByEmail(Arg.Is<string>(user.Email!), default);
 
-        await _userRepo.Received(1).CheckPassword(Arg.Is<User>(user), Arg.Is<string>(testPassword));
+        await _userRepo.Received(1).CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));
 
         _userRepo.Received(1).AddRefreshToken(Arg.Is<RefreshToken>(rt =>
                                                                         rt.UserId == user.Id &&
