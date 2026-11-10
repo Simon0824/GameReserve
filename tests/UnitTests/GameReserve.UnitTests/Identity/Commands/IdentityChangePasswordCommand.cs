@@ -1,3 +1,5 @@
+
+using FluentAssertions;
 using Identity.Application.Commands;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
@@ -6,115 +8,136 @@ using NSubstitute;
 using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
+
 public class IdentityChangePasswordCommand
 {
     private const string TestPassword = "Password123!";
     private const string TestNewPassword = "NewPassword123!";
-    private User CreateTestUser(bool isBanned = false)
+
+    private User CreateTestUser()
     {
-        var user = User.Create("FullName", "test@email.com");
-
-        if(isBanned)
-            user.BanUser();
-
-        return user;
+        return User.Create("FullName", "test@email.com");
     }
+
     private ChangePasswordCommand CreateCommand(string userId, string currentPassword, string newPassword)
     {
         return new ChangePasswordCommand(userId, currentPassword, newPassword);
     }
+
     private readonly ChangePasswordCommandHandler _handler;
     private readonly IUserRepository _userRepo;
+
     public IdentityChangePasswordCommand()
     {
         _userRepo = Substitute.For<IUserRepository>();
-
         _handler = new(_userRepo);
     }
 
-   [Fact]
+    [Fact]
     public async Task Handle_Should_ReturnError_WhenUserNotFound()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
 
-        //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+        _userRepo.FindUser(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(null));
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        // Act
+        Result result = await _handler.Handle(
+            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
-        Assert.Equal("User.UserNotFound", result.Error.Code);
-        Assert.Equal("User not found in DB", result.Error.Description);
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
+
+        result.Error.Code.Should().Be("User.UserNotFound");
+        result.Error.Description.Should().Be("User not found in DB");
     }
 
-   [Fact]
+    [Fact]
     public async Task Handle_Should_ReturnError_WhenInvalidPassword()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
+
         _userRepo.FindUser(Arg.Any<string>(), default)
-                                .Returns(Task.FromResult<User?>(CreateTestUser()));
+            .Returns(Task.FromResult<User?>(CreateTestUser()));
 
-        _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
-        //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+        _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>())
+            .Returns(false);
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        // Act
+        Result result = await _handler.Handle(
+            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
-        Assert.Equal("User.NotValidPass", result.Error.Code);
-        Assert.Equal("Password not valid", result.Error.Description);
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
+
+        result.Error.Code.Should().Be("User.NotValidPass");
+        result.Error.Description.Should().Be("Password not valid");
     }
 
-  [Fact]
-    public async Task Handle_Should_ReturnError_WhenCannotChangePassword()
+    [Fact]
+    public async Task Handle_Should_ReturnError_WhenChangePasswordFails()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(CreateTestUser()));
 
-        _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
-    
-        _userRepo.ChangePassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
-        //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+        _userRepo.FindUser(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(CreateTestUser()));
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>())
+            .Returns(true);
 
-        Assert.Equal("User.CannotChangePassword", result.Error.Code);
-        Assert.Equal("Cannot change a user password", result.Error.Description);
+        _userRepo.ChangePassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>())
+            .Returns(IdentityResult.Failed());
+
+        // Act
+        Result result = await _handler.Handle(
+            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
+
+        result.Error.Code.Should().Be("User.CannotChangePassword");
+        result.Error.Description.Should().Be("Cannot change a user password");
     }
 
-  [Fact]
-    public async Task Handle_Should_ReturnSuccess_WhenNewPasswordIsCorrect()
+    [Fact]
+    public async Task Handle_Should_ReturnSuccess_WhenNewPasswordCorrect()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
 
-        _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
-    
-        _userRepo.ChangePassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>()).Returns(IdentityResult.Success);
-        //Act
-        Result result = await _handler.Handle(CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+        _userRepo.FindUser(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(user));
 
-        //Assert
-        Assert.True(result.IsSucceeded);
-        Assert.False(result.IsFailed);
+        _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>())
+            .Returns(true);
 
-        await _userRepo.Received(1).FindUser(Arg.Is<string>(user.Id), default);
+        _userRepo.ChangePassword(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<string>())
+            .Returns(IdentityResult.Success);
 
-        await _userRepo.Received(1).CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));
+        // Act
+        Result result = await _handler.Handle(
+            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
 
-        await _userRepo.Received(1).ChangePassword(
-                        Arg.Is<User>(user), 
-                        Arg.Is<string>(TestPassword), 
-                        Arg.Is<string>(TestNewPassword));
+        // Assert
+        result.IsSucceeded.Should().BeTrue();
+        result.IsFailed.Should().BeFalse();
+
+        await _userRepo.Received(1)
+            .FindUser(Arg.Is<string>(user.Id), default);
+
+        await _userRepo.Received(1)
+            .CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));
+
+        await _userRepo.Received(1)
+            .ChangePassword(
+                Arg.Is<User>(user),
+                Arg.Is<string>(TestPassword),
+                Arg.Is<string>(TestNewPassword));
     }
 }

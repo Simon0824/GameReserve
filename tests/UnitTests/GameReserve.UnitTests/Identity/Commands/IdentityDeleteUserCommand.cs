@@ -1,3 +1,5 @@
+
+using FluentAssertions;
 using Identity.Application.DTOs;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
@@ -6,88 +8,94 @@ using NSubstitute;
 using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
+
 public class IdentityDeleteUserCommand
 {
-    private User CreateTestUser(bool isBanned = false)
+    private User CreateTestUser()
     {
-        var user = User.Create("FullName", "test@email.com");
-
-        if(isBanned)
-            user.BanUser();
-
-        return user;
+        return User.Create("FullName", "test@email.com");
     }
+
     private DeleteUserCommand CreateCommand(string userId)
     {
         return new DeleteUserCommand(userId);
     }
+
     private readonly DeleteUserCommandHandler _handler;
     private readonly IUserRepository _userRepo;
+
     public IdentityDeleteUserCommand()
     {
         _userRepo = Substitute.For<IUserRepository>();
-
         _handler = new(_userRepo);
     }
 
-   [Fact]
+    [Fact]
     public async Task Handle_Should_ReturnError_WhenUserNotFound()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
 
-        //Act
+        _userRepo.FindUser(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(null));
+
+        // Act
         Result result = await _handler.Handle(CreateCommand(user.Id), default);
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
 
-        Assert.Equal("User.UserNotFound", result.Error.Code);
-        Assert.Equal("User not found in DB", result.Error.Description);
+        result.Error.Code.Should().Be("User.UserNotFound");
+        result.Error.Description.Should().Be("User not found in DB");
     }
 
-   [Fact]
+    [Fact]
     public async Task Handle_Should_ReturnError_WhenCannotDeleteUser()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
+        _userRepo.FindUser(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(user));
 
-        _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Failed());
+        _userRepo.DeleteUser(Arg.Any<User>())
+            .Returns(IdentityResult.Failed());
 
-        //Act
+        // Act
         Result result = await _handler.Handle(CreateCommand(user.Id), default);
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
 
-        Assert.Equal("User.CannotDelete", result.Error.Code);
-        Assert.Equal("User cannot be deleted", result.Error.Description);
+        result.Error.Code.Should().Be("User.CannotDelete");
+        result.Error.Description.Should().Be("User cannot be deleted");
     }
 
-   [Fact]
+    [Fact]
     public async Task Handle_Should_ReturnSuccess_WhenUserDeleted()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(user));
+        _userRepo.FindUser(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(user));
 
-        _userRepo.DeleteUser(Arg.Any<User>()).Returns(IdentityResult.Success);
+        _userRepo.DeleteUser(Arg.Any<User>())
+            .Returns(IdentityResult.Success);
 
-        //Act
+        // Act
         Result result = await _handler.Handle(CreateCommand(user.Id), default);
 
-        //Assert
-        Assert.True(result.IsSucceeded);
-        Assert.False(result.IsFailed);
+        // Assert
+        result.IsSucceeded.Should().BeTrue();
+        result.IsFailed.Should().BeFalse();
 
-        await _userRepo.Received(1).FindUser(Arg.Is<string>(user.Id), default);
+        await _userRepo.Received(1)
+            .FindUser(Arg.Is<string>(user.Id), default);
 
-        await _userRepo.Received(1).DeleteUser(Arg.Is<User>(user));
+        await _userRepo.Received(1)
+            .DeleteUser(Arg.Is<User>(user));
     }
 }

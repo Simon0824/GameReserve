@@ -1,3 +1,5 @@
+
+using FluentAssertions;
 using Identity.Application.Commands;
 using Identity.Application.DTOs;
 using Identity.Domain.Entities;
@@ -7,19 +9,24 @@ using NSubstitute;
 using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
+
 public class IdentityLoginUserCommand
 {
     private const string TestPassword = "Password123!";
-    private LoginUserCommand CreateCommand(string userEmail, string userPassword) => new(userEmail, userPassword);
+
+    private LoginUserCommand CreateCommand(string userEmail, string userPassword)
+        => new(userEmail, userPassword);
+
     private User CreateTestUser(bool isBanned = false)
     {
         var user = User.Create("FullName", "test@email.com");
 
-        if(isBanned)
+        if (isBanned)
             user.BanUser();
 
         return user;
     }
+
     private readonly LoginUserCommandHandler _handler;
     private readonly ITokenProvider _tokenProvider;
     private readonly IUserRepository _userRepo;
@@ -35,108 +42,125 @@ public class IdentityLoginUserCommand
     [Fact]
     public async Task Handle_Should_ReturnError_WhenUserNotFound()
     {
-        //Arrange
-        var user = CreateTestUser();
-
-        _userRepo.FindUserByEmail(Arg.Any<string>(), default).Returns(Task.FromResult<User?>(null));
-
-        //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
-
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
-
-        Assert.Equal("User.UserNotFound", result.Error.Code);
-        Assert.Equal("User not found in DB", result.Error.Description);
-    }
-
-    [Fact]
-    public async Task Handle_Should_ReturnError_WhenCheckPasswordFailed()
-    {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
 
         _userRepo.FindUserByEmail(Arg.Any<string>(), default)
-                                .Returns(Task.FromResult<User?>(user));
+            .Returns(Task.FromResult<User?>(null));
 
-        _userRepo.CheckPassword(user, Arg.Any<string>()).Returns(false);
+        // Act
+        Result<LoginUserResultDTO> result = await _handler.Handle(
+            CreateCommand(user.Email!, TestPassword), default);
 
-        //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        result.Error.Code.Should().Be("User.UserNotFound");
+        result.Error.Description.Should().Be("User not found in DB");
+    }
 
-        Assert.Equal("User.NotValidPass", result.Error.Code);
-        Assert.Equal("Password not valid", result.Error.Description);
+    [Fact]
+    public async Task Handle_Should_ReturnError_WhenCheckPasswordFails()
+    {
+        // Arrange
+        var user = CreateTestUser();
+
+        _userRepo.FindUserByEmail(Arg.Any<string>(), default)
+            .Returns(Task.FromResult<User?>(user));
+
+        _userRepo.CheckPassword(user, Arg.Any<string>())
+            .Returns(false);
+
+        // Act
+        Result<LoginUserResultDTO> result = await _handler.Handle(
+            CreateCommand(user.Email!, TestPassword), default);
+
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
+
+        result.Error.Code.Should().Be("User.NotValidPass");
+        result.Error.Description.Should().Be("Password not valid");
     }
 
     [Fact]
     public async Task Handle_Should_ReturnError_WhenUserIsBanned()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser(true);
-        
+
         _userRepo.FindUserByEmail(Arg.Any<string>(), default)
-                                .Returns(Task.FromResult<User?>(user));
+            .Returns(Task.FromResult<User?>(user));
 
-        _userRepo.CheckPassword(user, Arg.Any<string>()).Returns(true);
+        _userRepo.CheckPassword(user, Arg.Any<string>())
+            .Returns(true);
 
-        //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
+        // Act
+        Result<LoginUserResultDTO> result = await _handler.Handle(
+            CreateCommand(user.Email!, TestPassword), default);
 
-        //Assert
-        Assert.True(result.IsFailed);
-        Assert.False(result.IsSucceeded);
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
 
-        Assert.Equal("User.UserIsBanned", result.Error.Code);
-        Assert.Equal("User is banned", result.Error.Description);
+        result.Error.Code.Should().Be("User.UserIsBanned");
+        result.Error.Description.Should().Be("User is banned");
     }
 
     [Fact]
-    public async Task Repository_Should_ReturnSuccess_WhenLoginCorrect()
+    public async Task Repository_Should_ReturnSuccess_WhenCredentialsAreValid()
     {
-        //Arrange
+        // Arrange
         var user = CreateTestUser();
 
         string accessToken = "test-jwt-token";
         string testRefreshToken = "test-refresh-token";
 
         _userRepo.FindUserByEmail(Arg.Any<string>(), default)
-                                .Returns(Task.FromResult<User?>(user));
+            .Returns(Task.FromResult<User?>(user));
 
-        _userRepo.CheckPassword(user, Arg.Any<string>()).Returns(true);
+        _userRepo.CheckPassword(user, Arg.Any<string>())
+            .Returns(true);
 
-        _tokenProvider.CreateToken(user).Returns(Task.FromResult(accessToken));
+        _tokenProvider.CreateToken(user)
+            .Returns(Task.FromResult(accessToken));
 
-        _tokenProvider.GenerateRefreshToken().Returns(testRefreshToken);
+        _tokenProvider.GenerateRefreshToken()
+            .Returns(testRefreshToken);
 
-        //Act
-        Result<LoginUserResultDTO> result = await _handler.Handle(CreateCommand(user.Email!, TestPassword), default);
+        // Act
+        Result<LoginUserResultDTO> result = await _handler.Handle(
+            CreateCommand(user.Email!, TestPassword), default);
 
-        //Assert
-        Assert.True(result.IsSucceeded);
-        Assert.False(result.IsFailed);
+        // Assert
+        result.IsSucceeded.Should().BeTrue();
+        result.IsFailed.Should().BeFalse();
 
-        Assert.NotNull(result.Value);
+        result.Value.Should().NotBeNull();
 
-        Assert.Equal("FullName", result.Value.FullName);
-        Assert.Equal(user.Email, result.Value.Email);
+        result.Value.FullName.Should().Be("FullName");
+        result.Value.Email.Should().Be(user.Email);
 
-        await _userRepo.Received(1).FindUserByEmail(Arg.Is<string>(user.Email!), default);
+        await _userRepo.Received(1)
+            .FindUserByEmail(Arg.Is<string>(user.Email!), default);
 
-        await _userRepo.Received(1).CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));
+        await _userRepo.Received(1)
+            .CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));
 
-        _userRepo.Received(1).AddRefreshToken(Arg.Is<RefreshToken>(rt =>
-                                                                        rt.UserId == user.Id &&
-                                                                        rt.Token == testRefreshToken &&
-                                                                        rt.User == user));
-        await _tokenProvider.Received(1).CreateToken(Arg.Is<User>(user));
+        _userRepo.Received(1)
+            .AddRefreshToken(Arg.Is<RefreshToken>(rt =>
+                rt.UserId == user.Id &&
+                rt.Token == testRefreshToken &&
+                rt.User == user));
 
-        _tokenProvider.Received(1).GenerateRefreshToken();
-        
-        await _userRepo.Received(1).SaveChangesAsync(default);
+        await _tokenProvider.Received(1)
+            .CreateToken(Arg.Is<User>(user));
+
+        _tokenProvider.Received(1)
+            .GenerateRefreshToken();
+
+        await _userRepo.Received(1)
+            .SaveChangesAsync(default);
     }
 }
