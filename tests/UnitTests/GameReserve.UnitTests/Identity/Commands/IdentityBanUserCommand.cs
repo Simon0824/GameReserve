@@ -85,8 +85,5 @@ public class IdentityBanUserCommand
 
         await _userRepo.Received(1)
             .FindUserByEmail(Arg.Is<string>(user.Email!), default);
-
-        await _userRepo.Received(1)
-            .UpdateAsync(Arg.Is<User>(user));
     }
 }

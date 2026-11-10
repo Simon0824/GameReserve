@@ -61,14 +61,16 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
     {
         return await context.refreshTokens
                      .Include(u => u.User)
-                     .FirstOrDefaultAsync(t => t.Token == refreshToken, cancellationToken);
+                     .FirstOrDefaultAsync(t => t.Token == refreshToken && t.ExpiresOnUtc > DateTime.UtcNow, cancellationToken);
     }
 
-    public async Task UpdateAsync(User user)
+
+    public async Task<RefreshToken?> FindRefreshTokenByUser(string userId, CancellationToken cancellationToken)
     {
-        await userManager.UpdateAsync(user);
+        return await context.refreshTokens
+                     .Include(u => u.User)
+                     .FirstOrDefaultAsync(t => t.UserId == userId && t.ExpiresOnUtc > DateTime.UtcNow, cancellationToken);
     }
-
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await context.SaveChangesAsync(cancellationToken);

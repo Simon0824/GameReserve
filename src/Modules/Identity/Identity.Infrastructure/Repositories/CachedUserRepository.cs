@@ -10,7 +10,7 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
 {
     private const string _cachedUsers = "users:all";
     private static string RefreshTokenKey(string token) => $"refreshToken:{token}";
-
+    private static string RefreshTokenByUserIdKey(string userId) => $"refreshToken:{userId}";
     private static string UsersByEmailKey(string email) => $"users:{email}";
     private static string UsersByIdKey(string id) => $"users:{id}";
 
@@ -29,7 +29,7 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
     };
     DistributedCacheEntryOptions RefreshTokenTtl = new()
     {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(6)
     };
     public async Task<IdentityResult> CreateUser(User user, string password)
     {
@@ -151,7 +151,7 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
         if(string.IsNullOrEmpty(cachedToken))
         {
             token = await decorated.FindRefreshToken(refreshToken, cancellationToken);
-            if(token != null)
+            if(token == null)
             {
                 return token;
             }
@@ -167,10 +167,28 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
         return token;
     }
 
-    public async Task UpdateAsync(User user)
+    public async Task<RefreshToken?> FindRefreshTokenByUser(string userId, CancellationToken cancellationToken)
     {
-        await decorated.UpdateAsync(user);
-        await InvalidateUserAsync(user);
+        var cachedToken = await cache.GetStringAsync(RefreshTokenByUserIdKey(userId), cancellationToken);
+
+        RefreshToken? token;
+        if(string.IsNullOrEmpty(cachedToken))
+        {
+            token = await decorated.FindRefreshTokenByUser(userId, cancellationToken);
+            if(token == null)
+            {
+                return token;
+            }
+
+            await cache.SetStringAsync(RefreshTokenByUserIdKey(userId), JsonSerializer.Serialize(token), RefreshTokenTtl, cancellationToken);
+
+            return token;
+        }
+
+        var deserializedToken = JsonSerializer.Deserialize<RefreshToken?>(cachedToken!);
+
+        token = deserializedToken;
+        return token;
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)

@@ -32,7 +32,7 @@ public class LoginWithRefreshTokenCommandHandler(IUserRepository userRepository,
 
         var accessToken = await tokenProvider.CreateToken(refreshToken.User);
 
-        refreshToken.ExpiresOnUtc = DateTime.UtcNow;
+        refreshToken.ExpiresOnUtc = DateTime.UtcNow.AddSeconds(-1);
 
         var newRefreshToken = new RefreshToken()
         {

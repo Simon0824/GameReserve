@@ -21,7 +21,12 @@ public class BanUserCommandHandler(IUserRepository userRepository) : IRequestHan
 
         user.BanUser();
 
-        await userRepository.UpdateAsync(user);
+        var token = await userRepository.FindRefreshTokenByUser(user.Id, cancellationToken);
+
+        if(token != null)
+            token.ExpiresOnUtc = DateTime.UtcNow.AddSeconds(-1);
+
+        await userRepository.SaveChangesAsync(cancellationToken);
         
         return Result.Success;
     }
