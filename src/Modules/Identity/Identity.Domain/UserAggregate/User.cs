@@ -1,5 +1,6 @@
 using Identity.Domain.Abstractions;
 using Identity.Domain.Enums;
+using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Domain.UserAggregate;
 public class User : Entity
@@ -25,11 +26,12 @@ public class User : Entity
         return user;
     }
 
-    public void BanUser()
+    public Result BanUser()
     {
         if(Status == UserStatus.Banned)
-            throw new InvalidOperationException("User is already banned");
+            return UserErrors.UserBanned;
 
         Status = UserStatus.Banned;
+        return Result.Success;
     }
 }

@@ -1,4 +1,3 @@
-
 using FluentAssertions;
 using Identity.Application.Commands;
 using Identity.Domain.Interfaces;

@@ -1,4 +1,3 @@
-using Identity.Domain.Enums;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using MediatR;
@@ -16,10 +15,11 @@ public class BanUserCommandHandler(IUserRepository userRepository) : IRequestHan
         if(user is null)
             return UserErrors.UserNotFound;
 
-        if(user.Status == UserStatus.Banned)
-          return UserErrors.UserBanned;
 
-        user.BanUser();
+        var banResult = user.BanUser();
+
+        if(banResult.IsFailed)
+            return banResult;
 
         var token = await userRepository.FindRefreshTokenByUser(user.Id, cancellationToken);
 

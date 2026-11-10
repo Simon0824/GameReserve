@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Identity.Domain.Enums;
 using Identity.Domain.UserAggregate;
+using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
 public class IdentityDomainTests
@@ -45,18 +46,20 @@ public class IdentityDomainTests
     }
 
     [Fact]
-    public void User_Should_ThrowException_WhenUserIsAlreadyBanned()
+    public void User_Should_ReturnError_WhenUserIsAlreadyBanned()
     {
         //Arrange
         var user = User.Create("FullName", "test@email.com");
-
         user.BanUser();
 
         // Act
-        Action act = () => user.BanUser();
-
+        Result result = user.BanUser();
+        
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-           .WithMessage("User is already banned");
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
+
+        result.Error.Code.Should().Be("User.UserIsBanned");
+        result.Error.Description.Should().Be("User is banned");
     }
 }
