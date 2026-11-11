@@ -28,9 +28,9 @@ public class BlackListRepository(IConnectionMultiplexer redis) : IBlackListRepos
 
     public async Task<bool> IsBannedAsync(string userId)
     {
-        var reason = await _db.StringGetAsync(BlackListKey(userId));
+        var isPermamentBan = await _db.SetContainsAsync(PermamentSet, userId);
 
-        if(reason.HasValue)
+        if(isPermamentBan)
             return true;
         
         return false;

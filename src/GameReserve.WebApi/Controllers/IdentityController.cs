@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GameReserve.WebApi.Extensions;
 using Identity.Application.Commands;

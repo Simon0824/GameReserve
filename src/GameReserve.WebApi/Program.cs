@@ -5,6 +5,7 @@ using GameReserve.WebApi.BackgroundServices;
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
+using GameReserve.WebApi.Middleware;
 using GameReserve.WebApi.Outbox;
 using Games.Infrastructure.Data;
 using GemeReserve.WebApi.Inbox;
@@ -124,6 +125,7 @@ app.UseExceptionHandler();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseMiddleware<CheckIsUserBanned>();
 app.UseAuthorization();
 
 app.MapControllers();
