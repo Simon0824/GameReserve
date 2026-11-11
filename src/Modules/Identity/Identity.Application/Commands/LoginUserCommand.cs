@@ -33,14 +33,7 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
 
         var token = await tokenProvider.CreateToken(user);
 
-        var refreshToken = new RefreshToken()
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = tokenProvider.GenerateRefreshToken(),
-            ExpiresOnUtc = DateTime.UtcNow.AddDays(6),
-            User = user
-        };
+        var refreshToken = RefreshToken.CreateRefreshToken(user.Id, tokenProvider.GenerateRefreshToken(), user);
 
         userRepository.AddRefreshToken(refreshToken);
         await userRepository.SaveChangesAsync(cancellationToken);
