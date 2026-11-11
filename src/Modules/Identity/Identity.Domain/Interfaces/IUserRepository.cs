@@ -17,5 +17,6 @@ public interface IUserRepository
     void AddRefreshToken(RefreshToken refreshToken);
     Task<RefreshToken?> FindRefreshToken(string refreshToken, CancellationToken cancellationToken);
     Task<RefreshToken?> FindRefreshTokenByUser(string userId, CancellationToken cancellationToken);
+    Task RevokeRefreshTokenByUser(string userId, CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken);
 }

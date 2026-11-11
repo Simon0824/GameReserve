@@ -15,22 +15,17 @@ public class BanUserCommandHandler(IUserRepository userRepository, IBlackListRep
         if(user is null)
             return UserErrors.UserNotFound;
 
-        var token = await userRepository.FindRefreshTokenByUser(user.Id, cancellationToken);
+        var saved = await blackListRepository.BlockUserPermamentAsync(user.Id);
 
-        if(token is null)
-            return UserErrors.CannotLogInRefreshToken;
-
-        TimeSpan tokenDurationSpan = token!.ExpiresOnUtc - DateTime.UtcNow;
-
-        var isBanned = await blackListRepository.BlockUserAsync(user.Id, token.Token, string.Empty, tokenDurationSpan);
-
-        if(!isBanned)
+        if(!saved)
             return UserErrors.UserFailedToSaveBan;
 
         var banResult = user.BanUser();
 
         if(banResult.IsFailed)
             return banResult;
+
+        await userRepository.RevokeRefreshTokenByUser(user.Id, cancellationToken);
 
         await userRepository.SaveChangesAsync(cancellationToken);
         

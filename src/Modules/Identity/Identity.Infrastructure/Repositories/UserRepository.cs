@@ -71,6 +71,13 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
                      .Include(u => u.User)
                      .FirstOrDefaultAsync(t => t.UserId == userId && t.ExpiresOnUtc > DateTime.UtcNow, cancellationToken);
     }
+    public async Task RevokeRefreshTokenByUser(string userId, CancellationToken cancellationToken)
+    {
+        await context.refreshTokens
+                     .Include(u => u.User)
+                     .Where(t => t.UserId == userId && t.ExpiresOnUtc > DateTime.UtcNow)
+                     .ExecuteUpdateAsync(token => token.SetProperty(t => t.ExpiresOnUtc, DateTime.UtcNow.AddSeconds(-1)), cancellationToken);
+    }
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await context.SaveChangesAsync(cancellationToken);

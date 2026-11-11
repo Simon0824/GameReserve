@@ -125,7 +125,7 @@ app.UseExceptionHandler();
 app.UseRouting();
 
 app.UseAuthentication();
-app.UseMiddleware<CheckIsUserBanned>();
+app.UseCheckIsUserBanned();
 app.UseAuthorization();
 
 app.MapControllers();

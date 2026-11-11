@@ -191,6 +191,12 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
         return token;
     }
 
+    public async Task RevokeRefreshTokenByUser(string userId, CancellationToken cancellationToken)
+    {
+        await decorated.RevokeRefreshTokenByUser(userId, cancellationToken);
+        await cache.RemoveAsync(RefreshTokenByUserIdKey(userId));
+    }
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await decorated.SaveChangesAsync(cancellationToken);

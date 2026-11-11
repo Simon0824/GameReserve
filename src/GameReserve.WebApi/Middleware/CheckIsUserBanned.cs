@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using Identity.Domain.Interfaces;
+using Identity.Infrastructure.Repositories;
 
 namespace GameReserve.WebApi.Middleware;
 public class CheckIsUserBanned
@@ -15,15 +16,15 @@ public class CheckIsUserBanned
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var header = context.Request.Headers.Authorization;
-        if(!string.IsNullOrWhiteSpace(header))
+        if(context.User.Identity?.IsAuthenticated == true)  
         {
             var userId = context.User.FindFirst(JwtRegisteredClaimNames.Sub)!.Value;
 
-            var isBanned = await _blackListRepository.IsBannedAsync(userId);
-
-            if(isBanned)
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            if(!string.IsNullOrEmpty(userId) && await _blackListRepository.IsBannedAsync(userId))
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                return;
+            }
         }
 
         await _next(context);
