@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography.Pkcs;
+using System.Text;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Auth;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 
 namespace Identity.Infrastructure;
 
@@ -26,6 +28,14 @@ public static class DependencyInjection
             options.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>());
         });
 
+        services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(new ConfigurationOptions
+        {
+            EndPoints = {configuration.GetConnectionString("Redis")!},
+            AbortOnConnectFail = false
+        }));
+
+        services.AddSingleton<IBlackListRepository, BlackListRepository>();
+        
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITokenProvider, TokenProvider>();        
         services.AddScoped<IIdentityOutboxRepository, IdentityOutboxRepository>();
@@ -50,6 +60,7 @@ public static class DependencyInjection
                 })
                 .AddJwtBearer(config =>
                 {
+                    config.MapInboundClaims = false;
                     config.TokenValidationParameters.ValidIssuer = configuration["Jwt:Issuer"];
                     config.TokenValidationParameters.ValidAudience = configuration["Jwt:Audience"];
                     config.TokenValidationParameters.IssuerSigningKey = 

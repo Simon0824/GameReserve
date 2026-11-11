@@ -16,6 +16,7 @@ using Payments.Infrastructure.Data;
 using Reservations.Application.InboxConsumer;
 using Reservations.Infrastructure.Data;
 using SharedKernel.IntegrationEvents;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +41,7 @@ builder.Services.AddSwaggerExtension();
 
 builder.Services.AddApiDI(builder.Configuration);
 
-builder.Services.AddDistributedRedisCache(options =>
+builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "GameReserve";
@@ -75,6 +76,12 @@ builder.Services.AddProblemDetails(configuration =>
         context.ProblemDetails.Extensions.Add("reqId", context.HttpContext.TraceIdentifier);
     };
 });
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(new ConfigurationOptions
+{
+    EndPoints = {builder.Configuration.GetConnectionString("Redis")!},
+    AbortOnConnectFail = false
+}));
 
 builder.Services.AddScoped(typeof(OutboxProcessor<>));
 builder.Services.AddScoped(typeof(InboxProcessor<>));

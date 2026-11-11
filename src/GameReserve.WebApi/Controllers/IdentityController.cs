@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GameReserve.WebApi.Extensions;
 using Identity.Application.Commands;
@@ -54,9 +55,9 @@ public class IdentityController(ISender sender) : ControllerBase
 
     [HttpPost("ban")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IResult> BanUser(string email)
+    public async Task<IResult> BanUser(string email, string reason)
     {
-        var resultDTO = await sender.Send(new BanUserCommand(email));
+        var resultDTO = await sender.Send(new BanUserCommand(email, reason));
 
         return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
