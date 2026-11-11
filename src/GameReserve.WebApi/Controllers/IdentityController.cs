@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GameReserve.WebApi.Extensions;
 using Identity.Application.Commands;
@@ -38,6 +39,18 @@ public class IdentityController(ISender sender) : ControllerBase
           onSuccess: logged => TypedResults.Ok(logged),
           onFailure: error => error.ToProblem()
          );
+    }
+
+    [HttpPost("auth/logout")]
+    public async Task<IResult> LogoutUser()
+    {
+         var tokenId = User.FindFirst(JwtRegisteredClaimNames.Jti)!.Value;
+
+         var expires = User.FindFirst(JwtRegisteredClaimNames.Exp)!.Value;
+
+         var resultDTO = await sender.Send(new LogoutUserCommand(tokenId, expires));
+
+         return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
 
     [HttpPost("auth/login/refresh")]

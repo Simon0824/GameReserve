@@ -6,16 +6,30 @@ namespace Identity.Infrastructure.Repositories;
 public class BlackListRepository(IConnectionMultiplexer redis) : IBlackListRepository
 {
     private readonly IDatabase _db = redis.GetDatabase();
-
     private const string PermamentSet = "id:blacklist:permament";
+    private static string BlackListLogOutKey(string tokenId) => $"id:blacklist:{tokenId}";
+    public async Task<bool> BlackListUserAsync(string? userId, string? tokenId, TimeSpan? duration)
+    {
+        if(!string.IsNullOrEmpty(tokenId))
+        {
+            return await _db.StringSetAsync(BlackListLogOutKey(tokenId), "revoked", duration);
+        }
 
-    public async Task<bool> BlockUserPermamentAsync(string? userId) => await _db.SetAddAsync(PermamentSet, userId);
+        if(!string.IsNullOrEmpty(userId))
+        {
+            return await _db.SetAddAsync(PermamentSet, userId);
+        }
 
-    public async Task<bool> IsBannedAsync(string userId)
+        return false;
+    }
+
+    public async Task<bool> IsBannedOrLoggedOutAsync(string userId, string tokenId)
     {
         var isPermamentBan = await _db.SetContainsAsync(PermamentSet, userId);
 
-        if(isPermamentBan)
+        var loggedOut = await _db.StringGetAsync(BlackListLogOutKey(tokenId));
+
+        if(isPermamentBan || !string.IsNullOrEmpty(loggedOut))
             return true;
         
         return false;

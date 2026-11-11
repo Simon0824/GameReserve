@@ -1,6 +1,6 @@
 namespace Identity.Domain.Interfaces;
 public interface IBlackListRepository
 {
-    Task<bool> BlockUserPermamentAsync(string? userId);
-    Task<bool> IsBannedAsync(string userId);
+    Task<bool> BlackListUserAsync(string? userId, string? tokenId, TimeSpan? duration);
+    Task<bool> IsBannedOrLoggedOutAsync(string userId, string tokenId);
 }

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-
 namespace Identity.Infrastructure.Auth;
 
 public class TokenProvider : ITokenProvider
@@ -43,12 +42,13 @@ public class TokenProvider : ITokenProvider
             Subject = new ClaimsIdentity([
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 ..userRoles.Select(r => new Claim(ClaimTypes.Role, r))
             ]),
             SigningCredentials = _credentials,
             Expires = DateTime.UtcNow.AddMinutes(5),
             Issuer = _issuer,
-            Audience = _audience
+            Audience = _audience,
         };
         var token = _handler.CreateToken(descriptor);
 

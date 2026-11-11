@@ -15,7 +15,7 @@ public class BanUserCommandHandler(IUserRepository userRepository, IBlackListRep
         if(user is null)
             return UserErrors.UserNotFound;
 
-        var saved = await blackListRepository.BlockUserPermamentAsync(user.Id);
+        var saved = await blackListRepository.BlackListUserAsync(user.Id, string.Empty, TimeSpan.Zero);
 
         if(!saved)
             return UserErrors.UserFailedToSaveBan;
