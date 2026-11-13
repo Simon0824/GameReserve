@@ -1,4 +1,6 @@
 ﻿using Identity.Infrastructure.Repositories;
+using Medallion.Threading;
+using Medallion.Threading.Postgres;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,11 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Default"));
             options.AddInterceptors(scope.GetRequiredService<PublishDomainEventsInterceptor>());
+        });
+
+        services.AddSingleton<IDistributedLockProvider>((_) =>
+        {
+           return new PostgresDistributedSynchronizationProvider(configuration.GetConnectionString("Default")!);
         });
 
         services.AddScoped<IReservationsRepository, ReservationsRepository>();

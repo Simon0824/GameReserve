@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;

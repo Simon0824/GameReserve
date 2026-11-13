@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GameReserve.WebApi.Extensions;
 using MediatR;
@@ -19,7 +20,7 @@ public class ReservationsController(ISender sender) : ControllerBase
     [HttpPost]
     public async Task<IResult> AddNewReservation([FromBody] AddNewReservationDTO dto)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
 
         if(userId is null)
         {

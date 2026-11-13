@@ -38,6 +38,36 @@
           }
         }
       },
+      "DistributedLock.Core/1.0.9": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/DistributedLock.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/DistributedLock.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "DistributedLock.Postgres/1.3.2": {
+        "type": "package",
+        "dependencies": {
+          "DistributedLock.Core": "[1.0.9, 1.1.0)",
+          "Npgsql": "8.0.6"
+        },
+        "compile": {
+          "lib/net8.0/DistributedLock.Postgres.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/DistributedLock.Postgres.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "EntityFramework/6.5.2": {
         "type": "package",
         "dependencies": {
@@ -1873,6 +1903,7 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "MassTransit.RabbitMQ": "8.5.0",
+          "Npgsql": "10.0.3",
           "Reservations.Domain": "1.0.0",
           "SharedKernel": "1.0.0"
         },
@@ -1900,6 +1931,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "DistributedLock.Postgres": "1.3.2",
           "Microsoft.EntityFrameworkCore": "10.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.11",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.3",
@@ -1971,6 +2003,46 @@
         "lib/net8.0/Azure.Identity.xml",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "DistributedLock.Core/1.0.9": {
+      "sha512": "y72z/Ta4xX3qKc+bsAJDsAZ+LuXz4xbCiAYgJwvOP2Xup63tdonTXmlKXU45Ds3GfEuMEHGrnVinhxyBZjRc2Q==",
+      "type": "package",
+      "path": "distributedlock.core/1.0.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "distributedlock.core.1.0.9.nupkg.sha512",
+        "distributedlock.core.nuspec",
+        "lib/net462/DistributedLock.Core.dll",
+        "lib/net462/DistributedLock.Core.xml",
+        "lib/net8.0/DistributedLock.Core.dll",
+        "lib/net8.0/DistributedLock.Core.xml",
+        "lib/netstandard2.0/DistributedLock.Core.dll",
+        "lib/netstandard2.0/DistributedLock.Core.xml",
+        "lib/netstandard2.1/DistributedLock.Core.dll",
+        "lib/netstandard2.1/DistributedLock.Core.xml",
+        "package.readme.md"
+      ]
+    },
+    "DistributedLock.Postgres/1.3.2": {
+      "sha512": "yubNTOxEkm429cO6EYgJExvCsfWNbDJ4mAf6HtvQ/V72MwpDi/i96a+Jz8QTPJK7yyoTWvrUXJ1ej8xQQwzcCQ==",
+      "type": "package",
+      "path": "distributedlock.postgres/1.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "distributedlock.postgres.1.3.2.nupkg.sha512",
+        "distributedlock.postgres.nuspec",
+        "lib/net462/DistributedLock.Postgres.dll",
+        "lib/net462/DistributedLock.Postgres.xml",
+        "lib/net8.0/DistributedLock.Postgres.dll",
+        "lib/net8.0/DistributedLock.Postgres.xml",
+        "lib/netstandard2.0/DistributedLock.Postgres.dll",
+        "lib/netstandard2.0/DistributedLock.Postgres.xml",
+        "lib/netstandard2.1/DistributedLock.Postgres.dll",
+        "lib/netstandard2.1/DistributedLock.Postgres.xml",
+        "package.readme.md"
       ]
     },
     "EntityFramework/6.5.2": {

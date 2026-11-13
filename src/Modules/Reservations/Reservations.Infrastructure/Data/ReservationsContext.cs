@@ -18,6 +18,8 @@ public class ReservationsContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.HasPostgresExtension("btree_gist");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReservationsContext).Assembly);
     }
 }

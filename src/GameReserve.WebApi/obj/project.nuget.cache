@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "lHJW5kBlrCg=",
+  "dgSpecHash": "Mh+ZgeAF5sk=",
   "success": true,
   "projectFilePath": "/run/media/simon/Samsung_T5/Projects/GameReserve/GameReserve/src/GameReserve.WebApi/GameReserve.WebApi.csproj",
   "expectedPackageFiles": [
     "/home/simon/.nuget/packages/azure.core/1.50.0/azure.core.1.50.0.nupkg.sha512",
     "/home/simon/.nuget/packages/azure.identity/1.17.1/azure.identity.1.17.1.nupkg.sha512",
+    "/home/simon/.nuget/packages/distributedlock.core/1.0.9/distributedlock.core.1.0.9.nupkg.sha512",
+    "/home/simon/.nuget/packages/distributedlock.postgres/1.3.2/distributedlock.postgres.1.3.2.nupkg.sha512",
     "/home/simon/.nuget/packages/entityframework/6.5.2/entityframework.6.5.2.nupkg.sha512",
     "/home/simon/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
     "/home/simon/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",

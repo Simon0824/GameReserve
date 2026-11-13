@@ -27,13 +27,6 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
             return ReservationErrors.ReservationProfileNotFoundByUserId;
         }
 
-        var invalidDates = await reservationsRepository.CheckReservationDates(game.GameId, request.StartDate, request.EndDate, cancellationToken);
-
-        if(invalidDates is not false)
-        {
-            return ReservationErrors.ReservationOverlapping;
-        }
-
         var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, Reservation.CalculatePrice(game.Category));
         reservationsRepository.CreateReservation(reservation);
 

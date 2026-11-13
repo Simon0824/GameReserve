@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GameReserve.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c8e10d07f0c14598d782578d0a5cc338c675cf3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd6887e305e1f2866b668d9b1ae97253feb7bfa4")]
 [assembly: System.Reflection.AssemblyProductAttribute("GameReserve.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GameReserve.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
