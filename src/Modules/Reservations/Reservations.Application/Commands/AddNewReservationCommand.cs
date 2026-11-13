@@ -27,7 +27,9 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
             return ReservationErrors.ReservationProfileNotFoundByUserId;
         }
 
-        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, Reservation.CalculatePrice(game.Category).Value);
+        var leadTime = request.EndDate - request.StartDate;
+
+        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, Reservation.CalculatePrice(game.Category, leadTime.Days).Value);
         reservationsRepository.CreateReservation(reservation);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

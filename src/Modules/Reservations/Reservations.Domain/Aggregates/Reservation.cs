@@ -88,14 +88,14 @@ public class Reservation
         Status = ReservationStatus.Failed;
     }
 
-    public static Result<decimal> CalculatePrice(string gameCategory)
+    public static Result<decimal> CalculatePrice(string gameCategory, int leadTimeDays)
     {
         return gameCategory switch
         {
-            "AAA" => 100.00m,
-            "AA" => 70.00m,
-            "III" => 50.00m,
-            "Indie" => 20.00m,
+            "AAA" => 100.00m * leadTimeDays,
+            "AA" => 70.00m * leadTimeDays,
+            "III" => 50.00m * leadTimeDays,
+            "Indie" => 20.00m * leadTimeDays,
             _ => ReservationErrors.InvalidGameGenre
         };
     }
