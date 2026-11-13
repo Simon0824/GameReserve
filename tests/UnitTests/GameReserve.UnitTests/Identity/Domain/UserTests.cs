@@ -4,7 +4,7 @@ using Identity.Domain.UserAggregate;
 using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
-public class IdentityDomainTests
+public class UserTests
 {
     private const string TestFullName = "FullName";
     private const string TestEmail = "test@email.com";

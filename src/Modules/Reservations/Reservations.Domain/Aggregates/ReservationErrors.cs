@@ -9,4 +9,5 @@ public class ReservationErrors
     public static readonly Error ReservationStartDateGreaterOrEqual = Error.Validation("Reservation.EndBeforeStart", "Start date has to be set before end date");
     public static readonly Error ReservationPaymentAlreadyFailed = Error.Conflict("Reservation.AlreadyFailed", "Reservation payment has already failed");
     public static readonly Error GameIdNotFoundInDB = Error.NotFound("Game.NotFoundById", "Game with this ID does not exist");
+    public static readonly Error InvalidGameGenre = Error.Validation("Game.InvalidGenre", "You've entered invalid game genre");
 }

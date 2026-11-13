@@ -67,9 +67,9 @@ public class IdentityController(ISender sender) : ControllerBase
 
     [HttpPost("ban")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IResult> BanUser(string email, string reason)
+    public async Task<IResult> BanUser(string email)
     {
-        var resultDTO = await sender.Send(new BanUserCommand(email, reason));
+        var resultDTO = await sender.Send(new BanUserCommand(email));
 
         return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }

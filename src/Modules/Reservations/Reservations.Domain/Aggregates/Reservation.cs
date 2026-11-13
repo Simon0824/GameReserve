@@ -88,7 +88,7 @@ public class Reservation
         Status = ReservationStatus.Failed;
     }
 
-    public static decimal CalculatePrice(string gameCategory)
+    public static Result<decimal> CalculatePrice(string gameCategory)
     {
         return gameCategory switch
         {
@@ -96,7 +96,7 @@ public class Reservation
             "AA" => 70.00m,
             "III" => 50.00m,
             "Indie" => 20.00m,
-            _ => 5.00m
+            _ => ReservationErrors.InvalidGameGenre
         };
     }
     private Reservation()
