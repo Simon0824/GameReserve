@@ -24,16 +24,6 @@ public class IdentityLoginWithRefreshTokenCommand
         return user;
     }
 
-    private RefreshToken CreateTestRefreshToken(string userId, User user, string refreshToken)
-        => new()
-        {
-            Id = Guid.NewGuid(),
-            Token = refreshToken,
-            UserId = userId,
-            ExpiresOnUtc = DateTime.UtcNow.AddDays(6),
-            User = user,
-        };
-
     private readonly LoginWithRefreshTokenCommandHandler _handler;
     private readonly IUserRepository _userRepo;
     private readonly ITokenProvider _tokenProvider;
@@ -74,7 +64,7 @@ public class IdentityLoginWithRefreshTokenCommand
         var user = CreateTestUser();
 
         var testRefreshToken = "test-refresh-token";
-        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
+        var refreshToken = RefreshToken.CreateRefreshToken(user.Id, testRefreshToken, user);
 
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));
@@ -101,7 +91,7 @@ public class IdentityLoginWithRefreshTokenCommand
         var user = CreateTestUser(true);
 
         var testRefreshToken = "test-refresh-token";
-        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
+        var refreshToken = RefreshToken.CreateRefreshToken(user.Id, testRefreshToken, user);
 
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));
@@ -131,7 +121,7 @@ public class IdentityLoginWithRefreshTokenCommand
 
         var user = CreateTestUser();
 
-        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
+        var refreshToken = RefreshToken.CreateRefreshToken(user.Id, testRefreshToken, user);
 
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));
@@ -186,9 +176,9 @@ public class IdentityLoginWithRefreshTokenCommand
         var user = CreateTestUser();
 
         var testRefreshToken = "test-refresh-token";
-        var refreshToken = CreateTestRefreshToken(user.Id, user, testRefreshToken);
+        var refreshToken = RefreshToken.CreateRefreshToken(user.Id, testRefreshToken, user);
 
-        refreshToken.ExpiresOnUtc = DateTime.UtcNow.AddSeconds(-1);
+        refreshToken.Revoke();
 
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));

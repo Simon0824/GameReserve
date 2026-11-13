@@ -5,7 +5,7 @@ using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Application.Commands;
-public record BanUserCommand(string Email, string Reason) : ICommand<Result>;
+public record BanUserCommand(string Email) : ICommand<Result>;
 public class BanUserCommandHandler(IUserRepository userRepository, IBlackListRepository blackListRepository) : IRequestHandler<BanUserCommand, Result>
 {
     public async Task<Result> Handle(BanUserCommand request, CancellationToken cancellationToken)

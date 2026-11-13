@@ -15,7 +15,7 @@ public class LogoutUserCommandHandler(IBlackListRepository blackListRepository) 
         var saved = await blackListRepository.BlackListUserAsync(null, request.TokenId, timeLeft);
 
         if(!saved)
-            return UserErrors.UserFailedToSaveBan;
+            return UserErrors.UserFailedToSaveLogout;
 
         return Result.Success;
     }

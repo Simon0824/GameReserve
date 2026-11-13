@@ -9,7 +9,7 @@ namespace GameReserve.UnitTests;
 
 public class IdentityBanUserCommand
 {
-    private readonly BanUserCommand Command = new("test@email.com");
+    private BanUserCommand Command = new("test@email.com");
 
     private User CreateTestUser(bool isBanned = false)
     {
@@ -22,12 +22,16 @@ public class IdentityBanUserCommand
     }
 
     private readonly BanUserCommandHandler _handler;
+    private readonly IBlackListRepository _blacklistRepo;
     private readonly IUserRepository _userRepo;
 
     public IdentityBanUserCommand()
     {
         _userRepo = Substitute.For<IUserRepository>();
-        _handler = new(_userRepo);
+        _blacklistRepo = Substitute.For<IBlackListRepository>();
+
+
+        _handler = new(_userRepo, _blacklistRepo);
     }
 
     [Fact]
@@ -55,6 +59,8 @@ public class IdentityBanUserCommand
         _userRepo.FindUserByEmail(Arg.Any<string>(), default)
             .Returns(Task.FromResult<User?>(CreateTestUser(true)));
 
+        _blacklistRepo.BlackListUserAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(false);
+
         // Act
         Result result = await _handler.Handle(Command, default);
 
@@ -62,8 +68,8 @@ public class IdentityBanUserCommand
         result.IsFailed.Should().BeTrue();
         result.IsSucceeded.Should().BeFalse();
 
-        result.Error.Code.Should().Be("User.UserIsBanned");
-        result.Error.Description.Should().Be("User is banned");
+        result.Error.Code.Should().Be("User.FailedToSaveBanned");
+        result.Error.Description.Should().Be("Failed to save ban to Redis");
     }
 
     [Fact]
@@ -75,6 +81,8 @@ public class IdentityBanUserCommand
         _userRepo.FindUserByEmail(Arg.Any<string>(), default)
             .Returns(Task.FromResult<User?>(user));
 
+        _blacklistRepo.BlackListUserAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(true);
+
         // Act
         Result result = await _handler.Handle(Command, default);
 
@@ -84,6 +92,11 @@ public class IdentityBanUserCommand
 
         await _userRepo.Received(1)
             .FindUserByEmail(Arg.Is<string>(user.Email!), default);
+
+        await _blacklistRepo.BlackListUserAsync(
+            Arg.Is<string>(user.Id), 
+            Arg.Is<string>(string.Empty), 
+            Arg.Is<TimeSpan>(TimeSpan.Zero));
 
         await _userRepo.Received(1)
             .SaveChangesAsync(default);
