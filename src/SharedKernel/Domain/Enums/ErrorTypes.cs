@@ -1,10 +1,10 @@
 namespace SharedKernel.Domain.Enums;
 public enum ErrorTypes
 {
-    Failure = 0,
-    Validation = 1,
-    NotFound = 2,
-    Conflict = 3,
-    Unauthorized = 4,
-    Forbidden = 5
+    Failure,
+    Validation,
+    NotFound,
+    Conflict,
+    Unauthorized,
+    Forbidden
 }

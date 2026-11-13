@@ -7,6 +7,7 @@ using SharedKernel.Domain.Abstractions;
 namespace GameReserve.UnitTests;
 public class IdentityLogoutUserCommand
 {
+    private const long BaseTimestamp = 1794571200L;
     private LogoutUserCommand Command(string tokenId, string expiresOnUtc) => new(tokenId, expiresOnUtc);
     private readonly IBlackListRepository _blackListRepository;
     private readonly LogoutUserCommandHandler _handler;
@@ -22,7 +23,7 @@ public class IdentityLogoutUserCommand
     {
         //Arrange
         var tokenId = "test-access-token-id";
-        var expires = DateTimeOffset.UtcNow.AddMinutes(5).ToUnixTimeSeconds().ToString();
+        var expires = BaseTimestamp.ToString();
         
         _blackListRepository.BlackListUserAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(false);
 
@@ -30,8 +31,8 @@ public class IdentityLogoutUserCommand
         Result result = await _handler.Handle(Command(tokenId, expires), default);
 
         //Assert
-        result.IsFailed.Should().Be(true);
-        result.IsSucceeded.Should().Be(false);
+        result.IsFailed.Should().BeTrue();
+        result.IsSucceeded.Should().BeFalse();
 
         result.Error.Code.Should().Be("User.FailedToSaveLogout");
         result.Error.Description.Should().Be("Failed to save logout to Redis");
@@ -42,7 +43,7 @@ public class IdentityLogoutUserCommand
     {
         //Arrange
         var tokenId = "test-access-token-id";
-        var expires = DateTimeOffset.UtcNow.AddMinutes(5).ToUnixTimeSeconds().ToString();
+        var expires = BaseTimestamp.ToString();
 
         TimeSpan timeSpan = DateTimeOffset.FromUnixTimeSeconds(
                                                 long.Parse(expires)).UtcDateTime - DateTime.UtcNow;
@@ -57,8 +58,8 @@ public class IdentityLogoutUserCommand
         Result result = await _handler.Handle(Command(tokenId, expires), default);
 
         //Assert
-        result.IsFailed.Should().Be(false);
-        result.IsSucceeded.Should().Be(true);
+        result.IsFailed.Should().BeFalse();
+        result.IsSucceeded.Should().BeTrue();
 
         await _blackListRepository.BlackListUserAsync(
             Arg.Is<string>(string.Empty), 

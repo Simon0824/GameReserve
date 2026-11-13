@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Reservations.Domain.Aggregates;
+using Reservations.Domain.Enums;
 using Reservations.Domain.Interfaces;
 using Reservations.Domain.Primitives;
 using Reservations.Infrastructure.Data;
@@ -47,6 +47,7 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
     {
 
         var invalidDates = await context.Reservations.AsNoTracking()
+                                                     .Where(r => r.Status != ReservationStatus.Failed)
                                                      .AnyAsync(r => r.GameId == gameId &&
                                                                r.StartDate <= endDate && 
                                                                r.EndDate >= startDate, 
