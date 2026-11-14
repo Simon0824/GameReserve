@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Payments.Infrastructure.Data;
 using Reservations.Infrastructure.Data;
 
-namespace GameReserve.IntegrationTests;
-public class BaseIntegrationTests : IClassFixture<IntegrationTestsWebFactory>
+namespace GameReserve.IntegrationTests.Infrastructure;
+public class BaseIntegrationTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     private readonly IServiceScope _scope;
     private readonly IdentityContext _identityContext;
@@ -14,6 +14,7 @@ public class BaseIntegrationTests : IClassFixture<IntegrationTestsWebFactory>
     private readonly PaymentsContext _paymentsContext;
     private readonly GamesContext _gamesContext;
     private readonly ISender _sender;
+    private TestDataSeeder DataSeeder;
 
     public BaseIntegrationTests(IntegrationTestsWebFactory factory)
     {
@@ -25,5 +26,17 @@ public class BaseIntegrationTests : IClassFixture<IntegrationTestsWebFactory>
         _gamesContext = _scope.ServiceProvider.GetRequiredService<GamesContext>();
 
         _sender = _scope.ServiceProvider.GetRequiredService<ISender>();
+
+        DataSeeder = new TestDataSeeder(_identityContext, _gamesContext);
+    }
+
+    public Task InitializeAsync()
+    {
+        return DataSeeder.SeedAsync();
+    }
+
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
     }
 }

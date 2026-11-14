@@ -15,7 +15,7 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.Redis;
 
-namespace GameReserve.IntegrationTests;
+namespace GameReserve.IntegrationTests.Infrastructure;
 public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly RedisContainer _redis = new RedisBuilder("redis:alpine").Build();
