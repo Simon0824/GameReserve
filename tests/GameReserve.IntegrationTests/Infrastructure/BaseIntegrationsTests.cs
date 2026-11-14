@@ -1,0 +1,30 @@
+using System.Runtime.Serialization;
+using Games.Infrastructure.Data;
+using Identity.Infrastructure.Data;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Payments.Infrastructure.Data;
+using Reservations.Infrastructure.Data;
+
+namespace GameReserve.IntegrationTests;
+public class BaseIntegrationTests : IClassFixture<IntegrationTestsWebFactory>
+{
+    private readonly IServiceScope _scope;
+    private readonly IdentityContext _identityContext;
+    private readonly ReservationsContext _reservationsContext;
+    private readonly PaymentsContext _paymentsContext;
+    private readonly GamesContext _gamesContext;
+    private readonly ISender _sender;
+
+    public BaseIntegrationTests(IntegrationTestsWebFactory factory)
+    {
+        _scope = factory.Services.CreateAsyncScope();
+
+        _identityContext = _scope.ServiceProvider.GetRequiredService<IdentityContext>();
+        _reservationsContext = _scope.ServiceProvider.GetRequiredService<ReservationsContext>();
+        _paymentsContext = _scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+        _gamesContext = _scope.ServiceProvider.GetRequiredService<GamesContext>();
+
+        _sender = _scope.ServiceProvider.GetRequiredService<ISender>();
+    }
+}
