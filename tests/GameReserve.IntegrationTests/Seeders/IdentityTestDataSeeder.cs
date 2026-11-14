@@ -3,13 +3,12 @@ using Identity.Domain.Entities;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 
-namespace GameReserve.IntegrationTests;
+namespace GameReserve.IntegrationTests.Seeders;
 
 public class IdentityTestDataSeeder
 {
     private readonly IdentityContext _identityContext;
     private readonly Faker _faker;
-
     private readonly List<User> _users = new();
     private readonly List<RefreshToken> _refreshTokens = new();
 
@@ -39,13 +38,11 @@ public class IdentityTestDataSeeder
 
     public async Task SeedTokens()
     {
-        for(int user=0; user<=5; user++)
+        foreach(var user in _users.Take(5))
         {
-            var tokenFaker = new Faker<RefreshToken>()
-                                .CustomInstantiator(f => 
-                                    RefreshToken.CreateRefreshToken(_users[user].Id, f.Random.AlphaNumeric(15), _users[user]));
+            var refreshToken = RefreshToken.CreateRefreshToken(user.Id, _faker.Random.AlphaNumeric(10), user);
 
-            _refreshTokens.Add(tokenFaker.Generate());
+            _refreshTokens.Add(refreshToken);
         }
 
         await _identityContext.refreshTokens.AddRangeAsync(_refreshTokens);

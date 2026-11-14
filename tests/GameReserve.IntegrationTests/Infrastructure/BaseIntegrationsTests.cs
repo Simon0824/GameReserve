@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using Games.Infrastructure.Data;
 using Identity.Infrastructure.Data;
 using MediatR;
