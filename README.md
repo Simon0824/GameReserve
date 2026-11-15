@@ -44,7 +44,7 @@ Architecture, modules, infrastructure, and features will be introduced increment
 
 ## Testing
 
-- [ ] Unit Tests
-- [ ] Integration Tests
-- [ ] Testcontainers
+- [x] Unit Tests
+- [x] Integration Tests
+- [x] Testcontainers
 - [ ] Messaging Tests
