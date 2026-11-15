@@ -16,20 +16,21 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
         var game = await gamePublicApi.GetGameById(request.GameId, cancellationToken);
 
         if(game is null)
-        {
             return ReservationErrors.GameIdNotFoundInDB;
-        }
 
         var profile = await reservationsRepository.GetReservationProfileByUserId(request.UserId, cancellationToken);
 
         if(profile is null)
-        {
             return ReservationErrors.ReservationProfileNotFoundByUserId;
-        }
 
         var leadTime = request.EndDate - request.StartDate;
 
-        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, Reservation.CalculatePrice(game.Category, leadTime.Days).Value);
+        if(leadTime < TimeSpan.FromDays(1))
+            return ReservationErrors.ReservationTimeTooShort;
+
+        var days = (int)Math.Ceiling(leadTime.TotalDays);
+
+        var reservation = profile.AddReservation(request.GameId, request.StartDate, request.EndDate, Reservation.CalculatePrice(game.Category, days).Value);
         reservationsRepository.CreateReservation(reservation);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

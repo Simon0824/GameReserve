@@ -38,6 +38,6 @@ public class BaseIntegrationTests : IClassFixture<IntegrationTestsWebFactory>, I
 
     public Task DisposeAsync()
     {
-        return Task.CompletedTask;
+       return Task.CompletedTask;
     }
 }

@@ -3,7 +3,6 @@ using Identity.Domain.Entities;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using Stripe;
 
 namespace GameReserve.IntegrationTests.Seeders;
 
@@ -48,7 +47,12 @@ public class IdentityTestDataSeeder
 
             foreach(var user in _users)
             {
-                await _userManager.CreateAsync(user, _faker.Internet.Password(10) + "!Ds");
+                var isSucceded = await _userManager.CreateAsync(user, _faker.Internet.Password(10) + "!Ds");
+
+                if(!isSucceded.Succeeded)
+                {
+                    throw new Exception(string.Join(" ", isSucceded.Errors.Select(e => e.Description)));
+                }
             }
         }
     }
