@@ -21,10 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Modules\Identity\Identity.Application\Identity.Application.csproj" />
-    <ProjectReference Include="..\..\..\src\Modules\Identity\Identity.Domain\Identity.Domain.csproj" />
-    <ProjectReference Include="..\..\..\src\Modules\Reservations\Reservations.Application\Reservations.Application.csproj" />
-    <ProjectReference Include="..\..\..\src\Modules\Reservations\Reservations.Domain\Reservations.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Identity\Identity.Application\Identity.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Identity\Identity.Domain\Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Reservations\Reservations.Application\Reservations.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Reservations\Reservations.Domain\Reservations.Domain.csproj" />
   </ItemGroup>
 
 </Project>

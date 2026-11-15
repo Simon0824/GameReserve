@@ -11,10 +11,11 @@ public class IdentityTestDataSeeder
     private readonly Faker _faker;
     private readonly List<User> _users = new();
     private readonly List<RefreshToken> _refreshTokens = new();
+    public IReadOnlyList<User> Users => _users;
 
-    public IdentityTestDataSeeder(IdentityContext identityContext)
+    public IdentityTestDataSeeder(IdentityContext? identityContext)
     {
-        _identityContext = identityContext;
+        _identityContext = identityContext!;
         _faker = new Faker();
     }
 
@@ -28,12 +29,21 @@ public class IdentityTestDataSeeder
 
     public async Task SeedUsers()
     {
+        if(_users.Any())
+        {
+            return;
+        }
+
         var userFaker = new Faker<User>()
                                 .CustomInstantiator(f => User.Create(f.Person.FullName, f.Person.Email));
 
-        _users.AddRange(userFaker.Generate(10));
 
-        await _identityContext.AddRangeAsync(_users);
+        if(_identityContext is not null)
+        {
+            _users.AddRange(userFaker.Generate(10));
+
+            await _identityContext.AddRangeAsync(_users);
+        }
     }
 
     public async Task SeedTokens()

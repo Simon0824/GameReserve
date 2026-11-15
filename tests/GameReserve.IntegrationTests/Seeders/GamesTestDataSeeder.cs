@@ -10,9 +10,11 @@ public class GamesTestDataSeeder
     private readonly GamesContext _gamesContext;
     private readonly List<Game> _games = new();
 
-    public GamesTestDataSeeder(GamesContext identityContext)
+    public IReadOnlyList<Game> Games => _games;
+
+    public GamesTestDataSeeder(GamesContext? gamesContext = null)
     {
-        _gamesContext = identityContext;
+        _gamesContext = gamesContext!;
     }
 
     public async Task SeedGamesAsync()
@@ -29,9 +31,13 @@ public class GamesTestDataSeeder
                                     f.Lorem.Sentence(20), 
                                     f.PickRandom<GameCategory>()));
 
-
-        _games.AddRange(gameFaker.Generate(10));
-
-        await _gamesContext.SaveChangesAsync();
+        if(_gamesContext is not null)
+        {
+            _games.AddRange(gameFaker.Generate(10));
+            
+            await _gamesContext.SaveChangesAsync();
+        }
     }
+
+    public Game GetGame(int index = 0) => _games[index];
 }
