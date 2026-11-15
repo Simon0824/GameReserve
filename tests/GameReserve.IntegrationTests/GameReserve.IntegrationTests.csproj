@@ -8,9 +8,13 @@
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="MediatR" Version="15.0.0" />
+    <PackageReference Include="FluentAssertions" Version="8.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="11.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="Testcontainers" Version="4.16.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.16.0" />
@@ -27,5 +31,6 @@
     <ProjectReference Include="..\..\src\Modules\Games\Games.Infrastructure\Games.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Payments\Payments.Infrastructure\Payments.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Reservations\Reservations.Infrastructure\Reservations.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\GameReserve.WebApi\GameReserve.WebApi.csproj" />
   </ItemGroup>
 </Project>

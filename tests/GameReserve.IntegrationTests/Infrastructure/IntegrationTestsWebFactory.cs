@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +12,8 @@ using StackExchange.Redis;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.Redis;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace GameReserve.IntegrationTests.Infrastructure;
 public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
@@ -84,12 +84,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
                 services.Remove(distributedCache);
             }
 
-            var connMultiPlexer = services.SingleOrDefault(s => s.ServiceType == typeof(IConnectionMultiplexer));
-
-            if(connMultiPlexer is not null)
-            {
-                services.Remove(connMultiPlexer);
-            }
+            var connMultiPlexer = services.RemoveAll(typeof(IConnectionMultiplexer));
 
 
             services.AddDbContext<IdentityContext>(options =>

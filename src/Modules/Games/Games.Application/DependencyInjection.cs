@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using Games.Application.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Abstractions.Behaviors;
 
@@ -10,7 +10,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.RegisterServicesFromAssembly(typeof(AddNewGameCommand).Assembly);
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
         return services;

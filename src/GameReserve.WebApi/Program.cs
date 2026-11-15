@@ -78,12 +78,6 @@ builder.Services.AddProblemDetails(configuration =>
     };
 });
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(new ConfigurationOptions
-{
-    EndPoints = {builder.Configuration.GetConnectionString("Redis")!},
-    AbortOnConnectFail = false
-}));
-
 builder.Services.AddScoped(typeof(OutboxProcessor<>));
 builder.Services.AddScoped(typeof(InboxProcessor<>));
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
@@ -131,3 +125,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program {}

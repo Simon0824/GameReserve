@@ -40,11 +40,22 @@ public class ReservationsTestDataSeeder
 
         var reservationFaker = new Faker<Reservation>()
                                 .CustomInstantiator(f => 
-                                Reservation.CreateReservation(
-                                    new ReservationProfileId(f.PickRandom(_reservationProfiles).Id.Value),
-                                                             f.PickRandom<Game>(games).Id.Value,
-                                                             currentCursor.AddHours(f.Random.Int(1,24)),
-                                                             currentCursor.AddHours(f.Random.Int(1,4))).Value!);
+                                {
+                                    var startDate = currentCursor.AddHours(f.Random.Int(1, 24));
+                                    var endDate = startDate.AddHours(f.Random.Int(1, 4));
+
+                                    var result = Reservation.CreateReservation(
+                                                         new ReservationProfileId(f.PickRandom(_reservationProfiles).Id.Value),
+                                                                                  f.PickRandom<Game>(games).Id.Value,
+                                                                                  startDate,
+                                                                                  endDate);
+                                    if(result.IsFailed)
+                                    {
+                                        throw new Exception("Cannot create reservation");
+                                    }
+
+                                    return result.Value!;
+                                });
 
         _reservations.AddRange(reservationFaker.Generate(10));
 

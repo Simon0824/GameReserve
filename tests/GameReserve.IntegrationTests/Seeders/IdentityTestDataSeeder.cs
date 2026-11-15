@@ -2,20 +2,24 @@ using Bogus;
 using Identity.Domain.Entities;
 using Identity.Domain.UserAggregate;
 using Identity.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
+using Stripe;
 
 namespace GameReserve.IntegrationTests.Seeders;
 
 public class IdentityTestDataSeeder
 {
     private readonly IdentityContext _identityContext;
+    private readonly UserManager<User> _userManager;
     private readonly Faker _faker;
     private readonly List<User> _users = new();
     private readonly List<RefreshToken> _refreshTokens = new();
     public IReadOnlyList<User> Users => _users;
 
-    public IdentityTestDataSeeder(IdentityContext? identityContext)
+    public IdentityTestDataSeeder(IdentityContext? identityContext, UserManager<User>? userManager)
     {
         _identityContext = identityContext!;
+        _userManager = userManager!;
         _faker = new Faker();
     }
 
@@ -42,7 +46,10 @@ public class IdentityTestDataSeeder
         {
             _users.AddRange(userFaker.Generate(10));
 
-            await _identityContext.AddRangeAsync(_users);
+            foreach(var user in _users)
+            {
+                await _userManager.CreateAsync(user, _faker.Internet.Password(10) + "!Ds");
+            }
         }
     }
 

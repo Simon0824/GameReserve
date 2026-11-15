@@ -10,7 +10,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.RegisterServicesFromAssembly(typeof(ReservationsApplicationMarker).Assembly);
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
         return services;
