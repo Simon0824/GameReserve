@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.Redis;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Org.BouncyCastle.Asn1.X509.Qualified;
+using GameReserve.WebApi.BackgroundServices;
+using Microsoft.Extensions.Configuration;
 
 namespace GameReserve.IntegrationTests.Infrastructure;
 public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
@@ -84,7 +87,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
                 services.Remove(distributedCache);
             }
 
-            var connMultiPlexer = services.RemoveAll(typeof(IConnectionMultiplexer));
+            services.RemoveAll(typeof(IConnectionMultiplexer));
 
 
             services.AddDbContext<IdentityContext>(options =>
@@ -128,6 +131,15 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
                     cfg.ConfigureEndpoints(context);
                 });
+            });
+        });
+
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Admin:Email"] = "admin@example.com",
+                ["Admin:Password"] = "TestPassword123!"
             });
         });
     }
