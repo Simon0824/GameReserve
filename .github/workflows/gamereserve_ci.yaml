@@ -77,7 +77,7 @@ jobs:
             "password": "string123!"
           }'
 
-          TOKEN=$(curl -fsS -X POST http://localhost:5110/api/Identity/login \
+          TOKEN=$(curl -fsS -X POST http://localhost:5110/api/Identity/auth/login \
            -H 'Content-Type: application/json' \
            -d '{  
             "email": "string@smoketest.com",
