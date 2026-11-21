@@ -139,7 +139,8 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["Admin:Email"] = "admin@example.com",
-                ["Admin:Password"] = "TestPassword123!"
+                ["Admin:Password"] = "TestPassword123!",
+                ["Admin:FullName"]= "Admin"
             });
         });
     }
