@@ -41,8 +41,11 @@ public class ReservationsTestDataSeeder
         var reservationFaker = new Faker<Reservation>()
                                 .CustomInstantiator(f => 
                                 {
-                                    var startDate = currentCursor.AddHours(f.Random.Int(1, 24));
-                                    var endDate = startDate.AddHours(f.Random.Int(1, 4));
+
+                                    var startDate = currentCursor.AddDays(f.Random.Int(1, 24));
+                                    var endDate = startDate.AddDays(f.Random.Int(1, 4));
+
+                                    currentCursor = endDate;
 
                                     var result = Reservation.CreateReservation(
                                                          new ReservationProfileId(f.PickRandom(_reservationProfiles).Id.Value),

@@ -43,8 +43,8 @@ public class ReservationTests
         result.IsFailed.Should().BeTrue();
         result.IsSucceeded.Should().BeFalse();
 
-        result.Error.Code.Should().Be("Reservation.EndBeforeStart");
-        result.Error.Description.Should().Be("Start date has to be set before end date");
+        result.Error.Code.Should().Be("Reservation.TooShort");
+        result.Error.Description.Should().Be("Reservation time is too short, at least one day");
     }
 
     [Fact]

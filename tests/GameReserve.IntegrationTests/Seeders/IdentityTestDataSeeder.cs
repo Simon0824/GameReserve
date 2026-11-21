@@ -47,7 +47,7 @@ public class IdentityTestDataSeeder
 
             foreach(var user in _users)
             {
-                var isSucceded = await _userManager.CreateAsync(user, _faker.Internet.Password(10) + "!Ds");
+                var isSucceded = await _userManager.CreateAsync(user, _faker.Internet.Password(10) + "!Ds0");
 
                 if(!isSucceded.Succeeded)
                 {
