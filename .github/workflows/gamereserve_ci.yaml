@@ -74,14 +74,14 @@ jobs:
            -d '{  
             "fullName": "string",
             "email": "string@smoketest.com",
-            "password": "string123!"
+            "password": "String123!"
           }'
 
           TOKEN=$(curl -fsS -X POST http://localhost:5110/api/Identity/auth/login \
            -H 'Content-Type: application/json' \
            -d '{  
             "email": "string@smoketest.com",
-            "password": "string123!"
+            "password": "String123!"
           }' | jq -er '.token | strings | select(length > 0)')
 
           curl -fsS http://localhost:5110/api/Games \
