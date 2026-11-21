@@ -22,24 +22,22 @@ public class OutboxProcessor<TContext>(TContext context, IServiceProvider servic
 
         foreach(var message in messages)
         {
-            await using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
-            var messageType = Type.GetType(message.Type) ?? throw new Exception("Cannot get a message type");
+                var messageType = Type.GetType(message.Type) ?? throw new Exception("Cannot get a message type");
 
-            var deseralizedMessage = JsonSerializer.Deserialize(message.Content, messageType) ?? throw new Exception("Cannot deserialize message");     
+                var deseralizedMessage = JsonSerializer.Deserialize(message.Content, messageType) ?? throw new Exception("Cannot deserialize message");     
 
-            using(var scope = serviceProvider.CreateAsyncScope())
-            {
-            var scopePublishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
-            await scopePublishEndpoint.Publish(deseralizedMessage, messageType, cancellationToken);                        
-            }
+                using(var scope = serviceProvider.CreateAsyncScope())
+                {
+                    var scopePublishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
+                    await scopePublishEndpoint.Publish(deseralizedMessage, messageType, cancellationToken);                        
+                }
 
-            message.ProcessedOnTime = DateTime.UtcNow;
-            message.Error = null;
-            
-            await context.SaveChangesAsync();
-            await transaction.CommitAsync();      
+                message.ProcessedOnTime = DateTime.UtcNow;
+                message.Error = null;
+                
+                await context.SaveChangesAsync();     
             }
             catch(Exception ex)
             {

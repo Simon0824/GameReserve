@@ -9,49 +9,45 @@ public class InboxProcessor<TContext>(TContext context, IServiceProvider service
     private const int BatchSize = 10;
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var inboxMessages = await context.Set<InboxMessage>()
-                                    .Where(m => m.ProcessedOnTime == null)
-                                    .OrderBy(m => m.OccuredOnTime)
-                                    .Take(BatchSize)
-                                    .ToListAsync();
+        var inboxMessages = await context.Set<OutboxMessage>()
+                                            .OrderBy(m => m.OccuredOnTime)
+                                            .Where(m => m.ProcessedOnTime == null)
+                                            .Take(BatchSize)
+                                            .ToListAsync();
 
-        if(inboxMessages.Count() == 0)
-        {
+        if(inboxMessages is null)
             return;
-        }
-
-        foreach(var message in inboxMessages)
+        
+        foreach(var inboxMessage in inboxMessages)
         {
-            await using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
-            var messageType = Type.GetType(message.Type)  
-                                        ?? throw new Exception("Cannot get type of inbox message");
-            var deserializedMessage = JsonSerializer.Deserialize(message.Content, messageType)
-                                        ?? throw new Exception("Cannot deserialize inbox content");
+                var messageType = Type.GetType(inboxMessage.Type) 
+                                                    ?? throw new Exception("Cannot get message type");
 
-            await using (var scope = serviceProvider.CreateAsyncScope())
-            {
-                var scopePublisher = scope.ServiceProvider.GetRequiredService<IPublisher>();
+                var deseralizedMessage = JsonSerializer.Deserialize(inboxMessage.Content, messageType) 
+                                                    ?? throw new Exception("Cannot desrialize a message");
 
-                await scopePublisher.Publish(deserializedMessage, cancellationToken);
-            }
+                using(var scope = serviceProvider.CreateAsyncScope())
+                {
+                    var scopedPublish = scope.ServiceProvider.GetRequiredService<IPublisher>();
 
-            message.ProcessedOnTime = DateTime.UtcNow;
-            message.Error = null;
+                    await scopedPublish.Publish(deseralizedMessage, cancellationToken);
+                }
 
-            await context.SaveChangesAsync(cancellationToken);
+                inboxMessage.ProcessedOnTime = DateTime.UtcNow;
 
-            await transaction.CommitAsync();
+                inboxMessage.Error = null;
+
+                await context.SaveChangesAsync(cancellationToken);
             }
             catch(Exception ex)
             {
-                    await context.Set<InboxMessage>()
-                                 .Where(m => m.Id == message.Id)
-                                 .ExecuteUpdateAsync(m => 
-                                                     m.SetProperty(e => e.Error, ex.Message), cancellationToken);
+                await context.Set<InboxMessage>()
+                             .Where(m => m.Id == inboxMessage.Id)
+                             .ExecuteUpdateAsync(m => 
+                                m.SetProperty(p => p.Error, ex.Message), cancellationToken);
             }
-
         }
     }
 }
