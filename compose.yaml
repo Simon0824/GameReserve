@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: src/GameReserve.WebApi/Dockerfile
     ports:
-      - "5110:5110"
+      - "127.0.0.1:5110:5110"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_HTTP_PORTS: "5110"

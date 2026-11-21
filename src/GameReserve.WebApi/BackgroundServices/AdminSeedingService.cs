@@ -21,13 +21,18 @@ public class AdminSeedingService(IServiceProvider serviceProvider, IConfiguratio
             await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
         }
 
-        var adminEmail = configuration["Admin:Email"];
-        var adminFullName = configuration["Admin:FullName"];
-        var adminPassword = configuration["Admin:Password"];
+        var adminEmail = configuration["Admin:Email"] 
+                ?? throw new InvalidOperationException("Admin:Email is not configured.");
+
+        var adminFullName = configuration["Admin:FullName"]
+                ?? throw new InvalidOperationException("Admin:FullName is not configured.");
+
+        var adminPassword = configuration["Admin:Password"]
+                ?? throw new InvalidOperationException("Admin:Password is not configured.");
 
         if(await userManager.FindByEmailAsync(adminEmail!) is null)
         {
-            var admin = User.Create(adminFullName!, adminEmail!);
+            var admin = User.Create(adminFullName, adminEmail);
 
             var createResult = await userManager.CreateAsync(admin, adminPassword!);
 
