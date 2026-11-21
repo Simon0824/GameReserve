@@ -9,7 +9,7 @@ public class InboxProcessor<TContext>(TContext context, IServiceProvider service
     private const int BatchSize = 10;
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var inboxMessages = await context.Set<OutboxMessage>()
+        var inboxMessages = await context.Set<InboxMessage>()
                                             .OrderBy(m => m.OccuredOnTime)
                                             .Where(m => m.ProcessedOnTime == null)
                                             .Take(BatchSize)

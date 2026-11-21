@@ -17,7 +17,6 @@ using Payments.Infrastructure.Data;
 using Reservations.Application.InboxConsumer;
 using Reservations.Infrastructure.Data;
 using SharedKernel.IntegrationEvents;
-using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
