@@ -107,18 +107,7 @@ if(app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    var scope = app.Services.CreateScope();
-    var IdentityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
-    IdentityContext.Database.Migrate();
-
-    var GamesContext = scope.ServiceProvider.GetRequiredService<GamesContext>();
-    GamesContext.Database.Migrate();
-
-    var ReservationsContext = scope.ServiceProvider.GetRequiredService<ReservationsContext>();
-    ReservationsContext.Database.Migrate();
-
-    var PaymentsContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
-    PaymentsContext.Database.Migrate();
+    await app.ApplyMigrationsAsync();
 }
 else
 {
@@ -133,9 +122,7 @@ app.MapGet("/health", async(HealthCheckService healthcheck) =>
                                 ? Results.Ok(check) 
                                 : Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
 })
-.WithTags("Health")
-.Produces<HealthReport>(StatusCodes.Status200OK)
-.Produces<HealthReport>(StatusCodes.Status503ServiceUnavailable);
+.WithTags("Health");
 
 app.UseHostFiltering();
 
