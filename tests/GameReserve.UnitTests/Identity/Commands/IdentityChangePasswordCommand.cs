@@ -18,7 +18,7 @@ public class IdentityChangePasswordCommand
         return User.Create("FullName", "test@email.com");
     }
 
-    private ChangePasswordCommand CreateCommand(string userId, string currentPassword, string newPassword)
+    private ChangePasswordCommand CreateCommand(Guid userId, string currentPassword, string newPassword)
     {
         return new ChangePasswordCommand(userId, currentPassword, newPassword);
     }
@@ -38,12 +38,12 @@ public class IdentityChangePasswordCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(null));
 
         // Act
         Result result = await _handler.Handle(
-            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+            CreateCommand(Guid.Parse(user.Id), TestPassword, TestNewPassword), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -59,7 +59,7 @@ public class IdentityChangePasswordCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(CreateTestUser()));
 
         _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>())
@@ -67,7 +67,7 @@ public class IdentityChangePasswordCommand
 
         // Act
         Result result = await _handler.Handle(
-            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+            CreateCommand(Guid.Parse(user.Id), TestPassword, TestNewPassword), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -83,7 +83,7 @@ public class IdentityChangePasswordCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(CreateTestUser()));
 
         _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>())
@@ -94,7 +94,7 @@ public class IdentityChangePasswordCommand
 
         // Act
         Result result = await _handler.Handle(
-            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+            CreateCommand(Guid.Parse(user.Id), TestPassword, TestNewPassword), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -110,7 +110,9 @@ public class IdentityChangePasswordCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        Guid parsedUserId = Guid.Parse(user.Id);
+
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(user));
 
         _userRepo.CheckPassword(Arg.Any<User>(), Arg.Any<string>())
@@ -121,14 +123,14 @@ public class IdentityChangePasswordCommand
 
         // Act
         Result result = await _handler.Handle(
-            CreateCommand(user.Id, TestPassword, TestNewPassword), default);
+            CreateCommand(parsedUserId, TestPassword, TestNewPassword), default);
 
         // Assert
         result.IsSucceeded.Should().BeTrue();
         result.IsFailed.Should().BeFalse();
 
         await _userRepo.Received(1)
-            .FindUser(Arg.Is<string>(user.Id), default);
+            .FindUser(Arg.Is<Guid>(parsedUserId), default);
 
         await _userRepo.Received(1)
             .CheckPassword(Arg.Is<User>(user), Arg.Is<string>(TestPassword));

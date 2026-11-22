@@ -15,7 +15,7 @@ public class IdentityDeleteUserCommand
         return User.Create("FullName", "test@email.com");
     }
 
-    private DeleteUserCommand CreateCommand(string userId)
+    private DeleteUserCommand CreateCommand(Guid userId)
     {
         return new DeleteUserCommand(userId);
     }
@@ -35,11 +35,11 @@ public class IdentityDeleteUserCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(null));
 
         // Act
-        Result result = await _handler.Handle(CreateCommand(user.Id), default);
+        Result result = await _handler.Handle(CreateCommand(Guid.Parse(user.Id)), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -55,14 +55,14 @@ public class IdentityDeleteUserCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(user));
 
         _userRepo.DeleteUser(Arg.Any<User>())
             .Returns(IdentityResult.Failed());
 
         // Act
-        Result result = await _handler.Handle(CreateCommand(user.Id), default);
+        Result result = await _handler.Handle(CreateCommand(Guid.Parse(user.Id)), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -78,21 +78,21 @@ public class IdentityDeleteUserCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(user));
 
         _userRepo.DeleteUser(Arg.Any<User>())
             .Returns(IdentityResult.Success);
 
         // Act
-        Result result = await _handler.Handle(CreateCommand(user.Id), default);
+        Result result = await _handler.Handle(CreateCommand(Guid.Parse(user.Id)), default);
 
         // Assert
         result.IsSucceeded.Should().BeTrue();
         result.IsFailed.Should().BeFalse();
 
         await _userRepo.Received(1)
-            .FindUser(Arg.Is<string>(user.Id), default);
+            .FindUser(Arg.Is<Guid>(Guid.Parse(user.Id)), default);
 
         await _userRepo.Received(1)
             .DeleteUser(Arg.Is<User>(user));

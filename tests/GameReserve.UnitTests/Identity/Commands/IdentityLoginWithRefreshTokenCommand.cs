@@ -69,7 +69,7 @@ public class IdentityLoginWithRefreshTokenCommand
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(null));
 
         // Act
@@ -96,7 +96,7 @@ public class IdentityLoginWithRefreshTokenCommand
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(user));
 
         // Act
@@ -126,7 +126,7 @@ public class IdentityLoginWithRefreshTokenCommand
         _userRepo.FindRefreshToken(Arg.Any<string>(), default)
             .Returns(Task.FromResult<RefreshToken?>(refreshToken));
 
-        _userRepo.FindUser(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(user));
 
         _tokenProvider.CreateToken(user)
@@ -151,7 +151,7 @@ public class IdentityLoginWithRefreshTokenCommand
             .FindRefreshToken(Arg.Is<string>(rt => rt == testRefreshToken), default);
 
         await _userRepo.Received(1)
-            .FindUser(Arg.Is<string>(id => id == refreshToken.UserId), default);
+            .FindUser(Arg.Is<Guid>(id => id == Guid.Parse(refreshToken.UserId)), default);
 
         await _tokenProvider.Received(1)
             .CreateToken(Arg.Is<User>(user));

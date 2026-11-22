@@ -3,23 +3,24 @@ using Identity.Application.Commands;
 using Identity.Domain.Interfaces;
 using Identity.Domain.UserAggregate;
 using NSubstitute;
+using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
 
 namespace GameReserve.UnitTests;
 
 public class IdentityBanUserCommand
 {
-    private BanUserCommand Command = new("test@email.com");
-
     private User CreateTestUser(bool isBanned = false)
     {
-        var user = User.Create("FullName", Command.Email);
+        var user = User.Create("FullName", "email@test.com");
 
         if (isBanned)
             user.BanUser();
 
         return user;
     }
+
+    private BanUserCommand Command(Guid userId) => new(userId);
 
     private readonly BanUserCommandHandler _handler;
     private readonly IBlackListRepository _blacklistRepo;
@@ -38,11 +39,13 @@ public class IdentityBanUserCommand
     public async Task Handle_Should_ReturnError_WhenUserNotFound()
     {
         // Arrange
+        var user = CreateTestUser(true);
+
         _userRepo.FindUserByEmail(Arg.Any<string>(), default)
             .Returns(Task.FromResult<User?>(null));
 
         // Act
-        Result result = await _handler.Handle(Command, default);
+        Result result = await _handler.Handle(Command(Guid.Parse(user.Id)), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -56,20 +59,21 @@ public class IdentityBanUserCommand
     public async Task Handle_Should_ReturnError_WhenUserIsAlreadyBanned()
     {
         // Arrange
-        _userRepo.FindUserByEmail(Arg.Any<string>(), default)
-            .Returns(Task.FromResult<User?>(CreateTestUser(true)));
+        var user = CreateTestUser(true);
+
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
+            .Returns(Task.FromResult<User?>(user));
 
         _blacklistRepo.BlackListUserAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(false);
 
         // Act
-        Result result = await _handler.Handle(Command, default);
+        Result result = await _handler.Handle(Command(Guid.Parse(user.Id)), default);
 
         // Assert
         result.IsFailed.Should().BeTrue();
         result.IsSucceeded.Should().BeFalse();
-
-        result.Error.Code.Should().Be("User.FailedToSaveBanned");
-        result.Error.Description.Should().Be("Failed to save ban to Redis");
+        result.Error.Code.Should().Be("User.UserIsBanned");
+        result.Error.Description.Should().Be("User is banned");
     }
 
     [Fact]
@@ -78,20 +82,22 @@ public class IdentityBanUserCommand
         // Arrange
         var user = CreateTestUser();
 
-        _userRepo.FindUserByEmail(Arg.Any<string>(), default)
+        _userRepo.FindUser(Arg.Any<Guid>(), default)
             .Returns(Task.FromResult<User?>(user));
+
+        
 
         _blacklistRepo.BlackListUserAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(true);
 
         // Act
-        Result result = await _handler.Handle(Command, default);
+        Result result = await _handler.Handle(Command(Guid.Parse(user.Id)), default);
 
         // Assert
         result.IsSucceeded.Should().BeTrue();
         result.IsFailed.Should().BeFalse();
 
         await _userRepo.Received(1)
-            .FindUserByEmail(Arg.Is<string>(user.Email!), default);
+            .FindUser(Arg.Is<Guid>(Guid.Parse(user.Id)), default);
 
         await _blacklistRepo.BlackListUserAsync(
             Arg.Is<string>(user.Id), 
