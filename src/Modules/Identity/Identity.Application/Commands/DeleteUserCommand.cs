@@ -5,7 +5,7 @@ using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Application.DTOs;
-public record DeleteUserCommand(string UserId) : ICommand<Result>;
+public record DeleteUserCommand(Guid UserId) : ICommand<Result>;
 public class DeleteUserCommandHandler(IUserRepository userRepository) : IRequestHandler<DeleteUserCommand, Result>
 {
     public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)

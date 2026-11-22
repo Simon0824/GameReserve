@@ -5,7 +5,7 @@ using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.Domain.Abstractions;
 
 namespace Identity.Application.Commands;
-public record ChangePasswordCommand(string UserId, string CurrentPassword, string NewPassword) : ICommand<Result>;
+public record ChangePasswordCommand(Guid UserId, string CurrentPassword, string NewPassword) : ICommand<Result>;
 public class ChangePasswordCommandHandler(IUserRepository userRepository) : IRequestHandler<ChangePasswordCommand, Result>
 {
     public async Task<Result> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)

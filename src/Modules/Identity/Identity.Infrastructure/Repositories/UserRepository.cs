@@ -19,9 +19,9 @@ public class UserRepository(UserManager<User> userManager, IdentityContext conte
         return await userManager.FindByEmailAsync(Email);
     }
 
-    public async Task<User?> FindUser(string UserId, CancellationToken cancellationToken)
+    public async Task<User?> FindUser(Guid UserId, CancellationToken cancellationToken)
     {
-        return await userManager.FindByIdAsync(UserId);
+        return await userManager.FindByIdAsync(UserId.ToString());
     }
 
     public async Task<bool> CheckPassword(User user, string password)

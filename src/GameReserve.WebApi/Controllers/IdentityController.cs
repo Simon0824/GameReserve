@@ -65,26 +65,24 @@ public class IdentityController(ISender sender) : ControllerBase
          );
     }
 
-    [HttpPost("ban")]
+    [HttpPost("{userId:guid}/ban")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IResult> BanUser(string email)
+    public async Task<IResult> BanUser(Guid userId)
     {
-        var resultDTO = await sender.Send(new BanUserCommand(email));
+        var resultDTO = await sender.Send(new BanUserCommand(userId));
 
         return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
 
-    [HttpPut("{id:guid}/change-password")]
+    [HttpPut("change-password")]
     public async Task<IResult> ChangePassword([FromBody] ChangePasswordDTO dto)
     {
           var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
           if(userId is null)
-          {
                return TypedResults.Unauthorized();
-          }
 
-          var resultDTO = await sender.Send(new ChangePasswordCommand(userId, dto.CurrentPassword, dto.NewPassword));
+          var resultDTO = await sender.Send(new ChangePasswordCommand(Guid.Parse(userId), dto.CurrentPassword, dto.NewPassword));
 
           return resultDTO.IsSucceeded ? TypedResults.Ok() : resultDTO.Error.ToProblem();
     }
@@ -101,9 +99,9 @@ public class IdentityController(ISender sender) : ControllerBase
          );
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{userId:guid}")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IResult> DeleteUser(string userId)
+    public async Task<IResult> DeleteUser(Guid userId)
      {
           var resultDTO = await sender.Send(new DeleteUserCommand(userId));
 

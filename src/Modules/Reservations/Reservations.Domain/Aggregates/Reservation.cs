@@ -35,6 +35,9 @@ public class Reservation
         Guid gameId, 
         DateTimeOffset startDate, DateTimeOffset endDate)
     {
+        if(endDate <= startDate)
+            return ReservationErrors.ReservationStartDateGreaterOrEqual;
+            
         if(endDate - startDate < TimeSpan.FromDays(1))
             return ReservationErrors.ReservationTimeTooShort;
 

@@ -64,9 +64,11 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
         return user;
     }
 
-    public async Task<User?> FindUser(string userId, CancellationToken cancellationToken)
+    public async Task<User?> FindUser(Guid userId, CancellationToken cancellationToken)
     {
-        var cachedUser = await cache.GetStringAsync(UsersByIdKey(userId), cancellationToken);
+        var stringUserId = userId.ToString();
+
+        var cachedUser = await cache.GetStringAsync(UsersByIdKey(stringUserId), cancellationToken);
 
         User? user;
         if(string.IsNullOrEmpty(cachedUser))
@@ -75,7 +77,7 @@ public class CachedUserRepository(IDistributedCache cache, IUserRepository decor
             if(user == null)
                 return user!;
 
-            await cache.SetStringAsync(UsersByIdKey(userId), JsonSerializer.Serialize(user), UsersByIdTtl, cancellationToken);
+            await cache.SetStringAsync(UsersByIdKey(stringUserId), JsonSerializer.Serialize(user), UsersByIdTtl, cancellationToken);
 
             return user;
         }
