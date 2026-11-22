@@ -40,9 +40,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
             {
                 ["Admin:Email"] = "admin@example.com",
                 ["Admin:Password"] = "TestPassword123!",
-                ["Admin:FullName"]= "Admin",
-                ["ConnectionStrings:Default"]= _postgreSql.GetConnectionString(),
-                ["ConnectionStrings:Redis"]= _redis.GetConnectionString()
+                ["Admin:FullName"]= "Admin"
             });
         });
 
@@ -151,6 +149,12 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
             _redis.StartAsync()
         );
 
+        Environment.SetEnvironmentVariable(
+            "ConnectionStrings__Default", _postgreSql.GetConnectionString());
+        Environment.SetEnvironmentVariable(
+            "ConnectionStrings__Redis", _redis.GetConnectionString());
+
+
         using var scope = Services.CreateAsyncScope();
         await scope.ServiceProvider.GetRequiredService<IdentityContext>().Database.MigrateAsync();
         await scope.ServiceProvider.GetRequiredService<ReservationsContext>().Database.MigrateAsync();
@@ -165,6 +169,9 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
             _rabbitMq.StopAsync(),
             _redis.StopAsync()
         );
+
+        Environment.SetEnvironmentVariable("ConnectionStrings__Default", null);
+        Environment.SetEnvironmentVariable("ConnectionStrings__Redis", null);
 
         await base.DisposeAsync();
     }
