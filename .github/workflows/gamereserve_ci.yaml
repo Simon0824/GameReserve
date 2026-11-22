@@ -63,7 +63,7 @@ jobs:
       
       - name: Wait for API
         run: |
-          timeout 90 bash -c 'until curl -fsS http://127.0.0.1:5110/swagger/index.html >/dev/null; do sleep 2; done'
+          timeout 90 bash -c 'until curl -fsS http://127.0.0.1:5110/health >/dev/null; do sleep 2; done'
 
       - name: Smoke test endpoints
         run: |
