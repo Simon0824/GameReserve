@@ -10,10 +10,8 @@ using GameReserve.WebApi.Middleware;
 using GameReserve.WebApi.Outbox;
 using Games.Infrastructure.Data;
 using GemeReserve.WebApi.Inbox;
-using HealthChecks.UI.Client;
 using Identity.Infrastructure.Data;
 using MassTransit;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Payments.Application.PaymentsInboxConsumer;
@@ -82,6 +80,7 @@ builder.Services.AddProblemDetails(configuration =>
 });
 
 builder.Services.AddNpgsqlDataSource(builder.Configuration.GetConnectionString("Default")!);
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped(typeof(OutboxProcessor<>));
 builder.Services.AddScoped(typeof(InboxProcessor<>));
@@ -126,10 +125,17 @@ else
     app.UseHttpsRedirection();
 }
 
-app.MapHealthChecks("health", new HealthCheckOptions
+app.MapGet("/health", async(HealthCheckService healthcheck) =>
 {
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+    var check = await healthcheck.CheckHealthAsync(); 
+
+    return check.Status == HealthStatus.Healthy 
+                                ? Results.Ok(check) 
+                                : Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+})
+.WithTags("Health")
+.Produces<HealthReport>(StatusCodes.Status200OK)
+.Produces<HealthReport>(StatusCodes.Status503ServiceUnavailable);
 
 app.UseHostFiltering();
 

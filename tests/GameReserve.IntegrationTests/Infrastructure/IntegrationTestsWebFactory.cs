@@ -90,12 +90,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
                 services.Remove(paymentsDescriptor);
             }
 
-            var distributedCache = services.SingleOrDefault(s => s.ServiceType == typeof(IDistributedCache));
-
-            if(distributedCache is not null)
-            {
-                services.Remove(distributedCache);
-            }
+            services.RemoveAll(typeof(IDistributedCache));
 
             services.RemoveAll(typeof(IConnectionMultiplexer));
 
@@ -121,7 +116,11 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
             });
 
 
-            services.AddDistributedMemoryCache();
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = _redis.GetConnectionString();
+                options.InstanceName = "GameReserve";
+            });
 
             services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(new ConfigurationOptions()
             {
