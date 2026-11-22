@@ -140,7 +140,9 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
             {
                 ["Admin:Email"] = "admin@example.com",
                 ["Admin:Password"] = "TestPassword123!",
-                ["Admin:FullName"]= "Admin"
+                ["Admin:FullName"]= "Admin",
+                ["ConnectionStrings:Default"]= _postgreSql.GetConnectionString(),
+                ["ConnectionStrings:Redis"]= _rabbitMq.GetConnectionString()
             });
         });
     }
