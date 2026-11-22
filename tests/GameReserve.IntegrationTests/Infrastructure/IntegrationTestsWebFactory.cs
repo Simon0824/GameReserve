@@ -14,8 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.Redis;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-using GameReserve.WebApi.BackgroundServices;
 using Microsoft.Extensions.Configuration;
 
 namespace GameReserve.IntegrationTests.Infrastructure;
@@ -36,6 +34,18 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
                                         .Build();
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Admin:Email"] = "admin@example.com",
+                ["Admin:Password"] = "TestPassword123!",
+                ["Admin:FullName"]= "Admin",
+                ["ConnectionStrings:Default"]= _postgreSql.GetConnectionString(),
+                ["ConnectionStrings:Redis"]= _redis.GetConnectionString()
+            });
+        });
+
         builder.ConfigureTestServices(services =>
         {
            var massTransitDescript = services.Where(s => s.ServiceType.FullName?.StartsWith("MassTransit") == true).ToList(); 
@@ -131,18 +141,6 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
                     cfg.ConfigureEndpoints(context);
                 });
-            });
-        });
-
-        builder.ConfigureAppConfiguration((context, config) =>
-        {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["Admin:Email"] = "admin@example.com",
-                ["Admin:Password"] = "TestPassword123!",
-                ["Admin:FullName"]= "Admin",
-                ["ConnectionStrings:Default"]= _postgreSql.GetConnectionString(),
-                ["ConnectionStrings:Redis"]= _rabbitMq.GetConnectionString()
             });
         });
     }
