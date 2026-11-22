@@ -5,13 +5,17 @@ using GameReserve.WebApi.BackgroundServices;
 using GameReserve.WebApi.DependencyInjection;
 using GameReserve.WebApi.Exceptions;
 using GameReserve.WebApi.Extensions;
+using GameReserve.WebApi.Health;
 using GameReserve.WebApi.Middleware;
 using GameReserve.WebApi.Outbox;
 using Games.Infrastructure.Data;
 using GemeReserve.WebApi.Inbox;
+using HealthChecks.UI.Client;
 using Identity.Infrastructure.Data;
 using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Payments.Application.PaymentsInboxConsumer;
 using Payments.Infrastructure.Data;
 using Reservations.Application.InboxConsumer;
@@ -77,6 +81,8 @@ builder.Services.AddProblemDetails(configuration =>
     };
 });
 
+builder.Services.AddNpgsqlDataSource(builder.Configuration.GetConnectionString("Default")!);
+
 builder.Services.AddScoped(typeof(OutboxProcessor<>));
 builder.Services.AddScoped(typeof(InboxProcessor<>));
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
@@ -85,6 +91,15 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHostedService<AdminSeedingService>();
 builder.Services.AddHostedService<OutboxBackgroundService>();
 builder.Services.AddHostedService<InboxBackgroundService>();
+
+builder.Services.AddHealthChecks()
+            .AddCheck<DatabaseHealthCheck>("custom-healthcheck", HealthStatus.Unhealthy)
+            .AddNpgSql(builder.Configuration.GetConnectionString("Default")!)
+            .AddRedis(builder.Configuration.GetConnectionString("Redis")!)
+            .AddDbContextCheck<IdentityContext>()
+            .AddDbContextCheck<ReservationsContext>()
+            .AddDbContextCheck<GamesContext>()
+            .AddDbContextCheck<PaymentsContext>();
 
 var app = builder.Build();
 
@@ -110,6 +125,11 @@ else
 {
     app.UseHttpsRedirection();
 }
+
+app.MapHealthChecks("health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseHostFiltering();
 
