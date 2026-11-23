@@ -20,8 +20,15 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Default"));
         });
-
-        services.AddSingleton<IPaymentGateway, StripePaymentGateway>();
+        
+        if(configuration["PaymentConfig"] == "Fake")
+        {
+            services.AddSingleton<IPaymentGateway, FakePaymentGateway>();
+        }
+        else
+        {
+        services.AddSingleton<IPaymentGateway, StripePaymentGateway>();     
+        }
         services.AddScoped<IPaymentsRepository, PaymentsRepository>();
         services.AddScoped<IPaymentsOutboxRepository, PaymentsOutboxRepository>();
         services.AddScoped<IPaymentsInboxRepository, PaymentsInboxRepository>();

@@ -10,7 +10,7 @@ public class Payment : Entity<PaymentId>
     public decimal Amount {get; private set;}
     public PaymentStatus Status {get; private set;}
 
-    public Payment(PaymentId paymentId, ExternalPaymentId externalPaymentId, ReservationId reservationId, decimal amount)
+    private Payment(PaymentId paymentId, ExternalPaymentId externalPaymentId, ReservationId reservationId, decimal amount)
     {
         Id = paymentId;
         ExternalPaymentId = externalPaymentId;
