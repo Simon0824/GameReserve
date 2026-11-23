@@ -8,7 +8,7 @@ using SharedKernel.Domain.Abstractions;
 using SharedKernel.IntegrationEvents;
 
 namespace Payments.Application.Commands;
-public record FailedPaymentCommand(string ExternalPaymentId) : ICommand<Result>;
+public record FailedPaymentCommand(string PaymentId) : ICommand<Result>;
 public class FailedPaymentCommandHandler(
     IPaymentsRepository paymentsRepository, 
     ILogger<FailedPaymentCommandHandler> logger, 
@@ -16,11 +16,11 @@ public class FailedPaymentCommandHandler(
 {
     public async Task<Result> Handle(FailedPaymentCommand request, CancellationToken cancellationToken)
     {
-        var payment = await paymentsRepository.GetPaymentByExternalId(new ExternalPaymentId(request.ExternalPaymentId), cancellationToken);
+        var payment = await paymentsRepository.GetPaymentByExternalId(new PaymentId(Guid.Parse(request.PaymentId)), cancellationToken);
 
         if(payment is null) 
         {
-            logger.LogWarning($"Payment with external ID: {request.ExternalPaymentId} is not found in db");
+            logger.LogWarning($"Payment with ID: {request.PaymentId} is not found in db");
             return PaymentErrors.PaymentWithExternalIdNotFound;
         }
 

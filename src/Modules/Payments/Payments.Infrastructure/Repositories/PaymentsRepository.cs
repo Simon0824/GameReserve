@@ -12,12 +12,19 @@ public class PaymentsRepository(PaymentsContext context) : IPaymentsRepository
         context.Payments.Add(payment);
     }
 
-    public async Task<Payment?> GetPaymentByExternalId(ExternalPaymentId externalPaymentId, CancellationToken cancellationToken)
+    public async Task<Payment?> GetPaymentByExternalId(PaymentId paymentId, CancellationToken cancellationToken)
     {
         return await context.Payments
                             .FirstOrDefaultAsync(
-                                p => p.ExternalPaymentId == externalPaymentId, 
-                                                            cancellationToken);
+                                p => p.Id == paymentId, cancellationToken);
+    }
+
+    public async Task<bool> SetExternalIdToPayment(PaymentId paymentId, ExternalPaymentId externalPaymentId, CancellationToken cancellationToken)
+    {
+        var affected = await context.Payments.Where(p => p.Id == paymentId)
+                                             .ExecuteUpdateAsync(p => 
+                                             p.SetProperty(p => p.ExternalPaymentId, externalPaymentId), cancellationToken);
+        return affected > 0;
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)

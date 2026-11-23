@@ -8,7 +8,7 @@ using SharedKernel.Domain.Abstractions;
 using SharedKernel.IntegrationEvents;
 
 namespace Payments.Application.Commands;
-public record ConfirmPaymentCommand(string ExternalPaymentId) : ICommand<Result>;
+public record ConfirmPaymentCommand(string PaymentId) : ICommand<Result>;
 public class ConfirmPaymentCommandHandler(
     IPaymentsRepository paymentsRepository, 
     ILogger<ConfirmPaymentCommandHandler> logger, 
@@ -16,11 +16,11 @@ public class ConfirmPaymentCommandHandler(
 {
     public async Task<Result> Handle(ConfirmPaymentCommand request, CancellationToken cancellationToken)
     {
-        var payment = await paymentsRepository.GetPaymentByExternalId(new ExternalPaymentId(request.ExternalPaymentId), cancellationToken);
+        var payment = await paymentsRepository.GetPaymentByExternalId(new PaymentId(Guid.Parse(request.PaymentId)), cancellationToken);
 
         if(payment is null)
         {
-            logger.LogWarning($"Payment with external ID: {request.ExternalPaymentId} is not found in db");
+            logger.LogWarning($"Payment with ID: {request.PaymentId} is not found in db");
             return PaymentErrors.PaymentWithExternalIdNotFound;
         }
 

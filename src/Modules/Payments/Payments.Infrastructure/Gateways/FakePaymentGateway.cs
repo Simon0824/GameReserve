@@ -1,20 +1,20 @@
+using Payments.Application.Iterfaces;
 using Payments.Domain.Entities;
 using Payments.Domain.Enums;
-using Payments.Domain.Iterfaces;
 using Payments.Domain.Primitives;
-using Stripe;
+using Payments.Infrastructure.Processors;
 
 namespace Payments.Infrastructure.Gateways;
-public class FakePaymentGateway : IPaymentGateway
+public class FakePaymentGateway(FakePaymentProcessor paymentProcessor) : IPaymentGateway
 {
-    public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, decimal amount, PaymentCurrency currency, string cardType)
+    public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, PaymentId paymentId, decimal amount, PaymentCurrency currency, CardTypes cardType)
     {
         if(currency == PaymentCurrency.none)
             throw new Exception("You have to type currency");
-            
-        long longAmount = (long)(amount*100);
 
-        var paymentIntent = FakePaymentIntent.CreateIntent(longAmount, currency, cardType, reservationId);
+        var paymentIntent = FakePaymentIntent.CreateIntent(amount, currency, cardType, reservationId);
+
+        await paymentProcessor.ExecuteAsync(paymentIntent, paymentId);
 
         return paymentIntent.Id.ToString();
     }

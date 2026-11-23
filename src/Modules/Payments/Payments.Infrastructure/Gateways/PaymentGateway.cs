@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
+using Payments.Application.Iterfaces;
 using Payments.Domain.Enums;
-using Payments.Domain.Iterfaces;
 using Payments.Domain.Primitives;
 using Stripe;
 
@@ -8,7 +8,7 @@ namespace Payments.Infrastructure.Gateways;
 public class StripePaymentGateway(IConfiguration configuration) : IPaymentGateway
 {
     private readonly IStripeClient _stripeClient = new StripeClient(configuration["Stripe:ApiKey"]);
-    public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, decimal amount, PaymentCurrency currency, string cardType)
+    public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, PaymentId paymentId, decimal amount, PaymentCurrency currency, CardTypes cardType)
     {
         var options = new PaymentIntentCreateOptions()
         {

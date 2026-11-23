@@ -12,6 +12,11 @@ public class ReservationCreatedEventHandler(ILogger<ReservationCreatedEventHandl
     public async Task Handle(ReservationCreatedIntegrationEvent notification, CancellationToken cancellationToken)
     {
         logger.LogInformation($"Handling ReservationCreated notification with ID: {notification.ReservationId}");
-        await sender.Send(new CreateNewPaymentCommand(new ReservationId(notification.ReservationId), notification.Amount, PaymentCurrency.usd, "mastercard"));
+
+        await sender.Send(new CreateNewPaymentCommand(
+                                new ReservationId(notification.ReservationId), 
+                                notification.Amount, 
+                                PaymentCurrency.usd, 
+                                CardTypes.Mastercard));
     }
 }

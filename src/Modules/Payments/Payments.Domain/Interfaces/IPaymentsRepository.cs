@@ -5,6 +5,7 @@ namespace Payments.Domain.Interfaces;
 public interface IPaymentsRepository
 {
     void AddPayment(Payment payment);
-    Task<Payment?> GetPaymentByExternalId(ExternalPaymentId externalPaymentId, CancellationToken cancellationToken);
+    Task<Payment?> GetPaymentByExternalId(PaymentId externalPaymentId, CancellationToken cancellationToken);
+    Task<bool> SetExternalIdToPayment(PaymentId paymentId, ExternalPaymentId externalPaymentId, CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken);
 }

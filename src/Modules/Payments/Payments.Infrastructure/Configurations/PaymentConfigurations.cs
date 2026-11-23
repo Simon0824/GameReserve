@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payments.Domain.Aggregates;
 using Payments.Domain.Primitives;
 
@@ -25,11 +26,14 @@ public class PaymentConfigurations : IEntityTypeConfiguration<Payment>
                 value => new ReservationId(value)
                );
 
-        builder.Property(p => p.ExternalPaymentId)
-               .HasConversion(
-                id => id.Value,
-                value => new ExternalPaymentId(value)
-               );
+       var valueConverter = new ValueConverter<ExternalPaymentId?, string?>(
+              id => id.HasValue ? id.Value.Value : null,
+              value => value == null ? null : new ExternalPaymentId(value)
+       );
+
+       builder.Property(p => p.ExternalPaymentId)
+              .HasConversion(valueConverter)
+              .IsRequired(false);
 
         builder.HasIndex(p => p.ExternalPaymentId)
                .IsUnique();
