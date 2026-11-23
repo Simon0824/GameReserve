@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Payments.Application.Commands;
+using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
 using SharedKernel.IntegrationEvents;
 
@@ -11,6 +12,6 @@ public class ReservationCreatedEventHandler(ILogger<ReservationCreatedEventHandl
     public async Task Handle(ReservationCreatedIntegrationEvent notification, CancellationToken cancellationToken)
     {
         logger.LogInformation($"Handling ReservationCreated notification with ID: {notification.ReservationId}");
-        await sender.Send(new CreateNewPaymentCommand(new ReservationId(notification.ReservationId), notification.Amount));
+        await sender.Send(new CreateNewPaymentCommand(new ReservationId(notification.ReservationId), notification.Amount, PaymentCurrency.usd, "mastercard"));
     }
 }

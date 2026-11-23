@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Payments.Domain.Aggregates;
 using Payments.Domain.Interfaces;
 using Payments.Domain.Iterfaces;
 using Payments.Infrastructure.Behaviors;
@@ -20,15 +21,21 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Default"));
         });
-        
-        if(configuration["PaymentConfig"] == "Fake")
+
+        var paymentProvider = configuration["Payment:Provider"];
+
+        switch(paymentProvider)
         {
+          case "Fake":
             services.AddSingleton<IPaymentGateway, FakePaymentGateway>();
-        }
-        else
-        {
-        services.AddSingleton<IPaymentGateway, StripePaymentGateway>();     
-        }
+          break;
+          case "Stripe":
+            services.AddSingleton<IPaymentGateway, StripePaymentGateway>();
+          break;
+          default:
+            throw new Exception("Payment provider not configured!");  
+        };
+        
         services.AddScoped<IPaymentsRepository, PaymentsRepository>();
         services.AddScoped<IPaymentsOutboxRepository, PaymentsOutboxRepository>();
         services.AddScoped<IPaymentsInboxRepository, PaymentsInboxRepository>();

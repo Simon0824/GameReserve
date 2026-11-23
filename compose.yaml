@@ -21,6 +21,7 @@ services:
       Jwt__SecretKey: ${JWT_SECRET:-replace_with_a_secure_secret_at_least_32_bytes_long}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE}
+      Payment__Provider: Fake
     depends_on:
       postgres:
         condition: service_healthy

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Payments.Application.PaymentsInboxConsumer;
 using Payments.Infrastructure.Data;
+using Payments.Infrastructure.Nbp;
 using Reservations.Application.InboxConsumer;
 using Reservations.Infrastructure.Data;
 using SharedKernel.IntegrationEvents;
@@ -99,6 +100,11 @@ builder.Services.AddHealthChecks()
             .AddDbContextCheck<ReservationsContext>()
             .AddDbContextCheck<GamesContext>()
             .AddDbContextCheck<PaymentsContext>();
+
+builder.Services.AddHttpClient<INbpRateClient, NbpExchangeRateClient>(client =>
+{
+    client.BaseAddress = new Uri("https://api.nbp.pl/");
+});
 
 var app = builder.Build();
 
