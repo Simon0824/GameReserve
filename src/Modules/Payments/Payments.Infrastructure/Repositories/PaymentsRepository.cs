@@ -19,6 +19,13 @@ public class PaymentsRepository(PaymentsContext context) : IPaymentsRepository
                                 p => p.Id == paymentId, cancellationToken);
     }
 
+    public async Task<bool> FindReservationDuplicate(ReservationId reservationId, CancellationToken cancellationToken)
+    {
+        return await context.Payments
+                            .AnyAsync(
+                                p => p.ReservationId == reservationId, cancellationToken);
+    }
+
     public async Task<bool> SetExternalIdToPayment(PaymentId paymentId, ExternalPaymentId externalPaymentId, CancellationToken cancellationToken)
     {
         var affected = await context.Payments.Where(p => p.Id == paymentId)
@@ -26,6 +33,7 @@ public class PaymentsRepository(PaymentsContext context) : IPaymentsRepository
                                              p.SetProperty(p => p.ExternalPaymentId, externalPaymentId), cancellationToken);
         return affected > 0;
     }
+
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {

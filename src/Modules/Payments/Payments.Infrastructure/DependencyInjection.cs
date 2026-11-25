@@ -27,7 +27,7 @@ public static class DependencyInjection
         switch(paymentProvider)
         {
           case "Fake":
-            services.AddSingleton<IPaymentGateway, FakePaymentGateway>();
+            services.AddScoped<IPaymentGateway, FakePaymentGateway>();
           break;
           case "Stripe":
             services.AddSingleton<IPaymentGateway, StripePaymentGateway>();
@@ -40,7 +40,7 @@ public static class DependencyInjection
         services.AddScoped<IPaymentsOutboxRepository, PaymentsOutboxRepository>();
         services.AddScoped<IPaymentsInboxRepository, PaymentsInboxRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PaymentsTransactionalBehavior<,>));
-        services.AddSingleton<FakePaymentProcessor>();
+        services.AddScoped<FakePaymentProcessor>();
         
         return services;
     }
