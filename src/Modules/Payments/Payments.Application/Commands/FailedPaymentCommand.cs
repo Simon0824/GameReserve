@@ -12,7 +12,7 @@ public record FailedPaymentCommand(string PaymentId) : ICommand<Result>;
 public class FailedPaymentCommandHandler(
     IPaymentsRepository paymentsRepository, 
     ILogger<FailedPaymentCommandHandler> logger, 
-    IPublisher publisher) : IRequestHandler<FailedPaymentCommand, Result>
+    IPaymentsOutboxRepository paymentsOutbox) : IRequestHandler<FailedPaymentCommand, Result>
 {
     public async Task<Result> Handle(FailedPaymentCommand request, CancellationToken cancellationToken)
     {
@@ -28,7 +28,7 @@ public class FailedPaymentCommandHandler(
         await paymentsRepository.SaveChangesAsync(cancellationToken);
         logger.LogInformation("Payment failed");
 
-        await publisher.Publish(new PaymentFailedIntegrationEvent(payment.ReservationId.Value));
+        paymentsOutbox.InsertOutboxMessage(new PaymentFailedIntegrationEvent(payment.ReservationId.Value));
         return Result.Success;
     }
 }

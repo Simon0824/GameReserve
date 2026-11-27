@@ -2,8 +2,8 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Payments.Application.Commands;
 using Payments.Domain.Entities;
-using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Infrastructure.Processors;
 public class FakePaymentProcessor(ISender sender, ILogger<FakePaymentProcessor> logger)

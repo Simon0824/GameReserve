@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Payments.Application.Commands;
 using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
+using SharedKernel.Domain.Enums;
 using SharedKernel.IntegrationEvents;
 
 namespace Payments.Application.NotificationHandlers;

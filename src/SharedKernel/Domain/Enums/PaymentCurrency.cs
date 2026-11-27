@@ -1,13 +1,11 @@
-namespace Payments.Domain.Enums;
+namespace SharedKernel.Domain.Enums;
 public enum PaymentCurrency
 {
     usd,
     eur,
-    pln,
     jpy,
     rub,
     cny,
     aud,
-    tl,
     none
 }

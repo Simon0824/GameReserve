@@ -1,4 +1,4 @@
-namespace Payments.Domain.Enums;
+namespace SharedKernel.Domain.Enums;
 public enum CardTypes
 {
     Visa,

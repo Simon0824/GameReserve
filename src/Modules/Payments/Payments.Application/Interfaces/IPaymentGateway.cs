@@ -1,5 +1,5 @@
-using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Application.Iterfaces;
 public interface IPaymentGateway

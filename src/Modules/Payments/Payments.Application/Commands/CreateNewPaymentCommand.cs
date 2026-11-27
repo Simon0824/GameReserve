@@ -1,14 +1,14 @@
 using MediatR;
 using Payments.Application.Iterfaces;
 using Payments.Domain.Aggregates;
-using Payments.Domain.Enums;
 using Payments.Domain.Interfaces;
 using Payments.Domain.Primitives;
 using Payments.Infrastructure.Nbp;
 using SharedKernel.Application.Abstractions.Messaging;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Application.Commands;
-public record CreateNewPaymentCommand(ReservationId ReservationId, decimal Amount, PaymentCurrency PaymentCurrency, CardTypes CardType) : ICommand;
+public record CreateNewPaymentCommand(ReservationId ReservationId, decimal Amount, PaymentCurrency PaymentCurrency, CardTypes CardType) : IRequest;
 public class CreateNewPaymentCommandHandler(IPaymentGateway paymentGateway, IPaymentsRepository paymentsRepository, INbpRateClient nbp) : IRequestHandler<CreateNewPaymentCommand>
 {
     public async Task Handle(CreateNewPaymentCommand request, CancellationToken cancellationToken)

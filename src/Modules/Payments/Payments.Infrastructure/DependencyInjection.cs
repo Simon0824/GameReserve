@@ -8,6 +8,7 @@ using Payments.Domain.Interfaces;
 using Payments.Infrastructure.Behaviors;
 using Payments.Infrastructure.Data;
 using Payments.Infrastructure.Gateways;
+using Payments.Infrastructure.Nbp;
 using Payments.Infrastructure.Processors;
 using Payments.Infrastructure.Repositories;
 
@@ -41,6 +42,7 @@ public static class DependencyInjection
         services.AddScoped<IPaymentsInboxRepository, PaymentsInboxRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PaymentsTransactionalBehavior<,>));
         services.AddScoped<FakePaymentProcessor>();
+        services.AddScoped<INbpRateClient, NbpExchangeRateClient>();
         
         return services;
     }

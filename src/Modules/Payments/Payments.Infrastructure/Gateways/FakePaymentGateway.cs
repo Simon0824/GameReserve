@@ -3,6 +3,7 @@ using Payments.Domain.Entities;
 using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
 using Payments.Infrastructure.Processors;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Infrastructure.Gateways;
 public class FakePaymentGateway(FakePaymentProcessor paymentProcessor) : IPaymentGateway

@@ -12,10 +12,12 @@ public record ConfirmPaymentCommand(string PaymentId) : ICommand<Result>;
 public class ConfirmPaymentCommandHandler(
     IPaymentsRepository paymentsRepository, 
     ILogger<ConfirmPaymentCommandHandler> logger, 
-    IPublisher publisher) : IRequestHandler<ConfirmPaymentCommand, Result>
+    IPaymentsOutboxRepository paymentsOutbox) : IRequestHandler<ConfirmPaymentCommand, Result>
 {
     public async Task<Result> Handle(ConfirmPaymentCommand request, CancellationToken cancellationToken)
     {
+        logger.LogInformation("CONFIRM PAYMENT COMMAND");
+
         var payment = await paymentsRepository.GetPaymentByExternalId(new PaymentId(Guid.Parse(request.PaymentId)), cancellationToken);
 
         if(payment is null)
@@ -28,7 +30,7 @@ public class ConfirmPaymentCommandHandler(
         await paymentsRepository.SaveChangesAsync(cancellationToken);
         logger.LogInformation("Payment confirmed");
 
-        await publisher.Publish(new PaymentConfirmedIntegrationEvent(payment.ReservationId.Value));
+        paymentsOutbox.InsertOutboxMessage(new PaymentConfirmedIntegrationEvent(payment.ReservationId.Value));
         return Result.Success;
     }
 }

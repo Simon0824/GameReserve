@@ -1,3 +1,5 @@
+using SharedKernel.Domain.Enums;
+
 namespace Reservations.Application.DTOs;
 
 public record AddNewReservationDTO

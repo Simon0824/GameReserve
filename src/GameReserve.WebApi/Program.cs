@@ -101,10 +101,12 @@ builder.Services.AddHealthChecks()
             .AddDbContextCheck<GamesContext>()
             .AddDbContextCheck<PaymentsContext>();
 
-builder.Services.AddHttpClient<INbpRateClient, NbpExchangeRateClient>(client =>
+builder.Services.AddHttpClient("NbpClient", client =>
 {
     client.BaseAddress = new Uri("https://api.nbp.pl/");
 });
+
+builder.Services.AddHostedService<GetExchangeRate>();
 
 var app = builder.Build();
 

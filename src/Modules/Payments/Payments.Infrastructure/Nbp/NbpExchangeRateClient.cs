@@ -1,36 +1,24 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Payments.Domain.Enums;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Infrastructure.Nbp;
-public class NbpExchangeRateClient(HttpClient httpClient, ILogger<NbpExchangeRateClient> logger) : INbpRateClient
+public class NbpExchangeRateClient(IDistributedCache cache, ILogger<NbpExchangeRateClient> logger) : INbpRateClient
 {
+    private static string CurrencyKey(string currency) => $"exchange{currency}";
     public async Task<decimal> GetCurrencyExchange(PaymentCurrency currency, decimal amount, CancellationToken cancellationToken)
     {
-        var url = $"api/exchangerates/rates/a/{currency}/?format=json";
+        var exchange = await cache.GetStringAsync(CurrencyKey(currency.ToString()), cancellationToken);
 
-        Console.WriteLine($"BaseAddress: {httpClient.BaseAddress}");
-        Console.WriteLine($"Currency: {currency}");
-        Console.WriteLine($"Final URL: {new Uri(httpClient.BaseAddress!, url)}");
+        decimal.TryParse(exchange, out decimal exchangeParsed);
 
-        var response = await httpClient.GetAsync(
-                                                $"api/exchangerates/rates/a/{currency.ToString()}/?format=json", cancellationToken);
-        
-        response.EnsureSuccessStatusCode();
-
-
-        var json = await response.Content.ReadFromJsonAsync<NbpExchangeResponseDTO>();
-
-        Console.WriteLine(JsonSerializer.Serialize(json, new JsonSerializerOptions
-        {
-            WriteIndented = true
-        }));
-        
-        var exchange = Math.Round(json!.rates.First().mid * amount, 2, MidpointRounding.AwayFromZero);
+        var conversion = Math.Round((amount*exchangeParsed), 2, MidpointRounding.AwayFromZero);
 
         logger.LogInformation($"Amount after exchange to pln: {exchange}");
 
-        return exchange;
+        return conversion;
     }
 }

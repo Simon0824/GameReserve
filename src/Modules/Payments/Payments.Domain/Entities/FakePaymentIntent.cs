@@ -1,6 +1,5 @@
-using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
-using SharedKernel.Domain.Abstractions;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Domain.Entities;
 public class FakePaymentIntent

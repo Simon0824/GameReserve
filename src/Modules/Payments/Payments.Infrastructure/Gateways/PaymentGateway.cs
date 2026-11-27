@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Payments.Application.Iterfaces;
 using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
+using SharedKernel.Domain.Enums;
 using Stripe;
 
 namespace Payments.Infrastructure.Gateways;

@@ -1,5 +1,4 @@
-using Microsoft.Extensions.Caching.Memory;
-using Payments.Domain.Enums;
+using SharedKernel.Domain.Enums;
 
 namespace Payments.Infrastructure.Nbp;
 public interface INbpRateClient

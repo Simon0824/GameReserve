@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Reservations.Domain.Enums;
 using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
+using SharedKernel.Domain.Enums;
 
 namespace Reservations.Domain.Aggregates;
 public class Reservation
