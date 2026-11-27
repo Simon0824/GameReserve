@@ -91,6 +91,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHostedService<AdminSeedingService>();
 builder.Services.AddHostedService<OutboxBackgroundService>();
 builder.Services.AddHostedService<InboxBackgroundService>();
+builder.Services.AddHostedService<SetExchangeRate>();
 
 builder.Services.AddHealthChecks()
             .AddCheck<DatabaseHealthCheck>("custom-healthcheck", HealthStatus.Unhealthy)
@@ -100,13 +101,6 @@ builder.Services.AddHealthChecks()
             .AddDbContextCheck<ReservationsContext>()
             .AddDbContextCheck<GamesContext>()
             .AddDbContextCheck<PaymentsContext>();
-
-builder.Services.AddHttpClient("NbpClient", client =>
-{
-    client.BaseAddress = new Uri("https://api.nbp.pl/");
-});
-
-builder.Services.AddHostedService<GetExchangeRate>();
 
 var app = builder.Build();
 

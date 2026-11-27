@@ -8,7 +8,7 @@ using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.Domain.Enums;
 
 namespace Payments.Application.Commands;
-public record CreateNewPaymentCommand(ReservationId ReservationId, decimal Amount, PaymentCurrency PaymentCurrency, CardTypes CardType) : IRequest;
+public record CreateNewPaymentCommand(ReservationId ReservationId, decimal Amount, PaymentCurrency PaymentCurrency, CardTypes CardType) : ICommand;
 public class CreateNewPaymentCommandHandler(IPaymentGateway paymentGateway, IPaymentsRepository paymentsRepository, INbpRateClient nbp) : IRequestHandler<CreateNewPaymentCommand>
 {
     public async Task Handle(CreateNewPaymentCommand request, CancellationToken cancellationToken)
@@ -16,7 +16,7 @@ public class CreateNewPaymentCommandHandler(IPaymentGateway paymentGateway, IPay
         var isDuplicate = await paymentsRepository.FindReservationDuplicate(request.ReservationId, cancellationToken);
 
         if(isDuplicate)
-            throw new Exception($"There is a duplicate of this reservation id: {request.ReservationId.Value}");
+            throw new Exception($"There is a duplicate of this reservatio, ID: {request.ReservationId.Value}");
 
         var payment = Payment.CreatePayment(request.ReservationId, request.Amount);
 

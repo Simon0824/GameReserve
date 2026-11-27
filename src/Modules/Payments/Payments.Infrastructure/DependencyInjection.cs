@@ -43,6 +43,11 @@ public static class DependencyInjection
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PaymentsTransactionalBehavior<,>));
         services.AddScoped<FakePaymentProcessor>();
         services.AddScoped<INbpRateClient, NbpExchangeRateClient>();
+
+        services.AddHttpClient<NbpExchangeRateClient>(client =>
+        {
+          client.BaseAddress = new Uri("https://api.nbp.pl/");
+        } );
         
         return services;
     }

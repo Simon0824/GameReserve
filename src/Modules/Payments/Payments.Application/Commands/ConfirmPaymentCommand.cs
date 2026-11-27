@@ -16,8 +16,6 @@ public class ConfirmPaymentCommandHandler(
 {
     public async Task<Result> Handle(ConfirmPaymentCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CONFIRM PAYMENT COMMAND");
-
         var payment = await paymentsRepository.GetPaymentByExternalId(new PaymentId(Guid.Parse(request.PaymentId)), cancellationToken);
 
         if(payment is null)

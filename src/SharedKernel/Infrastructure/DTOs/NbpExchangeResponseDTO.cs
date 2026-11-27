@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
-namespace Payments.Infrastructure.Nbp;
+namespace SharedKernel.DTOs;
 public record NbpExchangeResponseDTO
 (
     [property: JsonPropertyName("table")]

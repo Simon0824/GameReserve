@@ -3,9 +3,8 @@ public enum PaymentCurrency
 {
     usd,
     eur,
+    gbp,
     jpy,
-    rub,
-    cny,
     aud,
     none
 }
