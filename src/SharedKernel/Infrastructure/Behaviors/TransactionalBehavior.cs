@@ -59,7 +59,7 @@ public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(T
             {
                 context.ChangeTracker.Clear();
                 await transaction.RollbackAsync(cancellationToken);
-                return response;   // zostaje TResponse, żadnej konwersji
+                return response;
             }
         }
 

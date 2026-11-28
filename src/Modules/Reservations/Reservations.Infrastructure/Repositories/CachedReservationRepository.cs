@@ -16,7 +16,6 @@ public class CachedReservationRepository(
 {
     private const string _cachedReservationsProfiles = "reservationProfiles:all";
     private static string ReservationProfileByIdKey(string id) => $"reservationProfile:{id}";
-    private static string ReservationProfileByUserIdKey(string userId) => $"reservationProfile:{userId}";
     private static string ReservationByIdKey(string id) => $"reservation:{id}";
 
     DistributedCacheEntryOptions AllProfilesTtl = new()
@@ -209,52 +208,7 @@ public class CachedReservationRepository(
     }
 
     public async Task<ReservationProfile?> GetReservationProfileByUserId(UserId userId, CancellationToken cancellationToken)
-    {
-        string stringId = userId.Value.ToString();
-        var cachedProfileId = await cache.GetStringAsync(ReservationProfileByUserIdKey(stringId), cancellationToken);
-
-        ReservationProfile? reservationProfile;
-
-        if(string.IsNullOrEmpty(cachedProfileId))
-        {
-            reservationProfile = await decorated.GetReservationProfileByUserId(userId, cancellationToken);
-
-            if(reservationProfile is null)
-                return null;
-
-            var cachedProfile = new CachedReservationProfileDto(
-                reservationProfile.Id.Value, 
-                reservationProfile.UserId.Value, 
-                reservationProfile.Reservations.Select(reservation => 
-                    new CachedReservationDto(
-                        reservation.Id.Value, 
-                        reservation.ReservationProfileId.Value, 
-                        reservation.GameId, 
-                        reservation.StartDate, 
-                        reservation.EndDate,
-                        reservation.Status.ToString())
-                        ).ToList()
-                    );
-
-            await cache.SetStringAsync(
-                ReservationProfileByUserIdKey(stringId), 
-                JsonSerializer.Serialize(cachedProfile), 
-                ProfileTtl,
-                cancellationToken);
-
-            return reservationProfile;
-        }
-
-        var deserializedProfile = JsonSerializer.Deserialize<CachedReservationProfileDto>(cachedProfileId);
-
-        reservationProfile = ReservationProfile.Rehydrate(
-            new ReservationProfileId(deserializedProfile!.Id), 
-            new UserId(deserializedProfile.UserId), 
-            deserializedProfile.Reservations.Select(ToDomain).ToList()
-            );
-
-        return reservationProfile;
-    }
+                        => await decorated.GetReservationProfileByUserId(userId, cancellationToken);
 
     public async Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
         => await decorated.CheckReservationDates(gameId, startDate, endDate, cancellationToken);
