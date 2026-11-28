@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Payments.Application.Iterfaces;
 using Payments.Domain.Aggregates;
 using Payments.Domain.Interfaces;
@@ -8,8 +9,18 @@ using SharedKernel.Application.Abstractions.Messaging;
 using SharedKernel.Domain.Enums;
 
 namespace Payments.Application.Commands;
-public record CreateNewPaymentCommand(ReservationId ReservationId, decimal Amount, PaymentCurrency PaymentCurrency, CardTypes CardType) : ICommand;
-public class CreateNewPaymentCommandHandler(IPaymentGateway paymentGateway, IPaymentsRepository paymentsRepository, INbpRateClient nbp) : IRequestHandler<CreateNewPaymentCommand>
+public record CreateNewPaymentCommand(
+    ReservationId ReservationId, 
+    decimal Amount, 
+    decimal CalculatedPrice, 
+    PaymentCurrency PaymentCurrency, 
+    CardTypes CardType) : ICommand;
+public class CreateNewPaymentCommandHandler(
+    IPaymentGateway paymentGateway, 
+    IPaymentsRepository paymentsRepository, 
+    INbpRateClient nbp,
+    ISender sender,
+    ILogger<CreateNewPaymentCommandHandler> logger) : IRequestHandler<CreateNewPaymentCommand>
 {
     public async Task Handle(CreateNewPaymentCommand request, CancellationToken cancellationToken)
     {
@@ -23,9 +34,43 @@ public class CreateNewPaymentCommandHandler(IPaymentGateway paymentGateway, IPay
         paymentsRepository.AddPayment(payment);
         await paymentsRepository.SaveChangesAsync(cancellationToken);
 
-        var amount = await nbp.GetCurrencyExchange(PaymentCurrency.usd, request.Amount, cancellationToken);
+        var amount = await nbp.GetCurrencyExchange(request.PaymentCurrency, request.Amount, cancellationToken);
 
-        var externalPaymentId = await paymentGateway.CreatePaymentIntentAsync(request.ReservationId, payment.Id,amount, request.PaymentCurrency, request.CardType);
+        if(request.PaymentCurrency == PaymentCurrency.none)
+        {
+            logger.LogWarning($"Currency is not set");  
+
+            await sender.Send(new FailedPaymentCommand(payment.Id.Value.ToString()));
+            return;
+        }
+        
+        if(amount < request.CalculatedPrice)
+        {
+            var change = Math.Abs(amount - request.CalculatedPrice);
+
+            logger.LogWarning($"Amount is less than actual price! You need {change}zl");
+
+            await sender.Send(new FailedPaymentCommand(payment.Id.Value.ToString()));    
+
+            return;
+        }
+        
+        if(amount > request.CalculatedPrice)
+        {
+            var change = amount - request.CalculatedPrice;
+
+            logger.LogWarning($"Amount is greater than actual price! We cannot give you a change, which is {change}zl");        
+        }
+
+
+
+        var externalPaymentId = await paymentGateway.CreatePaymentIntentAsync(
+                                                                    request.ReservationId, 
+                                                                    payment.Id,
+                                                                    amount, 
+                                                                    request.CalculatedPrice,
+                                                                    request.PaymentCurrency, 
+                                                                    request.CardType);
 
         var isSet = await paymentsRepository.SetExternalIdToPayment(payment.Id, new ExternalPaymentId(externalPaymentId), cancellationToken);
 

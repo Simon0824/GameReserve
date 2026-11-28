@@ -20,6 +20,6 @@ public class FakePaymentIntent
     }
 
     public static FakePaymentIntent CreateIntent(decimal amount, PaymentCurrency currency, CardTypes cardType, ReservationId reservationId)
-        => new FakePaymentIntent(Guid.NewGuid(), amount,currency, cardType, reservationId);
+        => new FakePaymentIntent(Guid.NewGuid(), amount, currency, cardType, reservationId);
     
 }

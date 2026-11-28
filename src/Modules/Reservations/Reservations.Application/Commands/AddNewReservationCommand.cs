@@ -42,9 +42,9 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
 
         var days = (int)Math.Ceiling(leadTime.TotalDays);
 
-        var pricePln = Reservation.CalculatePrice(game.Category, days);
+        var calculatedPrice = Reservation.CalculatePrice(game.Category, days);
 
-        if(pricePln.IsFailed)
+        if(calculatedPrice.IsFailed)
             throw new Exception("Cannot calculate price");
 
         var reservation = profile.AddReservation(
@@ -52,6 +52,7 @@ public class AddNewReservationCommandHandler(IReservationsRepository reservation
                                         request.StartDate, 
                                         request.EndDate, 
                                         request.Amount,
+                                        calculatedPrice.Value,
                                         request.Currency,
                                         request.Card);
 

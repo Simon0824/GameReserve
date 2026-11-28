@@ -8,7 +8,7 @@ namespace Payments.Infrastructure.Gateways;
 public class StripePaymentGateway(IConfiguration configuration) : IPaymentGateway
 {
     private readonly IStripeClient _stripeClient = new StripeClient(configuration["Stripe:ApiKey"]);
-    public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, PaymentId paymentId, decimal amount, PaymentCurrency currency, CardTypes cardType)
+    public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, PaymentId paymentId, decimal amount, decimal calculatedPrice, PaymentCurrency currency, CardTypes cardType)
     {
         string cardTypeParsed = Enum.GetName(cardType)!.ToLower();
 

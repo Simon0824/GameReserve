@@ -1,9 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Payments.Application.Commands;
-using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
-using SharedKernel.Domain.Enums;
 using SharedKernel.IntegrationEvents;
 
 namespace Payments.Application.NotificationHandlers;
@@ -17,6 +15,7 @@ public class ReservationCreatedEventHandler(ILogger<ReservationCreatedEventHandl
         await sender.Send(new CreateNewPaymentCommand(
                                 new ReservationId(notification.ReservationId), 
                                 notification.Amount, 
+                                notification.CalculatedPrice,
                                 notification.Currency, 
                                 notification.Card));
     }

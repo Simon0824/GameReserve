@@ -37,12 +37,13 @@ public class ReservationProfile : Entity<ReservationProfileId>
         DateTimeOffset startDate, 
         DateTimeOffset endDate, 
         decimal amount,
+        decimal calculatedPrice,
         PaymentCurrency currency,
         CardTypes card)
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
         _reservations.Add(reservation.Value!);
-        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Value!.Id, amount, currency, card));
+        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Value!.Id, amount, calculatedPrice, currency, card));
         return reservation.Value!;
     }
     private ReservationProfile() {}

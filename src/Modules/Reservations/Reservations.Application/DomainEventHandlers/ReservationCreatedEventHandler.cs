@@ -19,6 +19,7 @@ public class ReservationCreatedEventHandler : INotificationHandler<ReservationCr
         var integrationEvent = new ReservationCreatedIntegrationEvent(
                                     notification.ReservationId.Value, 
                                     notification.Amount, 
+                                    notification.CalculatedPrice,
                                     notification.Currency, 
                                     notification.Card);
 

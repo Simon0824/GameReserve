@@ -7,6 +7,7 @@ public interface IPaymentGateway
     Task<string> CreatePaymentIntentAsync(ReservationId reservationId,
                                           PaymentId paymentId, 
                                           decimal amount, 
+                                          decimal calculatedPrice,
                                           PaymentCurrency currency, 
                                           CardTypes cardType);
 }
