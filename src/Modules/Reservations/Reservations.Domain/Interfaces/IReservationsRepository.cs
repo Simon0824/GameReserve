@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Primitives;
@@ -11,5 +12,6 @@ public interface IReservationsRepository
     Task<ReservationProfile?> GetReservationProfileById(ReservationProfileId reservationProfileId, CancellationToken cancellationToken);
     Task<ReservationProfile?> GetReservationProfileByUserId(UserId userId, CancellationToken cancellationToken);
     Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken);
+    bool IsOverlapConstraint(DbUpdateException ex);
     void CreateReservation(Reservation reservation);
 }

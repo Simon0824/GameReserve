@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Enums;
 using Reservations.Domain.Interfaces;
@@ -60,4 +61,9 @@ public class ReservationsRepository(ReservationsContext context) : IReservations
     {
         context.Reservations.Add(reservation);
     }
+
+    public bool IsOverlapConstraint(DbUpdateException ex)
+                        => ex.InnerException is PostgresException pg
+                        && (pg.SqlState == "23P01"
+                            || pg.ConstraintName == "EX_Reservations_Dates_NoOverlapWhenNotFailed");
 }

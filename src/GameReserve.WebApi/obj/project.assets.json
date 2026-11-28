@@ -2097,7 +2097,8 @@
         "dependencies": {
           "Games.Domain": "1.0.0",
           "MassTransit.RabbitMQ": "8.5.0",
-          "MediatR": "15.0.0"
+          "MediatR": "15.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0"
         },
         "compile": {
           "bin/placeholder/Games.Application.dll": {}
@@ -2110,7 +2111,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "MediatR": "12.5.0",
+          "MediatR": "15.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
           "SharedKernel": "1.0.0"
         },
         "compile": {
@@ -2127,6 +2129,7 @@
           "Games.Application": "1.0.0",
           "Microsoft.EntityFrameworkCore": "10.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.11",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.3",
           "Scrutor": "7.0.0"
         },
@@ -2144,7 +2147,8 @@
           "FluentValidation": "12.1.1",
           "Identity.Domain": "1.0.0",
           "MassTransit.RabbitMQ": "8.5.0",
-          "MediatR": "15.0.0"
+          "MediatR": "15.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0"
         },
         "compile": {
           "bin/placeholder/Identity.Application.dll": {}
@@ -2157,8 +2161,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "MediatR": "12.5.0",
+          "MediatR": "15.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.11",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
           "SharedKernel": "1.0.0"
         },
         "compile": {
@@ -2193,6 +2198,7 @@
         "dependencies": {
           "MassTransit.RabbitMQ": "8.5.0",
           "MediatR": "15.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
           "Payments.Domain": "1.0.0",
           "SharedKernel": "1.0.0"
         },
@@ -2207,6 +2213,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
           "SharedKernel": "1.0.0"
         },
         "compile": {
@@ -2241,7 +2248,8 @@
         "dependencies": {
           "MassTransit.RabbitMQ": "8.5.0",
           "MediatR": "15.0.0",
-          "Npgsql": "10.0.3",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
+          "Npgsql": "11.0.0",
           "Reservations.Domain": "1.0.0",
           "SharedKernel": "1.0.0"
         },
@@ -2256,6 +2264,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "11.0.0",
           "SharedKernel": "1.0.0"
         },
         "compile": {
@@ -2295,7 +2304,8 @@
           "FluentValidation": "12.1.1",
           "MediatR": "12.5.0",
           "Microsoft.EntityFrameworkCore": "10.0.11",
-          "Newtonsoft.Json": "13.0.4"
+          "Newtonsoft.Json": "13.0.4",
+          "Npgsql": "11.0.0"
         },
         "compile": {
           "bin/placeholder/SharedKernel.dll": {}

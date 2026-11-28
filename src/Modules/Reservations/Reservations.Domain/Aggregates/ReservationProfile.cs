@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Reservations.Domain.Primitives;
 using SharedKernel.Domain.Abstractions;
+using SharedKernel.Domain.Enums;
 
 namespace Reservations.Domain.Aggregates;
 public class ReservationProfile : Entity<ReservationProfileId>
@@ -35,11 +36,13 @@ public class ReservationProfile : Entity<ReservationProfileId>
         Guid gameId, 
         DateTimeOffset startDate, 
         DateTimeOffset endDate, 
-        decimal amount)
+        decimal amount,
+        PaymentCurrency currency,
+        CardTypes card)
     {
         var reservation = Reservation.CreateReservation(Id, gameId, startDate, endDate);
         _reservations.Add(reservation.Value!);
-        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Value!.Id, amount));
+        Raise(new ReservationCreatedDomainEvent(Guid.NewGuid(), reservation.Value!.Id, amount, currency, card));
         return reservation.Value!;
     }
     private ReservationProfile() {}

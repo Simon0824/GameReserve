@@ -3,9 +3,9 @@ public enum CardTypes
 {
     Visa,
     Mastercard,
-    AmericanExpress,
+    Amex,
     Discover,
-    DinersClub,
+    Diners,
     JCB,
     UnionPay
 }

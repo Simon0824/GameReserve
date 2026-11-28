@@ -16,7 +16,11 @@ public class ReservationCreatedEventHandler : INotificationHandler<ReservationCr
     }    
     public async Task Handle(ReservationCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new ReservationCreatedIntegrationEvent(notification.ReservationId.Value, notification.Amount);
+        var integrationEvent = new ReservationCreatedIntegrationEvent(
+                                    notification.ReservationId.Value, 
+                                    notification.Amount, 
+                                    notification.Currency, 
+                                    notification.Card);
 
         try
         {

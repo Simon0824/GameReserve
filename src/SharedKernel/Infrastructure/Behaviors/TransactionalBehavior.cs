@@ -1,5 +1,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using SharedKernel.Domain.Abstractions;
+using SharedKernel.Domain.Interfaces;
+using SharedKernel.IntegrationEvents;
 
 namespace SharedKernel.Infrastructure.Behaviors;
 public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(TContext context) : 
@@ -43,8 +47,21 @@ public abstract class TransactionalBehaviorBase<TRequest, TResponse, TContext>(T
         
         TResponse response = await next(cancellationToken);
 
-        await context.SaveChangesAsync();
-        await transaction.CommitAsync();
+        try
+        {
+            await context.SaveChangesAsync();  
+            await transaction.CommitAsync();
+        }
+        catch (DbUpdateException ex) when ( ex.InnerException is PostgresException pg && (pg.SqlState == "23P01"
+                            || pg.ConstraintName == "EX_Reservations_Dates_NoOverlapWhenNotFailed"))
+        {
+            if (response is IResultBase { IsFailed: true })
+            {
+                context.ChangeTracker.Clear();
+                await transaction.RollbackAsync(cancellationToken);
+                return response;   // zostaje TResponse, żadnej konwersji
+            }
+        }
 
         return response;
     }

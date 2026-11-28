@@ -17,7 +17,7 @@ public class ReservationCreatedEventHandler(ILogger<ReservationCreatedEventHandl
         await sender.Send(new CreateNewPaymentCommand(
                                 new ReservationId(notification.ReservationId), 
                                 notification.Amount, 
-                                PaymentCurrency.usd, 
-                                CardTypes.Mastercard));
+                                notification.Currency, 
+                                notification.Card));
     }
 }

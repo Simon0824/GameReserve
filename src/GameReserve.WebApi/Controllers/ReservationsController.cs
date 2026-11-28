@@ -31,7 +31,10 @@ public class ReservationsController(ISender sender) : ControllerBase
             new UserId(Guid.Parse(userId)), 
             dto.GameId, 
             dto.StartDate,
-            dto.EndDate));
+            dto.EndDate,
+            dto.Currency,
+            dto.Amount,
+            dto.CardType));
 
         return resultDTO.Match<Results<Ok<AddNewReservationResultDTO>, ProblemHttpResult>>(
             onSuccess: reservation => TypedResults.Ok(reservation),

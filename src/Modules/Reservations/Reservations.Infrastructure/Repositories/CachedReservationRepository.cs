@@ -1,5 +1,7 @@
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Npgsql;
 using Reservations.Domain.Aggregates;
 using Reservations.Domain.Enums;
 using Reservations.Domain.Interfaces;
@@ -255,12 +257,13 @@ public class CachedReservationRepository(
     }
 
     public async Task<bool> CheckReservationDates(Guid gameId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
-    {
-        return await decorated.CheckReservationDates(gameId, startDate, endDate, cancellationToken);
-    }
+        => await decorated.CheckReservationDates(gameId, startDate, endDate, cancellationToken);
 
     public void CreateReservation(Reservation reservation)
     {
         decorated.CreateReservation(reservation);
     }
+
+    public bool IsOverlapConstraint(DbUpdateException ex)
+                        => decorated.IsOverlapConstraint(ex);
 }

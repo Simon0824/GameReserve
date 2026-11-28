@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Payments.Application.Iterfaces;
-using Payments.Domain.Enums;
 using Payments.Domain.Primitives;
 using SharedKernel.Domain.Enums;
 using Stripe;
@@ -11,6 +10,8 @@ public class StripePaymentGateway(IConfiguration configuration) : IPaymentGatewa
     private readonly IStripeClient _stripeClient = new StripeClient(configuration["Stripe:ApiKey"]);
     public async Task<string> CreatePaymentIntentAsync(ReservationId reservationId, PaymentId paymentId, decimal amount, PaymentCurrency currency, CardTypes cardType)
     {
+        string cardTypeParsed = Enum.GetName(cardType)!.ToLower();
+
         var options = new PaymentIntentCreateOptions()
         {
             Amount = (long)(amount * 100),
@@ -25,7 +26,7 @@ public class StripePaymentGateway(IConfiguration configuration) : IPaymentGatewa
                 AllowRedirects = "never"
             },
             Confirm = true,
-            PaymentMethod = "pm_card_visa"
+            PaymentMethod = $"pm_card_{cardTypeParsed}"
         };
 
         var service = new PaymentIntentService(_stripeClient);
